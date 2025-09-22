@@ -1,57 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bunku Bread</title>
-<link rel="stylesheet" href="styles.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bunku Bread</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-<header>
-<h1>Bunku Bread</h1>
-<p>Fresh, Tasty Pastries Everyday 🍞</p>
-</header>
+  <header>
+    <h1>Bunku Bread</h1>
+    <p>Fresh, Tasty Pastries Everyday 🍞</p>
+  </header>
 
+  <section id="products"></section>
 
-<section id="products"></section>
+  <div class="cart" id="cart-bar">
+    <span id="cart-summary">Cart: 0 items</span>
+    <button id="checkout-btn">Checkout</button>
+  </div>
 
+  <!-- Checkout Modal -->
+  <div class="modal" id="checkout-modal">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <h2>Checkout</h2>
+      <form id="checkout-form">
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="tel" id="phone" placeholder="Phone" required />
+        <textarea id="address" placeholder="Address (if delivery)" rows="3"></textarea>
+        <label>
+          <input type="radio" name="method" value="pickup" checked /> Pickup
+        </label>
+        <label>
+          <input type="radio" name="method" value="delivery" /> Delivery
+        </label>
+        <button type="submit">Confirm Order</button>
+      </form>
+    </div>
+  </div>
 
-<div class="cart" id="cart-bar">
-<span id="cart-summary">Cart: 0 items</span>
-<button id="checkout-btn">Checkout</button>
-</div>
+  <footer>
+    <p>Find us at <a href="https://maps.app.goo.gl/Z5EZfSSj49uodPgg9" target="_blank">our location</a></p>
+    <div class="socials">
+      <a href="#" target="_blank"><img src="instagram.svg" alt="Instagram" /></a>
+      <a href="#" target="_blank"><img src="whatsapp.svg" alt="WhatsApp" /></a>
+    </div>
+  </footer>
 
-
-<!-- Checkout Modal -->
-<div class="modal" id="checkout-modal">
-<div class="modal-content">
-<span class="close" id="close-modal">&times;</span>
-<h2>Checkout</h2>
-<form id="checkout-form">
-<input type="text" placeholder="Name" required />
-<input type="tel" placeholder="Phone" required />
-<textarea placeholder="Address (if delivery)" rows="3"></textarea>
-<label>
-<input type="radio" name="method" value="pickup" checked /> Pickup
-</label>
-<label>
-<input type="radio" name="method" value="delivery" /> Delivery
-</label>
-<button type="submit">Confirm Order</button>
-</form>
-</div>
-</div>
-
-
-<footer>
-<p>Find us at <a href="https://maps.app.goo.gl/Z5EZfSSj49uodPgg9" target="_blank">our location</a></p>
-<div class="socials">
-<a href="#" target="_blank"><img src="instagram.svg" alt="Instagram" /></a>
-<a href="#" target="_blank"><img src="whatsapp.svg" alt="WhatsApp" /></a>
-</div>
-</footer>
-
-
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
