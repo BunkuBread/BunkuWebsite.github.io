@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <title>Bunku Bread</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
-    <h1>Bunku Bread</h1>
-    <p>Fresh, Tasty Pastries Everyday 🍞</p>
+    <div class="logo">
+      <img src="images/BUNKUOG.JPG" alt="Bunku Bread Logo">
+      <h1>Bunku Bread</h1>
+      <p>Freshly baked. Delivered with love.</p>
+    </div>
   </header>
 
-  <section id="products"></section>
-
-  <div class="cart" id="cart-bar">
-    <span id="cart-summary">Cart: 0 items</span>
-    <button id="checkout-btn">Checkout</button>
-  </div>
+  <main>
+    <div id="products"></div>
+    <div class="cart-bar">
+      <span id="cart-summary">Cart: 0 items</span>
+      <button id="checkout-btn">Checkout</button>
+    </div>
+  </main>
 
   <!-- Checkout Modal -->
-  <div class="modal" id="checkout-modal">
+  <div id="checkout-modal" class="modal">
     <div class="modal-content">
-      <span class="close" id="close-modal">&times;</span>
+      <button id="close-modal">&times;</button>
       <h2>Checkout</h2>
       <form id="checkout-form">
-        <input type="text" id="name" placeholder="Name" required />
-        <input type="tel" id="phone" placeholder="Phone" required />
-        <textarea id="address" placeholder="Address (if delivery)" rows="3"></textarea>
-        <label>
-          <input type="radio" name="method" value="pickup" checked /> Pickup
-        </label>
-        <label>
-          <input type="radio" name="method" value="delivery" /> Delivery
-        </label>
-        <button type="submit">Confirm Order</button>
+        <label>Name:</label>
+        <input type="text" id="name" required>
+        <label>Phone Number:</label>
+        <input type="tel" id="phone" required>
+        <label>Order Method:</label>
+        <select name="method" required>
+          <option value="pickup">Pickup</option>
+          <option value="delivery">Delivery</option>
+        </select>
+        <label>Delivery Address (if delivery):</label>
+        <input type="text" id="address">
+        <button type="submit">Place Order via WhatsApp</button>
       </form>
     </div>
   </div>
 
   <footer>
-    <p>Find us at <a href="https://maps.app.goo.gl/Z5EZfSSj49uodPgg9" target="_blank">our location</a></p>
-    <div class="socials">
-      <a href="#" target="_blank"><img src="instagram.svg" alt="Instagram" /></a>
-      <a href="#" target="_blank"><img src="whatsapp.svg" alt="WhatsApp" /></a>
+    <div class="footer-icons">
+      <a href="https://instagram.com/bunkubread" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+      </a>
+      <a href="https://wa.me/971544588113" target="_blank">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp">
+      </a>
     </div>
+    <p>© 2025 Bunku Bread</p>
   </footer>
 
   <script src="script.js"></script>
