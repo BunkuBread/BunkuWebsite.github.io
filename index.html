@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bunku Bread</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fafafa;
+    }
 
+    header {
+      text-align: center;
+      padding: 20px;
+      background: #ffefc2;
+    }
+
+    .product {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: #fff;
+      margin: 15px;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .product img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product-info {
+      flex-grow: 1;
+    }
+
+    .product-info h3 {
+      margin: 0 0 10px;
+    }
+
+    .product-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+
+    .cart {
+      position: sticky;
+      bottom: 0;
+      background: #333;
+      color: #fff;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    button {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      background: #ff7b00;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Bunku Bread</h1>
+    <p>Fresh, Tasty Pastries Everyday 🍞</p>
+  </header>
+
+  <section>
+    <div class="product">
+      <img src="https://via.placeholder.com/120" alt="Bunku OG" />
+      <div class="product-info">
+        <h3>Bunku OG</h3>
+        <p>Classic original flavor</p>
+      </div>
+      <div class="product-actions">
+        <input type="number" min="0" value="0" />
+        <button>Add</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://via.placeholder.com/120" alt="Zaatar" />
+      <div class="product-info">
+        <h3>Zaatar</h3>
+        <p>Herby Middle Eastern flavor</p>
+      </div>
+      <div class="product-actions">
+        <input type="number" min="0" value="0" />
+        <button>Add</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://via.placeholder.com/120" alt="Berry Blast" />
+      <div class="product-info">
+        <h3>Berry Blast</h3>
+        <p>Sweet & tangy berry mix</p>
+      </div>
+      <div class="product-actions">
+        <input type="number" min="0" value="0" />
+        <button>Add</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://via.placeholder.com/120" alt="Strawberry Haven" />
+      <div class="product-info">
+        <h3>Strawberry Haven</h3>
+        <p>Strawberry delight</p>
+      </div>
+      <div class="product-actions">
+        <input type="number" min="0" value="0" />
+        <button>Add</button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://via.placeholder.com/120" alt="Diabetes" />
+      <div class="product-info">
+        <h3>Diabetes</h3>
+        <p>Super sweet indulgence</p>
+      </div>
+      <div class="product-actions">
+        <input type="number" min="0" value="0" />
+        <button>Add</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="cart">
+    <span>Cart: 0 items</span>
+    <button>Checkout</button>
+  </div>
+</body>
+</html>
