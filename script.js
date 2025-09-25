@@ -32,39 +32,48 @@ function renderProducts() {
   });
 }
 
-function addToCart(id) {
+function addToCart(id){
   const qty = parseInt(document.getElementById(`qty-${id}`).value);
-  const product = products.find(p => p.id === id);
-  const existing = cart.find(item => item.id === id);
-  if (existing) existing.qty += qty;
-  else cart.push({ ...product, qty });
+  const product = products.find(p=>p.id===id);
+  const existing = cart.find(item=>item.id===id);
+  if(existing) existing.qty+=qty;
+  else cart.push({...product, qty});
   updateCart();
 }
 
 function removeFromCart(id){
-  cart = cart.filter(item => item.id !== id);
+  cart = cart.filter(item=>item.id!==id);
   updateCart();
 }
 
-function updateCart() {
-  cartItems.innerHTML = "";
-  let total = 0;
-  cart.forEach(item => {
-    const li = document.createElement("li");
-    li.innerHTML = `${item.name} x${item.qty} – AED ${item.price * item.qty} <button onclick="removeFromCart(${item.id})">×</button>`;
+function updateCart(){
+  cartItems.innerHTML="";
+  let total=0;
+  cart.forEach(item=>{
+    const li=document.createElement("li");
+    li.innerHTML=`${item.name} x${item.qty} – AED ${item.price*item.qty} <button onclick="removeFromCart(${item.id})">×</button>`;
     cartItems.appendChild(li);
-    total += item.price * item.qty;
+    total+=item.price*item.qty;
   });
-  cartCount.textContent = cart.reduce((sum,i)=>sum+i.qty,0);
-  cartTotal.textContent = `Total: AED ${total}`;
+  cartCount.textContent=cart.reduce((sum,i)=>sum+i.qty,0);
+  cartTotal.textContent=`Total: AED ${total}`;
 }
 
-document.getElementById("toggle-cart").addEventListener("click", ()=> {
+document.getElementById("toggle-cart").addEventListener("click", ()=>{
   cartPanel.classList.toggle("hidden");
 });
 
-productsContainer.addEventListener("click", e => {
+productsContainer.addEventListener("click", e=>{
   if(e.target.tagName==="BUTTON" && e.target.dataset.id) addToCart(parseInt(e.target.dataset.id));
+});
+
+document.getElementById("checkout-btn").addEventListener("click", ()=>{
+  if(cart.length===0) return alert("Your cart is empty!");
+  let msg="Hello! I want to order:\n";
+  cart.forEach(item=>{msg+=`${item.name} x${item.qty}\n`;});
+  let total=cart.reduce((sum,i)=>sum+i.price*i.qty,0);
+  msg+=`Total: AED ${total}`;
+  window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`,"_blank");
 });
 
 renderProducts();
