@@ -107,27 +107,63 @@ header .tagline {
   background: #7b3a1d;
 }
 
-/* Cart Bar */
+/* Cart Panel */
 .cart-bar {
-  position: sticky;
-  bottom: 0;
-  background: #fbe7c6;
-  padding: 1rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-  border-top: 1.5px solid #d9a86c;
+  text-align: right;
+  padding: 1rem;
 }
-.cart-bar button {
+#toggle-cart {
   padding: 0.5rem 1rem;
   background: #a0522d;
+  color: #fff;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  color: #fff;
 }
-.cart-bar button:hover {
+#toggle-cart:hover {
+  background: #7b3a1d;
+}
+.cart-panel {
+  margin-top: 1rem;
+  background: #fffaf0;
+  border: 1px solid #d9a86c;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 350px;
+  float: right;
+}
+.cart-panel.hidden {
+  display: none;
+}
+.cart-panel h3 {
+  margin-top: 0;
+  color: #6b4226;
+}
+#cart-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+#cart-items li {
+  font-size: 0.95rem;
+  margin: 0.3rem 0;
+  color: #4d3b2f;
+}
+#cart-total {
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #a0522d;
+}
+.cart-panel button {
+  width: 100%;
+  background: #a0522d;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem;
+}
+.cart-panel button:hover {
   background: #7b3a1d;
 }
 
@@ -173,19 +209,27 @@ header .tagline {
 
 /* Footer */
 footer {
-  text-align: center;
-  padding: 1.5rem 0;
   background: #fbe7c6;
+  padding: 2rem 1rem;
   border-top: 1.5px solid #d9a86c;
 }
-footer .footer-icons img {
-  width: 32px;
-  height: 32px;
-  margin: 0 10px;
-  vertical-align: middle;
+.footer-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+.footer-icons .icon svg {
+  width: 28px;
+  height: 28px;
+  stroke: #6b4226;
+  transition: all 0.3s;
+}
+.footer-icons .icon:hover svg {
+  stroke: #a0522d;
+  transform: scale(1.15);
 }
 footer p {
-  margin: 0.5rem 0 0 0;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: #6b4226;
 }
