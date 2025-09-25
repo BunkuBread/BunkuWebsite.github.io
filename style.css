@@ -1,20 +1,11 @@
-/* Reset */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* Background Animation */
+/* Fonts & Base */
 body {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  color: #fff;
-  background: linear-gradient(-45deg, #2e2e2e, #3a3a5c, #1e3c72, #2a5298);
+  font-family: 'Quicksand', Arial, sans-serif;
+  margin: 0;
+  background: linear-gradient(-45deg, #fff8e7, #f8e1c4, #fce3b8, #fff8e7);
   background-size: 400% 400%;
-  animation: gradientBG 18s ease infinite;
+  animation: gradientBG 15s ease infinite;
+  color: #4d3b2f;
 }
 @keyframes gradientBG {
   0% { background-position: 0% 50%; }
@@ -24,168 +15,177 @@ body {
 
 /* Header */
 header {
-  width: 100%;
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+header .logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+header .logo img {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+header h1 {
+  font-family: 'Pacifico', cursive;
+  font-size: 2.5rem;
+  margin: 0.5rem 0 0 0;
+  color: #6b4226;
+}
+header .tagline {
+  margin-top: 0.3rem;
+  font-size: 1.1rem;
+  color: #8b5e3c;
+}
+
+/* Section Title */
+.section-title {
+  text-align: center;
+  font-size: 2rem;
+  margin: 1.5rem 0;
+  color: #6b4226;
+}
+
+/* Products */
+#products {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 0 1.5rem 2rem;
+}
+.product-card {
+  display: flex;
+  gap: 1rem;
+  background: #fff;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  align-items: center;
+  transition: transform 0.2s;
+}
+.product-card:hover {
+  transform: translateY(-5px);
+}
+.product-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.product-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #6b4226;
+}
+.product-card p {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+  color: #5c4635;
+}
+.product-card .price {
+  font-weight: bold;
+  margin: 0.3rem 0;
+  color: #a0522d;
+}
+.product-card input[type="number"] {
+  width: 60px;
+  padding: 6px;
+  margin-right: 0.5rem;
+}
+.product-card button {
+  padding: 6px 12px;
+  background: #a0522d;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.product-card button:hover {
+  background: #7b3a1d;
+}
+
+/* Cart Bar */
+.cart-bar {
+  position: sticky;
+  bottom: 0;
+  background: #fbe7c6;
   padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(0,0,0,0.3);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  font-weight: bold;
+  border-top: 1.5px solid #d9a86c;
 }
-header .logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-header .logo img {
-  height: 50px;
-  border-radius: 50%;
-}
-header nav a {
-  margin: 0 1rem;
+.cart-bar button {
+  padding: 0.5rem 1rem;
+  background: #a0522d;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
   color: #fff;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s;
 }
-header nav a:hover {
-  color: #ffd369;
+.cart-bar button:hover {
+  background: #7b3a1d;
 }
 
-/* Hero */
-.hero {
-  height: 80vh;
-  display: flex;
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top:0; left:0;
+  width:100vw; height:100vh;
+  background: rgba(0,0,0,0.4);
   justify-content: center;
   align-items: center;
-  text-align: center;
+}
+.modal .modal-content {
+  background: #fffaf0;
   padding: 2rem;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
-.hero h1 {
-  font-size: 3.5rem;
-  margin-bottom: 1rem;
-}
-.hero p {
-  font-size: 1.3rem;
-  max-width: 600px;
-  margin: auto;
-  margin-bottom: 2rem;
-}
-.btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  background: #ffd369;
-  color: #000;
-  font-weight: bold;
-  border-radius: 30px;
-  text-decoration: none;
-  transition: transform 0.3s, background 0.3s;
-}
-.btn:hover {
-  background: #ffc107;
-  transform: scale(1.05);
-}
-
-/* Menu */
-.menu {
-  padding: 4rem 2rem;
-  text-align: center;
-}
-.menu h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-}
-.menu-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-}
-.menu-item {
-  background: rgba(255,255,255,0.1);
-  border-radius: 15px;
-  padding: 1.5rem;
-  transition: transform 0.3s;
-}
-.menu-item img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 1rem;
-}
-.menu-item:hover {
-  transform: translateY(-8px);
-}
-.menu-item h3 {
-  margin-bottom: 0.5rem;
-}
-
-/* About */
-.about {
-  padding: 4rem 2rem;
-  text-align: center;
-  background: rgba(0,0,0,0.2);
-}
-.about h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-}
-.about p {
-  max-width: 700px;
-  margin: auto;
-  line-height: 1.6;
-  font-size: 1.2rem;
-}
-
-/* Contact */
-.contact {
-  padding: 4rem 2rem;
-  text-align: center;
-}
-.contact h2 {
-  font-size: 2.5rem;
-  margin-bottom: 2rem;
-}
-.contact form {
-  max-width: 600px;
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-.contact input,
-.contact textarea {
-  padding: 1rem;
+.modal .modal-content button#close-modal {
+  position: absolute;
+  top: 0.5rem;
+  right: 1rem;
+  background: none;
   border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-}
-.contact textarea {
-  resize: none;
-  height: 150px;
-}
-.contact button {
-  border: none;
+  font-size: 1.5rem;
+  color: #6b4226;
   cursor: pointer;
+}
+.modal .modal-content button#close-modal:hover {
+  color: #a0522d;
+}
+.modal input, .modal select {
+  width: 100%;
+  padding: 8px;
+  margin: 0.5rem 0 1rem 0;
+  border-radius: 8px;
+  border: 1px solid #d9a86c;
 }
 
 /* Footer */
 footer {
-  background: rgba(0,0,0,0.4);
-  padding: 1.5rem;
   text-align: center;
+  padding: 1.5rem 0;
+  background: #fbe7c6;
+  border-top: 1.5px solid #d9a86c;
 }
-.footer-links {
-  margin-top: 0.5rem;
+footer .footer-icons img {
+  width: 32px;
+  height: 32px;
+  margin: 0 10px;
+  vertical-align: middle;
 }
-.footer-links a {
-  margin: 0 0.5rem;
-  color: #fff;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-.footer-links a:hover {
-  color: #ffd369;
+footer p {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.95rem;
+  color: #6b4226;
 }
