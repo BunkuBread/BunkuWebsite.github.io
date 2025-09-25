@@ -5,6 +5,19 @@ body {
   color: #4d3b2f;
 }
 
+/* Top Logo */
+.top-logo {
+  text-align: center;
+  background: #fff3d1;
+  padding: 1rem;
+  border-bottom: 2px solid #ffb347;
+}
+.top-logo img {
+  width: 150px;
+  max-width: 80%;
+  height: auto;
+}
+
 header {
   text-align: center;
   padding: 2rem 1rem;
@@ -40,14 +53,20 @@ main {
   gap: 1.5rem;
 }
 
+/* Product cards in vertical list */
 .product-card {
   display: flex;
+  flex-direction: row;
   gap: 1rem;
   background: #fff;
   padding: 1rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   align-items: center;
+  transition: transform 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-3px);
 }
 
 .product-card img {
@@ -66,11 +85,13 @@ main {
 .product-card p {
   margin: 0.3rem 0;
   font-size: 0.95rem;
+  color: #4d3b2f;
 }
 
 .product-card .price {
   font-weight: bold;
   margin: 0.3rem 0;
+  color: #a0522d;
 }
 
 .product-card input[type="number"] {
@@ -86,6 +107,7 @@ main {
   border: none;
   border-radius: 12px;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 .product-card button:hover {
@@ -111,6 +133,7 @@ main {
   border-radius: 12px;
   cursor: pointer;
   color: #fff;
+  transition: background 0.2s ease;
 }
 
 .cart-bar button:hover {
@@ -126,6 +149,7 @@ main {
   background: rgba(0,0,0,0.4);
   justify-content: center;
   align-items: center;
+  z-index: 1000;
 }
 
 .modal .modal-content {
@@ -173,6 +197,10 @@ footer .footer-icons img {
   height: 32px;
   margin: 0 8px;
   vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+footer .footer-icons img:hover {
+  transform: scale(1.1);
 }
 
 footer p {
