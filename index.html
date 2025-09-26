@@ -2,65 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Bunku Bread</title>
+  <title>Bunku Bread Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Header -->
-  <header>
-    <img src="images/Bunkulogo.jpg" alt="Bunku Bread Logo" class="main-logo">
-    <h1>Bunku Bread</h1>
-    <p class="tagline">Freshly baked. Delivered with love.</p>
-  </header>
+  <div class="gradient-bg"></div>
+  <div class="order-main">
+    <img src="images/BunkuBreadLogo.jpg" alt="Bunku Bread Logo" class="logo-img" />
+    <h1 class="logo-text">Bunku Bread</h1>
+    <div class="subtitle">Freshly baked. Delivered with love.</div>
 
-  <!-- Main Products -->
-  <main>
-    <h2 class="section-title">Our Menu</h2>
-    <div id="products"></div>
+    <form id="orderForm" class="order-form" autocomplete="off">
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="first_name" required />
 
-    <!-- Cart -->
-    <div class="cart-bar">
-      <button id="toggle-cart">🛒 Cart (<span id="cart-count">0</span>)</button>
-      <div id="cart-panel" class="cart-panel hidden">
-        <h3>Your Cart</h3>
-        <ul id="cart-items"></ul>
-        <p id="cart-total">Total: AED 0</p>
-        <button id="checkout-btn">Checkout via WhatsApp</button>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="last_name" required />
+
+      <label for="phoneInput">Phone Number: <span class="phone-hint">(05X XXX-XXXX)</span></label>
+      <input type="tel" id="phoneInput" name="phone" required />
+
+      <label>Order Type:</label>
+      <div class="order-type-row">
+        <label><input type="radio" name="order_type" value="pickup" checked /> Pickup</label>
+        <label><input type="radio" name="order_type" value="delivery" /> Delivery</label>
       </div>
-    </div>
-  </main>
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-icons">
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/bunku.uae/" target="_blank" class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b4226" viewBox="0 0 24 24" width="32" height="32">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" stroke-width="2"/>
-          <circle cx="12" cy="12" r="5" stroke-width="2"/>
-          <circle cx="17.5" cy="6.5" r="1.5"/>
-        </svg>
-      </a>
-      <!-- WhatsApp -->
-      <a href="https://wa.me/971544588113" target="_blank" class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b4226" viewBox="0 0 24 24" width="32" height="32">
-          <path stroke-width="2" d="M21 15a8 8 0 1 0-1.15 4.54L21 21l-1.46-3.85A7.97 7.97 0 0 0 21 15z"/>
-          <path stroke-width="2" d="M16 11c0 1.38-1.12 2.5-2.5 2.5S11 12.38 11 11s1.12-2.5 2.5-2.5S16 9.62 16 11z"/>
-        </svg>
-      </a>
-      <!-- Email -->
-      <a href="mailto:Bunku.uae@gmail.com" class="icon">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#6b4226" viewBox="0 0 24 24" width="32" height="32">
-          <rect x="2" y="4" width="20" height="16" rx="2" ry="2" stroke-width="2"/>
-          <polyline points="22,4 12,13 2,4" stroke-width="2"/>
-        </svg>
-      </a>
+      <div id="pickupFields">
+        <label for="licensePlate">Car License Plate (for pickup):</label>
+        <input type="text" id="licensePlate" name="license_plate" />
+        <label for="pickupTime">Pickup Time:</label>
+        <input type="time" id="pickupTime" name="pickup_time" />
+      </div>
+
+      <div id="deliveryFields" style="display:none;">
+        <label for="cityInput">City:</label>
+        <input type="text" id="cityInput" name="city" />
+
+        <label for="areaInput">Area:</label>
+        <input type="text" id="areaInput" name="area" />
+
+        <label for="houseNumber">House Number:</label>
+        <input type="text" id="houseNumber" name="house_number" />
+      </div>
+
+      <label><b>Zataar Bomb ( Zataar Spices With 5 Types Of Imported Cheese):</b></label>
+      <div class="product-row">
+        <input type="number" id="zaatarBombBoxes" name="zaatar_bomb_boxes" min="0" max="30" value="0" required />
+        <span class="product-note">boxes (4 pieces per box)</span>
+      </div>
+
+      <label><b>OG (Original Garlic Bread With 5 Types Of Imported Cheese):</b></label>
+      <div class="product-row">
+        <input type="number" id="ogBunkuBoxes" name="og_bunku_boxes" min="0" max="30" value="0" required />
+        <span class="product-note">boxes (4 pieces per box)</span>
+      </div>
+
+      <label><b>Diabetes - (Nutella With 4 Types Of Chocolate & Marshmallows):</b></label>
+      <div class="product-row">
+        <input type="number" id="diabetesBoxes" name="diabetes_boxes" min="0" max="30" value="0" />
+        <span class="product-note">boxes (4 pieces per box)</span>
+      </div>
+
+      <label><b>Strawberry Haven ( Strawberries Mixed With 5 Types Of Imported Cheese):</b></label>
+      <div class="product-row">
+        <input type="number" id="strawberryHavenBoxes" name="strawberry_haven_boxes" min="0" max="30" value="0" />
+        <span class="product-note">boxes (4 pieces per box)</span>
+      </div>
+
+      <label><b>Berry Blast ( Blackberry Mixed With 5 Types Of Imported Cheese):</b></label>
+      <div class="product-row">
+        <input type="number" id="berryBlastBoxes" name="berry_blast_boxes" min="0" max="30" value="0" />
+        <span class="product-note">boxes (4 pieces per box)</span>
+      </div>
+
+      <label>
+        <input type="checkbox" id="moreSauce" name="more_sauce" value="yes" />
+        Add extra sauce (+5 AED)
+      </label>
+
+      <label for="special">Special Instructions:</label>
+      <textarea id="special" name="special" rows="2" placeholder="Anything else we should know?"></textarea>
+
+      <label for="orderDate"><b>Date you want your bread:</b></label>
+      <input type="date" id="orderDate" name="date" required />
+
+      <div id="urgentDeliveryDiv" style="display:none;">
+        <label>
+          <input type="checkbox" id="urgentDelivery" name="urgent_delivery" />
+          I want urgent delivery (extra fee may apply)
+        </label>
+      </div>
+
+      <div id="orderSummary" class="order-summary">
+        Total: <span id="totalPrice"></span> AED
+      </div>
+
+      <button type="submit">Submit Order</button>
+    </form>
+  </div>
+
+  <!-- WhatsApp Modal -->
+  <div id="whatsappModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <h2>Send Your Order via WhatsApp</h2>
+      <p>To complete your order, please click below and send us your order details and payment amount on WhatsApp:</p>
+      <p style="font-weight:bold; font-size:1.2em;">+971 54 458 8113</p>
+      <p>Your total: <span id="waTotal" style="font-weight:bold; color:#a0522d;"></span> AED</p>
+      <button id="waSendBtn">Send via WhatsApp</button>
     </div>
-    <p>© 2025 Bunku Bread</p>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <span>Contact us: <a href="mailto:hello@bunku.ae">hello@bunku.ae</a></span>
+      <span class="footer-socials">
+        <a href="https://instagram.com/bunkubread" target="_blank">Instagram</a> |
+        <a href="https://t.me/bunkubread" target="_blank">Telegram</a>
+      </span>
+      <span class="footer-copy">© 2025 Bunku Bread</span>
+    </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
   <script src="script.js"></script>
 </body>
 </html>
