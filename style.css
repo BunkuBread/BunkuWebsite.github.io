@@ -38,9 +38,7 @@ form {
   flex-direction: column;
 }
 
-.customer-info label,
-.product label,
-.extras label {
+label {
   margin-top: 10px;
   margin-bottom: 5px;
   font-weight: bold;
@@ -55,21 +53,6 @@ input[type="number"] {
   border-radius: 6px;
   width: 100%;
   box-sizing: border-box;
-}
-
-.product {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 20px 0;
-}
-
-.product-img {
-  width: 200px;
-  height: auto;
-  margin-bottom: 10px;
-  border-radius: 10px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
 button {
@@ -88,11 +71,33 @@ button:hover {
   background-color: #1b5e20;
 }
 
-#confirmation {
-  text-align: center;
-  padding: 20px;
-}
-
 .hidden {
   display: none;
+}
+
+/* --- Products with Images --- */
+.product-block {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.product-img {
+  max-width: 100%;
+  width: 200px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.product-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.product-note {
+  font-size: 0.9em;
+  color: #555;
 }
