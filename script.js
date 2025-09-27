@@ -93,4 +93,45 @@ function updateTotal() {
 }
 
 // --- LISTENERS ---
-[zaatarBombBoxesInput, ogBunkuBoxesInput, diabetesBoxesInput, strawberryHavenBoxesInput
+[zaatarBombBoxesInput, ogBunkuBoxesInput, diabetesBoxesInput, strawberryHavenBoxesInput, berryBlastBoxesInput, moreSauceCheckbox].forEach(el => {
+  el.addEventListener('input', updateTotal);
+});
+urgentDeliveryCheckbox.addEventListener('change', updateTotal);
+
+// --- FORM SUBMISSION ---
+document.getElementById('orderForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  updateTotal();
+
+  let message = `Order Details:\n`;
+  message += `Name: ${document.getElementById('firstName').value} ${document.getElementById('lastName').value}\n`;
+  message += `Phone: ${phoneInput.value}\n`;
+  const orderType = document.querySelector('input[name="order_type"]:checked').value;
+  message += `Order Type: ${orderType}\n`;
+  if (orderType === 'pickup') {
+    message += `License Plate: ${document.getElementById('licensePlate').value}\n`;
+    message += `Pickup Time: ${pickupTimeInput.value}\n`;
+  } else {
+    message += `City: ${cityInput.value}\n`;
+    message += `Area: ${document.getElementById('areaInput').value}\n`;
+    message += `House Number: ${document.getElementById('houseNumber').value}\n`;
+  }
+  message += `Products:\n`;
+  if (parseInt(zaatarBombBoxesInput.value, 10)) message += `Zataar Bomb: ${zaatarBombBoxesInput.value} boxes\n`;
+  if (parseInt(ogBunkuBoxesInput.value, 10)) message += `OG: ${ogBunkuBoxesInput.value} boxes\n`;
+  if (parseInt(diabetesBoxesInput.value, 10)) message += `Diabetes: ${diabetesBoxesInput.value} boxes\n`;
+  if (parseInt(strawberryHavenBoxesInput.value, 10)) message += `Strawberry Haven: ${strawberryHavenBoxesInput.value} boxes\n`;
+  if (parseInt(berryBlastBoxesInput.value, 10)) message += `Berry Blast: ${berryBlastBoxesInput.value} boxes\n`;
+  if (moreSauceCheckbox.checked) message += `Extra Sauce: Yes\n`;
+  message += `Special Instructions: ${document.getElementById('special').value}\n`;
+  message += `Date: ${orderDateInput.value}\n`;
+  if (urgentDeliveryCheckbox.checked) message += `Urgent Delivery: Yes\n`;
+  message += `Total: ${totalPriceSpan.textContent} AED`;
+
+  waTotal.textContent = totalPriceSpan.textContent;
+  waSendBtn.onclick = () => {
+    const waLink = `https://wa.me/971544588113?text=${encodeURIComponent(message)}`;
+    window.open(waLink, '_blank');
+  };
+  waModal.style.display = 'block';
+});
