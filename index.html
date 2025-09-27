@@ -14,56 +14,74 @@
 
   <main>
     <form id="orderForm">
-      <div class="customer-info">
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" name="firstName" required>
+      <!-- Customer Info -->
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" name="firstName" required>
 
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" name="lastName" required>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" name="lastName" required>
 
-        <label for="phone">Phone Number:</label>
-        <input type="tel" id="phone" name="phone" required>
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" required>
 
-        <label for="date">Pickup Date:</label>
-        <input type="date" id="date" name="date" required>
-      </div>
+      <label for="date">Pickup Date:</label>
+      <input type="date" id="date" name="date" required>
 
       <h2>Products</h2>
 
-      <div class="product">
-        <img src="images/ZAATAR.JPEG" alt="Zaatar Bomb" class="product-img">
-        <label for="zaatarBombBoxes">Zaatar Bomb (55 AED per box)</label>
-        <input type="number" id="zaatarBombBoxes" name="zaatarBombBoxes" min="0" value="0">
+      <!-- Zataar Bomb -->
+      <div class="product-block">
+        <img src="images/ZAATAR.JPEG" alt="Zataar Bomb" class="product-img" />
+        <label><b>Zataar Bomb (Zataar Spices With 5 Types Of Imported Cheese):</b></label>
+        <div class="product-row">
+          <input type="number" id="zaatarBombBoxes" name="zaatar_bomb_boxes" min="0" max="30" value="0" required />
+          <span class="product-note">boxes (4 pieces per box)</span>
+        </div>
       </div>
 
-      <div class="product">
-        <img src="images/BUNKUOG.JPG" alt="OG Bunku" class="product-img">
-        <label for="ogBunkuBoxes">OG Bunku (50 AED per box)</label>
-        <input type="number" id="ogBunkuBoxes" name="ogBunkuBoxes" min="0" value="0">
+      <!-- OG -->
+      <div class="product-block">
+        <img src="images/BUNKUOG.JPG" alt="OG Bunku" class="product-img" />
+        <label><b>OG (Original Garlic Bread With 5 Types Of Imported Cheese):</b></label>
+        <div class="product-row">
+          <input type="number" id="ogBunkuBoxes" name="og_bunku_boxes" min="0" max="30" value="0" required />
+          <span class="product-note">boxes (4 pieces per box)</span>
+        </div>
       </div>
 
-      <div class="product">
-        <img src="images/DIABETES.JPG" alt="Diabetes" class="product-img">
-        <label for="diabetesBoxes">Diabetes (55 AED per box)</label>
-        <input type="number" id="diabetesBoxes" name="diabetesBoxes" min="0" value="0">
+      <!-- Diabetes -->
+      <div class="product-block">
+        <img src="images/DIABETES.JPG" alt="Diabetes" class="product-img" />
+        <label><b>Diabetes (Nutella With 4 Types Of Chocolate & Marshmallows):</b></label>
+        <div class="product-row">
+          <input type="number" id="diabetesBoxes" name="diabetes_boxes" min="0" max="30" value="0" />
+          <span class="product-note">boxes (4 pieces per box)</span>
+        </div>
       </div>
 
-      <div class="product">
-        <img src="images/STRAWBERRYHAVEN.JPG" alt="Strawberry Haven" class="product-img">
-        <label for="strawberryHavenBoxes">Strawberry Haven (55 AED per box)</label>
-        <input type="number" id="strawberryHavenBoxes" name="strawberryHavenBoxes" min="0" value="0">
+      <!-- Strawberry Haven -->
+      <div class="product-block">
+        <img src="images/STRAWBERRYHAVEN.JPG" alt="Strawberry Haven" class="product-img" />
+        <label><b>Strawberry Haven (Strawberries Mixed With 5 Types Of Imported Cheese):</b></label>
+        <div class="product-row">
+          <input type="number" id="strawberryHavenBoxes" name="strawberry_haven_boxes" min="0" max="30" value="0" />
+          <span class="product-note">boxes (4 pieces per box)</span>
+        </div>
       </div>
 
-      <div class="product">
-        <img src="images/BERRYBLAST.JPEG" alt="Berry Blast" class="product-img">
-        <label for="berryBlastBoxes">Berry Blast (55 AED per box)</label>
-        <input type="number" id="berryBlastBoxes" name="berryBlastBoxes" min="0" value="0">
+      <!-- Berry Blast -->
+      <div class="product-block">
+        <img src="images/BERRYBLAST.JPEG" alt="Berry Blast" class="product-img" />
+        <label><b>Berry Blast (Blackberry Mixed With 5 Types Of Imported Cheese):</b></label>
+        <div class="product-row">
+          <input type="number" id="berryBlastBoxes" name="berry_blast_boxes" min="0" max="30" value="0" />
+          <span class="product-note">boxes (4 pieces per box)</span>
+        </div>
       </div>
 
-      <div class="extras">
-        <label for="moreSauce">More Sauce? (10 AED each):</label>
-        <input type="number" id="moreSauce" name="moreSauce" min="0" value="0">
-      </div>
+      <!-- Extras -->
+      <label for="moreSauce">More Sauce? (10 AED each):</label>
+      <input type="number" id="moreSauce" name="more_sauce" min="0" value="0">
 
       <button type="submit">Submit Order</button>
     </form>
