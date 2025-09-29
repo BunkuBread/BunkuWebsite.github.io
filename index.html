@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Bunku Bread Order</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="main-header">
@@ -13,6 +16,7 @@
     <h1>Bunku Bread</h1>
     <div class="subhead">Freshly baked. Delivered with love.</div>
   </div>
+
   <form id="orderForm" class="products-list" autocomplete="off">
     <div class="product-card">
       <img src="images/BUNKUOG.JPG" alt="OG" />
@@ -21,11 +25,26 @@
         <div class="card-desc">Original Garlic Bread with 5 Types of Cheese</div>
         <div class="card-price">50 AED</div>
         <div class="card-controls">
-          <input type="number" min="0" max="30" value="0" name="og_bunku" class="card-qty" />
-          <button type="button" class="add-cart" data-name="Bunku OG" data-price="50">Add to Cart</button>
+          <input
+            type="number"
+            min="0"
+            max="30"
+            value="0"
+            name="og_bunku"
+            class="card-qty"
+          />
+          <button
+            type="button"
+            class="add-cart"
+            data-name="Bunku OG"
+            data-price="50"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
+
     <div class="product-card">
       <img src="images/ZAATAR.JPEG" alt="Zaatar" />
       <div class="card-details">
@@ -33,11 +52,26 @@
         <div class="card-desc">Zaatar Spices with Cheese</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls">
-          <input type="number" min="0" max="30" value="0" name="zaatar_bomb" class="card-qty" />
-          <button type="button" class="add-cart" data-name="Zaatar" data-price="55">Add to Cart</button>
+          <input
+            type="number"
+            min="0"
+            max="30"
+            value="0"
+            name="zaatar_bomb"
+            class="card-qty"
+          />
+          <button
+            type="button"
+            class="add-cart"
+            data-name="Zaatar"
+            data-price="55"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
+
     <div class="product-card">
       <img src="images/BERRYBLAST.JPEG" alt="Berry Blast" />
       <div class="card-details">
@@ -45,11 +79,26 @@
         <div class="card-desc">Blackberry Mix with Cheese</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls">
-          <input type="number" min="0" max="30" value="0" name="berry_blast" class="card-qty" />
-          <button type="button" class="add-cart" data-name="Berry Blast" data-price="55">Add to Cart</button>
+          <input
+            type="number"
+            min="0"
+            max="30"
+            value="0"
+            name="berry_blast"
+            class="card-qty"
+          />
+          <button
+            type="button"
+            class="add-cart"
+            data-name="Berry Blast"
+            data-price="55"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
+
     <div class="product-card">
       <img src="images/STRAWBERRYHAVEN.JPG" alt="Strawberry Haven" />
       <div class="card-details">
@@ -57,11 +106,26 @@
         <div class="card-desc">Strawberries Mix with Cheese</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls">
-          <input type="number" min="0" max="30" value="0" name="strawberry_haven" class="card-qty" />
-          <button type="button" class="add-cart" data-name="Strawberry Haven" data-price="55">Add to Cart</button>
+          <input
+            type="number"
+            min="0"
+            max="30"
+            value="0"
+            name="strawberry_haven"
+            class="card-qty"
+          />
+          <button
+            type="button"
+            class="add-cart"
+            data-name="Strawberry Haven"
+            data-price="55"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
+
     <div class="product-card">
       <img src="images/DIABETES.JPG" alt="Diabetes" />
       <div class="card-details">
@@ -69,11 +133,26 @@
         <div class="card-desc">Nutella with Chocolate & Marshmallows</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls">
-          <input type="number" min="0" max="30" value="0" name="diabetes" class="card-qty" />
-          <button type="button" class="add-cart" data-name="Diabetes" data-price="55">Add to Cart</button>
+          <input
+            type="number"
+            min="0"
+            max="30"
+            value="0"
+            name="diabetes"
+            class="card-qty"
+          />
+          <button
+            type="button"
+            class="add-cart"
+            data-name="Diabetes"
+            data-price="55"
+          >
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>
+
     <div class="cart-summary" id="cartSummary">
       Cart: 0 items <span id="cartTotal"></span>
     </div>
@@ -81,14 +160,34 @@
       <button type="submit" class="checkout-btn">Checkout</button>
     </div>
   </form>
+
   <footer class="footer">
-    <a href="https://instagram.com/bunkubread" target="_blank">
-      <img src="images/instagram.png" alt="Instagram" class="footer-icon">
-    </a>
-    <a href="https://wa.me/971544588113" target="_blank">
-      <img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon">
-    </a>
+    <a href="https://instagram.com/bunkubread" target="_blank"
+      ><img
+        src="images/instagram.png"
+        alt="Instagram"
+        class="footer-icon"
+    /></a>
+    <a href="https://wa.me/971544588113" target="_blank"
+      ><img
+        src="images/whatsapp.png"
+        alt="WhatsApp"
+        class="footer-icon"
+    /></a>
+    <a href="https://www.tiktok.com/@bunku.uae" target="_blank"
+      ><img
+        src="images/tiktok.png"
+        alt="TikTok"
+        class="footer-icon"
+    /></a>
+    <a href="https://maps.app.goo.gl/XQHvvhCSc2uVJrmd9" target="_blank"
+      ><img
+        src="images/googlemaps.png"
+        alt="Google Maps"
+        class="footer-icon"
+    /></a>
   </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
