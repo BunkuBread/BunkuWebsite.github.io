@@ -4,10 +4,7 @@
   <meta charset="UTF-8" />
   <title>Bunku Bread Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -29,16 +26,9 @@
         <div class="card-price">50 AED</div>
         <div class="card-controls">
           <select name="og_bunku" class="card-select">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
           </select>
-          <button type="button" class="add-cart" data-name="Bunku OG" data-price="50">
-            Add to Cart
-          </button>
+          <button type="button" class="add-cart" data-name="Bunku OG" data-price="50">Add to Cart</button>
         </div>
       </div>
     </div>
@@ -50,20 +40,12 @@
         <div class="card-price">55 AED</div>
         <div class="card-controls">
           <select name="zaatar_bomb" class="card-select">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
           </select>
-          <button type="button" class="add-cart" data-name="Zaatar" data-price="55">
-            Add to Cart
-          </button>
+          <button type="button" class="add-cart" data-name="Zaatar" data-price="55">Add to Cart</button>
         </div>
       </div>
     </div>
-
     <div class="product-card fade-in" style="animation-delay: 0.2s;">
       <img src="images/BERRYBLAST.JPEG" alt="Berry Blast" />
       <div class="card-details">
@@ -72,20 +54,12 @@
         <div class="card-price">55 AED</div>
         <div class="card-controls">
           <select name="berry_blast" class="card-select">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
           </select>
-          <button type="button" class="add-cart" data-name="Berry Blast" data-price="55">
-            Add to Cart
-          </button>
+          <button type="button" class="add-cart" data-name="Berry Blast" data-price="55">Add to Cart</button>
         </div>
       </div>
     </div>
-
     <div class="product-card fade-in" style="animation-delay: 0.3s;">
       <img src="images/STRAWBERRYHAVEN.JPG" alt="Strawberry Haven" />
       <div class="card-details">
@@ -94,20 +68,12 @@
         <div class="card-price">55 AED</div>
         <div class="card-controls">
           <select name="strawberry_haven" class="card-select">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
           </select>
-          <button type="button" class="add-cart" data-name="Strawberry Haven" data-price="55">
-            Add to Cart
-          </button>
+          <button type="button" class="add-cart" data-name="Strawberry Haven" data-price="55">Add to Cart</button>
         </div>
       </div>
     </div>
-
     <div class="product-card fade-in" style="animation-delay: 0.4s;">
       <img src="images/DIABETES.JPG" alt="Diabetes" />
       <div class="card-details">
@@ -116,98 +82,77 @@
         <div class="card-price">55 AED</div>
         <div class="card-controls">
           <select name="diabetes" class="card-select">
-            <option value="0">0</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option>
           </select>
-          <button type="button" class="add-cart" data-name="Diabetes" data-price="55">
-            Add to Cart
-          </button>
+          <button type="button" class="add-cart" data-name="Diabetes" data-price="55">Add to Cart</button>
         </div>
       </div>
     </div>
-
-    <!-- Order Type Selection -->
-    <div class="order-type-section fade-in" style="animation-delay: 0.5s;">
-      <label>
-        <input type="radio" name="order_type" value="delivery" checked />
-        Delivery
-      </label>
-      <label>
-        <input type="radio" name="order_type" value="pickup" />
-        Pickup
-      </label>
-    </div>
-
-    <!-- Delivery Fields -->
-    <div id="deliveryFields" class="fade-in" style="animation-delay: 0.6s;">
-      <label for="customerNameDelivery">Name:</label>
-      <input type="text" id="customerNameDelivery" name="delivery_name" required />
-
-      <label for="phoneDelivery">Phone Number:</label>
-      <input type="tel" id="phoneDelivery" name="delivery_phone" required />
-
-      <label for="dateDelivery">Date:</label>
-      <input type="date" id="dateDelivery" name="delivery_date" required />
-
-      <label for="cityDelivery">City:</label>
-      <input type="text" id="cityDelivery" name="delivery_city" required />
-
-      <label for="areaDelivery">Area:</label>
-      <input type="text" id="areaDelivery" name="delivery_area" required />
-
-      <label for="timeDelivery">Time:</label>
-      <input type="time" id="timeDelivery" name="delivery_time" required />
-    </div>
-
-    <!-- Pickup Fields -->
-    <div id="pickupFields" class="fade-in" style="animation-delay: 0.6s; display:none;">
-      <label for="customerNamePickup">Name:</label>
-      <input type="text" id="customerNamePickup" name="pickup_name" />
-
-      <label for="phonePickup">Phone Number:</label>
-      <input type="tel" id="phonePickup" name="pickup_phone" />
-
-      <label for="datePickup">Date:</label>
-      <input type="date" id="datePickup" name="pickup_date" />
-
-      <label for="licensePlate">License Plate:</label>
-      <input type="text" id="licensePlate" name="pickup_license_plate" />
-
-      <label for="timePickup">Time:</label>
-      <input type="time" id="timePickup" name="pickup_time" />
-    </div>
-
-    <div class="cart-summary fade-in" id="cartSummary" style="animation-delay: 0.7s;">
+    <div class="cart-summary fade-in" id="cartSummary" style="animation-delay: 0.5s;">
       Cart: 0 items <span id="cartTotal"></span>
     </div>
-    <div class="cart-checkout fade-in" style="animation-delay: 0.8s;">
-      <button type="submit" class="checkout-btn">Checkout</button>
+    <div class="cart-checkout fade-in" style="animation-delay: 0.6s;">
+      <button id="checkoutBtn" type="button" class="checkout-btn">Checkout</button>
     </div>
   </form>
 
-  <footer class="footer fade-in" style="animation-delay: 0.9s;">
-    <a href="https://www.instagram.com/bunku.uae/" target="_blank"
-      ><img
-        src="images/instagram.png"
-        alt="Instagram"
-        class="footer-icon"
-    /></a>
-    <a href="https://wa.me/971544588113" target="_blank"
-      ><img
-        src="images/whatsapp.png"
-        alt="WhatsApp"
-        class="footer-icon"
-    /></a>
-    <a href="https://www.tiktok.com/@bunku.uae" target="_blank"
-      ><img
-        src="images/tiktok.png"
-        alt="TikTok"
-        class="footer-icon"
-    /></a>
+  <!-- Modal -->
+  <div id="orderModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-content">
+      <button id="modalCloseBtn" class="modal-close" aria-label="Close order form">&times;</button>
+      <h2>Complete Your Order</h2>
+      <div class="order-type-select">
+        <label><input type="radio" name="modal_order_type" value="delivery" checked /> Delivery</label>
+        <label><input type="radio" name="modal_order_type" value="pickup" /> Pickup</label>
+      </div>
+      <form id="modalDeliveryForm" class="order-form active">
+        <label for="modalDeliveryName">Name:</label>
+        <input type="text" id="modalDeliveryName" required />
+
+        <label for="modalDeliveryPhone">Phone Number:</label>
+        <input type="tel" id="modalDeliveryPhone" required />
+
+        <label for="modalDeliveryDate">Date:</label>
+        <input type="date" id="modalDeliveryDate" required />
+
+        <label for="modalDeliveryCity">City:</label>
+        <input type="text" id="modalDeliveryCity" required />
+
+        <label for="modalDeliveryArea">Area:</label>
+        <input type="text" id="modalDeliveryArea" required />
+
+        <label for="modalDeliveryTime">Time:</label>
+        <input type="time" id="modalDeliveryTime" required />
+      </form>
+      <form id="modalPickupForm" class="order-form">
+        <label for="modalPickupName">Name:</label>
+        <input type="text" id="modalPickupName" />
+
+        <label for="modalPickupPhone">Phone Number:</label>
+        <input type="tel" id="modalPickupPhone" />
+
+        <label for="modalPickupDate">Date:</label>
+        <input type="date" id="modalPickupDate" />
+
+        <label for="modalPickupLicense">License Plate:</label>
+        <input type="text" id="modalPickupLicense" />
+
+        <label for="modalPickupTime">Time:</label>
+        <input type="time" id="modalPickupTime" />
+      </form>
+      <h3>Your Basket</h3>
+      <ul id="modalBasket"></ul>
+      <div class="modal-actions">
+        <button id="modalSubmitBtn" type="button">Finalize Order</button>
+        <button id="modalCancelBtn" type="button">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer fade-in" style="animation-delay: 0.7s;">
+    <a href="https://www.instagram.com/bunku.uae/" target="_blank"><img src="images/instagram.png" alt="Instagram" class="footer-icon" /></a>
+    <a href="https://wa.me/971544588113" target="_blank"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
+    <a href="https://www.tiktok.com/@bunku.uae" target="_blank"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
   </footer>
 
   <script src="script.js"></script>
