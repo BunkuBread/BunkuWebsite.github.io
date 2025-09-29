@@ -10,3 +10,36 @@ function updateCartSummary() {
 }
 
 document.querySelectorAll('.add-cart').forEach((btn) => {
+  btn.onclick = function () {
+    const name = btn.getAttribute('data-name');
+    const price = Number(btn.getAttribute('data-price'));
+    const select = btn.parentElement.querySelector('.card-select');
+    const qty = Number(select.value);
+    if (qty < 1) {
+      alert('Select at least one box.');
+      return;
+    }
+    cart[name] = { qty: qty, price: price };
+    updateCartSummary();
+  };
+});
+
+document.getElementById('orderForm').onsubmit = function (e) {
+  e.preventDefault();
+  let count = Object.values(cart).reduce((a, b) => a + b.qty, 0);
+  if (count < 1) {
+    alert('Add at least one product to cart.');
+    return;
+  }
+  let msg = `Hello! Here's my Bunku Bread order:\n\n`;
+  Object.keys(cart).forEach((k) => (msg += `${k}: ${cart[k].qty} box(es)\n`));
+  msg += `\nTotal: ${Object.values(cart).reduce(
+    (a, b) => a + b.qty * b.price,
+    0
+  )} AED`;
+  window.open(
+    `https://wa.me/971544588113?text=${encodeURIComponent(msg)}`,
+    '_blank'
+  );
+};
+updateCartSummary();
