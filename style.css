@@ -221,6 +221,7 @@ h1 {
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
+  animation: fadeInUp 1s ease forwards;
 }
 .footer-icon {
   width: 32px;
@@ -233,13 +234,30 @@ h1 {
 .footer-icon:hover {
   transform: scale(1.15);
 }
+.order-type-section {
+  display: flex;
+  gap: 16px;
+  font-weight: 700;
+  color: #a0522d;
+  margin: 20px 0 6px;
+}
+.order-type-section label {
+  cursor: pointer;
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation-fill-mode: forwards;
+  animation-name: fadeInUp;
+  animation-duration: 0.8s;
+  animation-timing-function: ease;
+}
 @keyframes fadeInUp {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-
 @media (max-width: 500px) {
   .footer-icon {
     width: 26px;
