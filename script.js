@@ -3,7 +3,17 @@ const cart = {};
 function updateCartSummary() {
   let count = Object.values(cart).reduce((a, b) => a + b.qty, 0);
   let total = Object.values(cart).reduce((a, b) => a + b.qty * b.price, 0);
-  document.getElementById('cartSummary').innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total ? `${total} AED` : ''}</span>`;
+
+  // Add extras cost
+  if (document.getElementById('extra_garlic_og')?.checked) total += 5;
+  if (document.getElementById('extra_garlic_zaatar')?.checked) total += 5;
+  if (document.getElementById('extra_choc_diabetes')?.checked) total += 5;
+
+  // Add delivery fee if delivery selected
+  const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
+  if (deliveryRadio && deliveryRadio.value === 'delivery') total += 35;
+
+  document.getElementById('cartSummary').innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total} AED</span>`;
 }
 
 document.querySelectorAll('.add-cart').forEach((btn) => {
@@ -40,6 +50,36 @@ function populateBasketSummary() {
     li.textContent = `${key}: ${val.qty} box(es)`;
     modalBasket.appendChild(li);
   });
+
+  // Add extras cost
+  if (document.getElementById('extra_garlic_og')?.checked) {
+    total += 5;
+    const li = document.createElement('li');
+    li.textContent = `Extra garlic sauce (Bunku OG): +5 AED`;
+    modalBasket.appendChild(li);
+  }
+  if (document.getElementById('extra_garlic_zaatar')?.checked) {
+    total += 5;
+    const li = document.createElement('li');
+    li.textContent = `Extra garlic sauce (Zaatar Bomb): +5 AED`;
+    modalBasket.appendChild(li);
+  }
+  if (document.getElementById('extra_choc_diabetes')?.checked) {
+    total += 5;
+    const li = document.createElement('li');
+    li.textContent = `Extra chocolate sauce (Diabetes): +5 AED`;
+    modalBasket.appendChild(li);
+  }
+
+  // Add delivery fee if selected
+  const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
+  if (deliveryRadio && deliveryRadio.value === 'delivery') {
+    total += 35;
+    const li = document.createElement('li');
+    li.textContent = `Delivery fee: +35 AED`;
+    modalBasket.appendChild(li);
+  }
+
   const totalLi = document.createElement('li');
   totalLi.textContent = `Total: ${total} AED`;
   totalLi.style.fontWeight = 'bold';
@@ -59,9 +99,13 @@ function updateModalForm() {
     modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = false);
     modalPickupForm.querySelectorAll('input').forEach(i => i.required = true);
   }
+  updateCartSummary();
 }
 
-modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', updateModalForm));
+modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', () => {
+  updateModalForm();
+  populateBasketSummary();
+}));
 
 function closeModal() {
   orderModal.setAttribute('aria-hidden', 'true');
@@ -82,7 +126,7 @@ checkoutBtn.addEventListener('click', () => {
 modalCloseBtn.addEventListener('click', closeModal);
 modalCancelBtn.addEventListener('click', closeModal);
 window.addEventListener('click', e => {
-  if(e.target === orderModal){
+  if (e.target === orderModal) {
     closeModal();
   }
 });
@@ -126,6 +170,22 @@ modalSubmitBtn.addEventListener('click', () => {
     total += val.qty * val.price;
     msg += `${key}: ${val.qty} box(es)\n`;
   });
+
+  // Add extras info
+  if (document.getElementById('extra_garlic_og')?.checked) {
+    msg += "Extra garlic sauce (Bunku OG): Yes (+5 AED)\n";
+  }
+  if (document.getElementById('extra_garlic_zaatar')?.checked) {
+    msg += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
+  }
+  if (document.getElementById('extra_choc_diabetes')?.checked) {
+    msg += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
+  }
+  // Delivery fee info
+  if(selectedType === 'delivery'){
+    msg += "Delivery Fee: +35 AED\n";
+    total += 35;
+  }
 
   msg += `\nTotal: ${total} AED`;
 
