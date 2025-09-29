@@ -209,4 +209,6 @@ h1 {
   .product-card {
     flex-direction: column;
     align-items: flex-start;
-    gap: 13px
+    gap: 13px;
+  }
+}
