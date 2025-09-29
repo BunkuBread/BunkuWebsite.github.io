@@ -14,7 +14,7 @@ body {
   border-radius: 18px;
   object-fit: contain;
   margin-bottom: 6px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.14);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
 }
 h1 {
   font-family: 'Pacifico', cursive;
@@ -38,7 +38,7 @@ h1 {
   border-radius: 13px;
   display: flex;
   gap: 18px;
-  box-shadow: 0 2px 11px rgba(0,0,0,0.06);
+  box-shadow: 0 2px 11px rgba(0, 0, 0, 0.06);
   padding: 20px 16px;
   margin-bottom: 18px;
   align-items: center;
@@ -48,7 +48,7 @@ h1 {
   height: 74px;
   border-radius: 13px;
   object-fit: cover;
-  box-shadow: 0 1px 8px rgba(0,0,0,0.07);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.07);
   background: #f7e7c4;
 }
 .card-details {
@@ -137,16 +137,17 @@ h1 {
   margin-top: 30px;
 }
 .footer-icon {
-  margin: 0 34px;
-  width: 26px;
-  height: 26px;
-  filter: drop-shadow(0 2px 4px rgba(255,179,71,0.16));
+  margin: 0 18px;
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 4px rgba(255, 179, 71, 0.16));
 }
 @media (max-width: 500px) {
   .footer-icon {
-    margin: 0 13px;
-    width: 20px;
-    height: 20px;
+    margin: 0 10px;
+    width: 26px;
+    height: 26px;
   }
   .product-card {
     flex-direction: column;
