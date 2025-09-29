@@ -2,14 +2,10 @@ const cart = {};
 function updateCartSummary() {
   let count = Object.values(cart).reduce((a, b) => a + b.qty, 0);
   let total = Object.values(cart).reduce((a, b) => a + b.qty * b.price, 0);
-  document.getElementById(
-    'cartSummary'
-  ).innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${
-    total ? `${total} AED` : ''
-  }</span>`;
+  document.getElementById('cartSummary').innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total ? `${total} AED` : ''}</span>`;
 }
 
-// Add to cart buttons handler
+// Add to cart button functionality
 document.querySelectorAll('.add-cart').forEach((btn) => {
   btn.onclick = function () {
     const name = btn.getAttribute('data-name');
@@ -25,49 +21,86 @@ document.querySelectorAll('.add-cart').forEach((btn) => {
   };
 });
 
-// Delivery vs Pickup field toggle
-const deliveryFieldsDiv = document.getElementById('deliveryFields');
-const pickupFieldsDiv = document.getElementById('pickupFields');
-const orderTypeRadios = document.querySelectorAll('input[name="order_type"]');
+// Modal Elements
+const orderModal = document.getElementById('orderModal');
+const modalCloseBtn = document.getElementById('modalCloseBtn');
+const modalDeliveryForm = document.getElementById('modalDeliveryForm');
+const modalPickupForm = document.getElementById('modalPickupForm');
+const modalOrderTypeRadios = orderModal.querySelectorAll('input[name="modal_order_type"]');
+const modalBasket = document.getElementById('modalBasket');
+const modalSubmitBtn = document.getElementById('modalSubmitBtn');
+const modalCancelBtn = document.getElementById('modalCancelBtn');
+const checkoutBtn = document.getElementById('checkoutBtn');
 
-function updateOrderTypeFields() {
-  const selectedType = document.querySelector('input[name="order_type"]:checked').value;
+function populateBasketSummary() {
+  modalBasket.innerHTML = '';
+  let total = 0;
+  Object.entries(cart).forEach(([key, val]) => {
+    total += val.qty * val.price;
+    const li = document.createElement('li');
+    li.textContent = `${key}: ${val.qty} box(es)`;
+    modalBasket.appendChild(li);
+  });
+  const totalLi = document.createElement('li');
+  totalLi.textContent = `Total: ${total} AED`;
+  totalLi.style.fontWeight = 'bold';
+  modalBasket.appendChild(totalLi);
+}
+
+function updateModalForm() {
+  const selectedType = Array.from(modalOrderTypeRadios).find(r => r.checked).value;
   if(selectedType === 'delivery'){
-    deliveryFieldsDiv.style.display = 'block';
-    pickupFieldsDiv.style.display = 'none';
-    document.querySelectorAll('#deliveryFields input').forEach(input => input.required = true);
-    document.querySelectorAll('#pickupFields input').forEach(input => input.required = false);
+    modalDeliveryForm.classList.add('active');
+    modalPickupForm.classList.remove('active');
+    modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = true);
+    modalPickupForm.querySelectorAll('input').forEach(i => i.required = false);
   } else {
-    deliveryFieldsDiv.style.display = 'none';
-    pickupFieldsDiv.style.display = 'block';
-    document.querySelectorAll('#pickupFields input').forEach(input => input.required = true);
-    document.querySelectorAll('#deliveryFields input').forEach(input => input.required = false);
+    modalDeliveryForm.classList.remove('active');
+    modalPickupForm.classList.add('active');
+    modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = false);
+    modalPickupForm.querySelectorAll('input').forEach(i => i.required = true);
   }
 }
-orderTypeRadios.forEach(radio => radio.addEventListener('change', updateOrderTypeFields));
-updateOrderTypeFields();
 
-document.getElementById('orderForm').onsubmit = function(e) {
-  e.preventDefault();
+modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', updateModalForm));
 
-  let count = Object.values(cart).reduce((a,b) => a + b.qty, 0);
-  if(count < 1){
+function closeModal() {
+  orderModal.setAttribute('aria-hidden', 'true');
+  modalDeliveryForm.reset();
+  modalPickupForm.reset();
+}
+
+checkoutBtn.addEventListener('click', () => {
+  if(Object.values(cart).reduce((a,b) => a + b.qty, 0) < 1){
     alert('Add at least one product to cart.');
     return;
   }
+  populateBasketSummary();
+  updateModalForm();
+  orderModal.setAttribute('aria-hidden', 'false');
+});
 
-  const selectedType = document.querySelector('input[name="order_type"]:checked').value;
+modalCloseBtn.addEventListener('click', closeModal);
+modalCancelBtn.addEventListener('click', closeModal);
+window.addEventListener('click', e => {
+  if(e.target === orderModal){
+    closeModal();
+  }
+});
 
+modalSubmitBtn.addEventListener('click', () => {
+  const selectedType = Array.from(modalOrderTypeRadios).find(r => r.checked).value;
   let msg = `Hello! I placed a ${selectedType} order:\n\n`;
-  if(selectedType === 'delivery'){
-    const name = document.getElementById('customerNameDelivery').value.trim();
-    const phone = document.getElementById('phoneDelivery').value.trim();
-    const date = document.getElementById('dateDelivery').value;
-    const city = document.getElementById('cityDelivery').value.trim();
-    const area = document.getElementById('areaDelivery').value.trim();
-    const time = document.getElementById('timeDelivery').value;
 
-    if(!name || !phone || !date || !city || !area || !time) {
+  if(selectedType === 'delivery'){
+    const name = modalDeliveryForm.querySelector('#modalDeliveryName').value.trim();
+    const phone = modalDeliveryForm.querySelector('#modalDeliveryPhone').value.trim();
+    const date = modalDeliveryForm.querySelector('#modalDeliveryDate').value;
+    const city = modalDeliveryForm.querySelector('#modalDeliveryCity').value.trim();
+    const area = modalDeliveryForm.querySelector('#modalDeliveryArea').value.trim();
+    const time = modalDeliveryForm.querySelector('#modalDeliveryTime').value;
+
+    if(!name || !phone || !date || !city || !area || !time){
       alert('Please fill all delivery details.');
       return;
     }
@@ -75,13 +108,13 @@ document.getElementById('orderForm').onsubmit = function(e) {
     msg += `Name: ${name}\nPhone: ${phone}\nDate: ${date}\nCity: ${city}\nArea: ${area}\nTime: ${time}\n\n`;
 
   } else {
-    const name = document.getElementById('customerNamePickup').value.trim();
-    const phone = document.getElementById('phonePickup').value.trim();
-    const date = document.getElementById('datePickup').value;
-    const licensePlate = document.getElementById('licensePlate').value.trim();
-    const time = document.getElementById('timePickup').value;
+    const name = modalPickupForm.querySelector('#modalPickupName').value.trim();
+    const phone = modalPickupForm.querySelector('#modalPickupPhone').value.trim();
+    const date = modalPickupForm.querySelector('#modalPickupDate').value;
+    const licensePlate = modalPickupForm.querySelector('#modalPickupLicense').value.trim();
+    const time = modalPickupForm.querySelector('#modalPickupTime').value;
 
-    if(!name || !phone || !date || !licensePlate || !time) {
+    if(!name || !phone || !date || !licensePlate || !time){
       alert('Please fill all pickup details.');
       return;
     }
@@ -90,25 +123,32 @@ document.getElementById('orderForm').onsubmit = function(e) {
   }
 
   msg += `Orders:\n`;
-  Object.keys(cart).forEach(k => {
-    msg += `${k}: ${cart[k].qty} box(es)\n`;
+  let total = 0;
+  Object.entries(cart).forEach(([key, val]) => {
+    total += val.qty * val.price;
+    msg += `${key}: ${val.qty} box(es)\n`;
   });
 
-  msg += `\nTotal: ${Object.values(cart).reduce((a,b) => a + b.qty*b.price, 0)} AED`;
+  msg += `\nTotal: ${total} AED`;
 
+  // Open WhatsApp
   window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
 
-  // Replace your webhook url below
+  // Send to Activepieces webhook
   fetch("YOUR_ACTIVEPIECES_WEBHOOK_URL_HERE", {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       order_type: selectedType,
       details: msg,
       cart: cart
+    }),
+  })
+    .then(() => {
+      console.log("Order sent to Activepieces");
+      closeModal();
     })
-  }).then(() => console.log("Order sent to Activepieces"))
-  .catch(e => console.error("Webhook error:", e));
-};
+    .catch((e) => console.error("Activepieces webhook error:", e));
+});
 
 updateCartSummary();
