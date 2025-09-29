@@ -1,11 +1,11 @@
 const cart = {};
+
 function updateCartSummary() {
   let count = Object.values(cart).reduce((a, b) => a + b.qty, 0);
   let total = Object.values(cart).reduce((a, b) => a + b.qty * b.price, 0);
   document.getElementById('cartSummary').innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total ? `${total} AED` : ''}</span>`;
 }
 
-// Add to cart button functionality
 document.querySelectorAll('.add-cart').forEach((btn) => {
   btn.onclick = function () {
     const name = btn.getAttribute('data-name');
@@ -16,12 +16,11 @@ document.querySelectorAll('.add-cart').forEach((btn) => {
       alert('Select at least one box.');
       return;
     }
-    cart[name] = { qty: qty, price: price };
+    cart[name] = { qty, price };
     updateCartSummary();
   };
 });
 
-// Modal Elements
 const orderModal = document.getElementById('orderModal');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 const modalDeliveryForm = document.getElementById('modalDeliveryForm');
@@ -71,7 +70,7 @@ function closeModal() {
 }
 
 checkoutBtn.addEventListener('click', () => {
-  if(Object.values(cart).reduce((a,b) => a + b.qty, 0) < 1){
+  if (Object.values(cart).reduce((a, b) => a + b.qty, 0) < 1) {
     alert('Add at least one product to cart.');
     return;
   }
@@ -106,7 +105,6 @@ modalSubmitBtn.addEventListener('click', () => {
     }
 
     msg += `Name: ${name}\nPhone: ${phone}\nDate: ${date}\nCity: ${city}\nArea: ${area}\nTime: ${time}\n\n`;
-
   } else {
     const name = modalPickupForm.querySelector('#modalPickupName').value.trim();
     const phone = modalPickupForm.querySelector('#modalPickupPhone').value.trim();
@@ -131,10 +129,8 @@ modalSubmitBtn.addEventListener('click', () => {
 
   msg += `\nTotal: ${total} AED`;
 
-  // Open WhatsApp
   window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
 
-  // Send to Activepieces webhook
   fetch("YOUR_ACTIVEPIECES_WEBHOOK_URL_HERE", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -144,11 +140,11 @@ modalSubmitBtn.addEventListener('click', () => {
       cart: cart
     }),
   })
-    .then(() => {
-      console.log("Order sent to Activepieces");
-      closeModal();
-    })
-    .catch((e) => console.error("Activepieces webhook error:", e));
+  .then(() => {
+    console.log("Order sent to Activepieces");
+    closeModal();
+  })
+  .catch((e) => console.error("Activepieces webhook error:", e));
 });
 
 updateCartSummary();
