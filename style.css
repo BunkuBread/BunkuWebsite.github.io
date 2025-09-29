@@ -5,6 +5,7 @@ body {
   position: relative;
   overflow-x: hidden;
 }
+
 .blob-background {
   position: fixed;
   top: -300px;
@@ -19,11 +20,13 @@ body {
   filter: blur(80px);
   opacity: 0.75;
 }
+
 @keyframes blobMove {
   0%, 100% { transform: translate(0, 0) scale(1); }
   33% { transform: translate(60px, 30px) scale(1.12); }
   66% { transform: translate(-50px, 50px) scale(0.88); }
 }
+
 .main-header {
   text-align: center;
   margin-top: 32px;
@@ -38,7 +41,6 @@ body {
   object-fit: contain;
   margin-bottom: 6px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
-  animation: fadeInUp 0.8s ease forwards;
 }
 h1 {
   font-family: 'Pacifico', cursive;
@@ -46,13 +48,11 @@ h1 {
   font-size: 2.2em;
   margin: 0;
   letter-spacing: 1px;
-  animation: fadeInUp 1s ease forwards;
 }
 .subhead {
   color: #a0522d;
   font-size: 1em;
   margin-bottom: 36px;
-  animation: fadeInUp 1.2s ease forwards;
 }
 .products-list {
   max-width: 900px;
@@ -70,18 +70,7 @@ h1 {
   padding: 20px 16px;
   margin-bottom: 18px;
   align-items: center;
-  opacity: 0;
-  transform: translateY(20px);
-  animation-fill-mode: forwards;
-  animation-name: fadeInUp;
-  animation-duration: 0.8s;
-  animation-timing-function: ease;
 }
-.product-card:nth-child(1) { animation-delay: 0.3s; }
-.product-card:nth-child(2) { animation-delay: 0.4s; }
-.product-card:nth-child(3) { animation-delay: 0.5s; }
-.product-card:nth-child(4) { animation-delay: 0.6s; }
-.product-card:nth-child(5) { animation-delay: 0.7s; }
 .product-card img {
   width: 74px;
   height: 74px;
@@ -157,14 +146,12 @@ h1 {
   text-align: left;
   position: relative;
   z-index: 1;
-  animation: fadeInUp 0.6s ease forwards;
 }
 .cart-checkout {
   text-align: right;
   margin-bottom: 24px;
   position: relative;
   z-index: 1;
-  animation: fadeInUp 0.8s ease forwards;
 }
 .checkout-btn {
   background: #ffb347;
@@ -195,7 +182,6 @@ h1 {
   flex-wrap: wrap;
   position: relative;
   z-index: 1;
-  animation: fadeInUp 1s ease forwards;
 }
 .footer-icon {
   width: 32px;
@@ -236,12 +222,6 @@ h1 {
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
   text-align: left;
   position: relative;
-  animation: slideUp 0.4s ease forwards;
-}
-
-@keyframes slideUp {
-  from {transform: translateY(30px); opacity: 0;}
-  to {transform: translateY(0); opacity: 1;}
 }
 
 .modal-close {
