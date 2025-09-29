@@ -51,7 +51,6 @@ function populateBasketSummary() {
     modalBasket.appendChild(li);
   });
 
-  // Add extras cost
   if (document.getElementById('extra_garlic_og')?.checked) {
     total += 5;
     const li = document.createElement('li');
@@ -71,7 +70,6 @@ function populateBasketSummary() {
     modalBasket.appendChild(li);
   }
 
-  // Add delivery fee if selected
   const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
   if (deliveryRadio && deliveryRadio.value === 'delivery') {
     total += 35;
@@ -91,21 +89,20 @@ function updateModalForm() {
   if(selectedType === 'delivery'){
     modalDeliveryForm.classList.add('active');
     modalPickupForm.classList.remove('active');
+    document.getElementById('googleMapContainer').style.display = 'block';
     modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = true);
     modalPickupForm.querySelectorAll('input').forEach(i => i.required = false);
   } else {
     modalDeliveryForm.classList.remove('active');
     modalPickupForm.classList.add('active');
+    document.getElementById('googleMapContainer').style.display = 'none';
     modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = false);
     modalPickupForm.querySelectorAll('input').forEach(i => i.required = true);
   }
   updateCartSummary();
 }
 
-modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', () => {
-  updateModalForm();
-  populateBasketSummary();
-}));
+modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', updateModalForm));
 
 function closeModal() {
   orderModal.setAttribute('aria-hidden', 'true');
@@ -126,7 +123,7 @@ checkoutBtn.addEventListener('click', () => {
 modalCloseBtn.addEventListener('click', closeModal);
 modalCancelBtn.addEventListener('click', closeModal);
 window.addEventListener('click', e => {
-  if (e.target === orderModal) {
+  if(e.target === orderModal){
     closeModal();
   }
 });
@@ -171,17 +168,15 @@ modalSubmitBtn.addEventListener('click', () => {
     msg += `${key}: ${val.qty} box(es)\n`;
   });
 
-  // Add extras info
-  if (document.getElementById('extra_garlic_og')?.checked) {
+  if(document.getElementById('extra_garlic_og')?.checked){
     msg += "Extra garlic sauce (Bunku OG): Yes (+5 AED)\n";
   }
-  if (document.getElementById('extra_garlic_zaatar')?.checked) {
+  if(document.getElementById('extra_garlic_zaatar')?.checked){
     msg += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
   }
-  if (document.getElementById('extra_choc_diabetes')?.checked) {
+  if(document.getElementById('extra_choc_diabetes')?.checked){
     msg += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
   }
-  // Delivery fee info
   if(selectedType === 'delivery'){
     msg += "Delivery Fee: +35 AED\n";
     total += 35;
@@ -193,7 +188,7 @@ modalSubmitBtn.addEventListener('click', () => {
 
   fetch("YOUR_ACTIVEPIECES_WEBHOOK_URL_HERE", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       order_type: selectedType,
       details: msg,
@@ -204,7 +199,7 @@ modalSubmitBtn.addEventListener('click', () => {
     console.log("Order sent to Activepieces");
     closeModal();
   })
-  .catch((e) => console.error("Activepieces webhook error:", e));
+  .catch(e => console.error("Activepieces webhook error:", e));
 });
 
 updateCartSummary();
