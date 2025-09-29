@@ -4,12 +4,10 @@ function updateCartSummary() {
   let count = Object.values(cart).reduce((a, b) => a + b.qty, 0);
   let total = Object.values(cart).reduce((a, b) => a + b.qty * b.price, 0);
 
-  // Add extras cost
   if (document.getElementById('extra_garlic_og')?.checked) total += 5;
   if (document.getElementById('extra_garlic_zaatar')?.checked) total += 5;
   if (document.getElementById('extra_choc_diabetes')?.checked) total += 5;
 
-  // Add delivery fee if delivery selected
   const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
   if (deliveryRadio && deliveryRadio.value === 'delivery') total += 35;
 
@@ -102,7 +100,10 @@ function updateModalForm() {
   updateCartSummary();
 }
 
-modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', updateModalForm));
+modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', () => {
+  updateModalForm();
+  populateBasketSummary();
+}));
 
 function closeModal() {
   orderModal.setAttribute('aria-hidden', 'true');
@@ -184,8 +185,10 @@ modalSubmitBtn.addEventListener('click', () => {
 
   msg += `\nTotal: ${total} AED`;
 
+  // Open WhatsApp chat with order summary
   window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
 
+  // Send order details to Activepieces webhook for Telegram
   fetch("YOUR_ACTIVEPIECES_WEBHOOK_URL_HERE", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
