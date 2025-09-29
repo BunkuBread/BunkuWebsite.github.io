@@ -189,7 +189,7 @@ modalSubmitBtn.addEventListener('click', () => {
   window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
 
   // Send order details to Activepieces webhook for Telegram
-  fetch("YOUR_ACTIVEPIECES_WEBHOOK_URL_HERE", {
+  fetch("https://cloud.activepieces.com/api/v1/webhooks/AQhhVEkf4rxG9UD7ogEVh", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
