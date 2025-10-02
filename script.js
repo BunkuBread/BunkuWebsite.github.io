@@ -185,11 +185,8 @@ modalSubmitBtn.addEventListener('click', () => {
 
   msg += `\nTotal: ${total} AED`;
 
-  // Open WhatsApp chat with order summary
-  window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
-
-  // Send order details to Activepieces webhook for Telegram
-  fetch("https://cloud.activepieces.com/api/v1/webhooks/vCchBPhDVIrSPg9k053qp/sync", {
+  // Replace with your activepieces live webhook URL here
+  fetch("https://cloud.activepieces.com/api/v1/webhooks/vCchBPhDVIrSPg9k053qp", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
