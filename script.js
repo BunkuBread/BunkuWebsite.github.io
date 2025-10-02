@@ -185,7 +185,7 @@ modalSubmitBtn.addEventListener('click', () => {
 
   msg += `\nTotal: ${total} AED`;
 
-  fetch("https://cloud.activepieces.com/api/v1/webhooks/vCchBPhDVIrSPg9k053qp", {
+  fetch("https://cloud.activepieces.com/api/v1/webhooks/vCchBPhDVIrSPg9k053qp/sync", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
