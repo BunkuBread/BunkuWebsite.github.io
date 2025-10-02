@@ -185,7 +185,6 @@ modalSubmitBtn.addEventListener('click', () => {
 
   msg += `\nTotal: ${total} AED`;
 
-  // Replace with your activepieces live webhook URL here
   fetch("https://cloud.activepieces.com/api/v1/webhooks/vCchBPhDVIrSPg9k053qp", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
@@ -196,10 +195,15 @@ modalSubmitBtn.addEventListener('click', () => {
     }),
   })
   .then(() => {
+    // Show WhatsApp share prompt
+    window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
     console.log("Order sent to Activepieces");
     closeModal();
   })
-  .catch(e => console.error("Activepieces webhook error:", e));
+  .catch(e => {
+    console.error("Activepieces webhook error:", e);
+    alert("Failed to send order. Please try again.");
+  });
 });
 
 updateCartSummary();
