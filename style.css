@@ -195,7 +195,7 @@ h1 {
   transform: scale(1.15);
 }
 
-/* Modal styles */
+/* Modal styles updated for better scroll and smaller viewport fit */
 
 .modal {
   display: none;
@@ -205,8 +205,10 @@ h1 {
   width: 100vw; height: 100vh;
   background: rgba(0, 0, 0, 0.38);
   backdrop-filter: blur(5px);
-  justify-content: center;
-  align-items: center;
+  justify-content: flex-start; /* align modal top for mobile */
+  align-items: flex-start;
+  padding-top: 10vh;
+  overflow-y: auto; /* page scroll if modal content bigger than viewport */
 }
 
 .modal[aria-hidden="false"] {
@@ -218,10 +220,13 @@ h1 {
   border-radius: 16px;
   max-width: 420px;
   width: 90vw;
+  max-height: 80vh; /* limit modal height */
   padding: 20px 26px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.15);
   text-align: left;
   position: relative;
+  overflow-y: auto; /* Scroll inside modal if content overflows */
+  box-sizing: border-box;
 }
 
 .modal-close {
