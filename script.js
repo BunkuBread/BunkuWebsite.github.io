@@ -195,7 +195,6 @@ modalSubmitBtn.addEventListener('click', () => {
     }),
   })
   .then(() => {
-    // Show WhatsApp share prompt
     window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
     console.log("Order sent to Activepieces");
     closeModal();
