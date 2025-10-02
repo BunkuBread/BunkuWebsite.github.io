@@ -52,7 +52,7 @@ function populateBasketSummary() {
   if (document.getElementById('extra_garlic_og')?.checked) {
     total += 5;
     const li = document.createElement('li');
-    li.textContent = `Extra garlic sauce (Bunku OG): +5 AED`;
+    li.textContent = `Extra garlic sauce (OG Bunku): +5 AED`;
     modalBasket.appendChild(li);
   }
   if (document.getElementById('extra_garlic_zaatar')?.checked) {
@@ -87,13 +87,11 @@ function updateModalForm() {
   if(selectedType === 'delivery'){
     modalDeliveryForm.classList.add('active');
     modalPickupForm.classList.remove('active');
-    document.getElementById('googleMapContainer').style.display = 'block';
     modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = true);
     modalPickupForm.querySelectorAll('input').forEach(i => i.required = false);
   } else {
     modalDeliveryForm.classList.remove('active');
     modalPickupForm.classList.add('active');
-    document.getElementById('googleMapContainer').style.display = 'none';
     modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = false);
     modalPickupForm.querySelectorAll('input').forEach(i => i.required = true);
   }
@@ -170,7 +168,7 @@ modalSubmitBtn.addEventListener('click', () => {
   });
 
   if(document.getElementById('extra_garlic_og')?.checked){
-    msg += "Extra garlic sauce (Bunku OG): Yes (+5 AED)\n";
+    msg += "Extra garlic sauce (OG Bunku): Yes (+5 AED)\n";
   }
   if(document.getElementById('extra_garlic_zaatar')?.checked){
     msg += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
@@ -195,7 +193,6 @@ modalSubmitBtn.addEventListener('click', () => {
     }),
   })
   .then(() => {
-    // Show WhatsApp share prompt
     window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
     console.log("Order sent to Activepieces");
     closeModal();
