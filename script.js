@@ -194,7 +194,7 @@ modalSubmitBtn.addEventListener('click', () => {
   msg += `\nTotal: ${total} AED`;
   const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(msg)}`;
 
-  fetch("https://cloud.activepieces.com/api/v1/webhooks/LI2vLphGyGdkLIbL0wH2U", {
+  fetch("https://cloud.activepieces.com/api/v1/webhooks/LI2vLphGyGdkLIbL0wH2U/sync", {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
