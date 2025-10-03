@@ -127,6 +127,16 @@ window.addEventListener('click', e => {
   }
 });
 
+function openWhatsAppDirect(url){
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+  if (isIOS && isSafari) {
+    window.location.href = url;
+  } else {
+    window.open(url, '_blank');
+  }
+}
+
 modalSubmitBtn.addEventListener('click', () => {
   const selectedType = Array.from(modalOrderTypeRadios).find(r => r.checked).value;
   let msg = `Hello! I placed a ${selectedType} order:\n\n`;
@@ -182,6 +192,7 @@ modalSubmitBtn.addEventListener('click', () => {
   }
 
   msg += `\nTotal: ${total} AED`;
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(msg)}`;
 
   fetch("https://cloud.activepieces.com/api/v1/webhooks/LI2vLphGyGdkLIbL0wH2U", {
     method: "POST",
@@ -193,7 +204,7 @@ modalSubmitBtn.addEventListener('click', () => {
     }),
   })
   .then(() => {
-    window.open(`https://wa.me/971544588113?text=${encodeURIComponent(msg)}`, '_blank');
+    openWhatsAppDirect(whatsappUrl);
     console.log("Order sent to Activepieces");
     closeModal();
   })
