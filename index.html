@@ -16,6 +16,10 @@
     <div class="subhead">Freshly baked. Delivered with love.</div>
   </div>
 
+  <div class="cart-summary" id="cartSummary">
+    Cart: 0 items <span id="cartTotal"></span>
+  </div>
+
   <form id="orderForm" class="products-list" autocomplete="off">
     <!-- OG Bunku -->
     <div class="product-card">
@@ -24,12 +28,10 @@
         <div class="card-title">OG Bunku</div>
         <div class="card-desc">Five imported cheeses with a Korean-Japanese twist.</div>
         <div class="card-price">50 AED</div>
-        <div class="card-controls">
-          <select name="og_bunku" class="card-select" id="qty_og_bunku">
-            <option value="0">0</option>
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-          </select>
-          <button type="button" class="add-cart" data-name="OG Bunku" data-price="50">Add to Cart</button>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="OG Bunku">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" />
+          <button type="button" class="qty-btn plus" data-name="OG Bunku">+</button>
         </div>
         <label><input type="checkbox" id="extra_garlic_og" /> Extra garlic sauce? (+5 AED)</label>
       </div>
@@ -42,12 +44,10 @@
         <div class="card-title">Zaatar Bomb</div>
         <div class="card-desc">A burst of eight Zataar blends with our Korean-Japanese cheeses mix</div>
         <div class="card-price">55 AED</div>
-        <div class="card-controls">
-          <select name="zaatar_bomb" class="card-select" id="qty_zaatar_bomb">
-            <option value="0">0</option>
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-          </select>
-          <button type="button" class="add-cart" data-name="Zaatar Bomb" data-price="55">Add to Cart</button>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="Zaatar Bomb">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_zaatar_bomb" data-name="Zaatar Bomb" class="qty-input" />
+          <button type="button" class="qty-btn plus" data-name="Zaatar Bomb">+</button>
         </div>
         <label><input type="checkbox" id="extra_garlic_zaatar" /> Extra garlic sauce? (+5 AED)</label>
       </div>
@@ -60,12 +60,10 @@
         <div class="card-title">Diabetes</div>
         <div class="card-desc">Nutella, chocolate fusion & marshmallow topping.</div>
         <div class="card-price">55 AED</div>
-        <div class="card-controls">
-          <select name="diabetes" class="card-select" id="qty_diabetes">
-            <option value="0">0</option>
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-          </select>
-          <button type="button" class="add-cart" data-name="Diabetes" data-price="55">Add to Cart</button>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="Diabetes">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_diabetes" data-name="Diabetes" class="qty-input" />
+          <button type="button" class="qty-btn plus" data-name="Diabetes">+</button>
         </div>
         <label><input type="checkbox" id="extra_choc_diabetes" /> Extra chocolate sauce? (+5 AED)</label>
       </div>
@@ -78,12 +76,10 @@
         <div class="card-title">Strawberry Haven</div>
         <div class="card-desc">Home-made jam with our Korean- Japanese cheeses mix</div>
         <div class="card-price">55 AED</div>
-        <div class="card-controls">
-          <select name="strawberry_haven" class="card-select" id="qty_strawberry_haven">
-            <option value="0">0</option>
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-          </select>
-          <button type="button" class="add-cart" data-name="Strawberry Haven" data-price="55">Add to Cart</button>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="Strawberry Haven">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_strawberry_haven" data-name="Strawberry Haven" class="qty-input" />
+          <button type="button" class="qty-btn plus" data-name="Strawberry Haven">+</button>
         </div>
       </div>
     </div>
@@ -95,18 +91,12 @@
         <div class="card-title">Berry Blast</div>
         <div class="card-desc">Home-made Blackberry Jam with our Korean-Japanese cheeses mix</div>
         <div class="card-price">55 AED</div>
-        <div class="card-controls">
-          <select name="berry_blast" class="card-select" id="qty_berry_blast">
-            <option value="0">0</option>
-            <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option>
-          </select>
-          <button type="button" class="add-cart" data-name="Berry Blast" data-price="55">Add to Cart</button>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="Berry Blast">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_berry_blast" data-name="Berry Blast" class="qty-input" />
+          <button type="button" class="qty-btn plus" data-name="Berry Blast">+</button>
         </div>
       </div>
-    </div>
-
-    <div class="cart-summary" id="cartSummary">
-      Cart: 0 items <span id="cartTotal"></span>
     </div>
 
     <div class="cart-checkout">
