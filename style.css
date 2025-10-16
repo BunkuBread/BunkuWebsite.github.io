@@ -281,6 +281,30 @@ h1 {
   color: #4d3b2f;
   box-sizing: border-box;
 }
+.order-form select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ffd699;
+  border-radius: 8px;
+  background: #fffbe9;
+  font-size: 1rem;
+  color: #4d3b2f;
+  appearance: none;
+  outline: none;
+  box-sizing: border-box;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iOCIgaGVpZ2h0PSI0IiB2aWV3Qm94PSIwIDAgOCA0IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik00IDQuMDAxTDggMC4wMDEyNzVMMCAwTDRIDMQuMDAxWiIgZmlsbD0iI2EwNTIyZCIvPjwvc3ZnPg==');
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px auto;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.order-form select:hover,
+.order-form select:focus {
+  border-color: #ffb347;
+  box-shadow: 0 0 8px #ffb347aa;
+}
 #modalBasket {
   list-style: none;
   padding-left: 0;
