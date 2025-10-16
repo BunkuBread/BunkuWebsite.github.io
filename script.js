@@ -52,6 +52,7 @@ function updateCartItem(name, qty, price) {
   updateCartSummary();
 }
 
+// Update quantities and attach listeners on plus/minus buttons and inputs
 document.querySelectorAll('.qty-input').forEach(input => {
   input.addEventListener('input', (e) => {
     const name = e.target.dataset.name;
@@ -83,6 +84,16 @@ document.querySelectorAll('.qty-btn').forEach(btn => {
   });
 });
 
+// Attach checkbox event listeners for extra sauces to trigger updates
+['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
+  const checkbox = document.getElementById(id);
+  if(checkbox){
+    checkbox.addEventListener('change', () => {
+      updateCartSummary();
+    });
+  }
+});
+
 const orderModal = document.getElementById('orderModal');
 const modalCloseBtn = document.getElementById('modalCloseBtn');
 const modalDeliveryForm = document.getElementById('modalDeliveryForm');
@@ -93,6 +104,7 @@ const modalSubmitBtn = document.getElementById('modalSubmitBtn');
 const modalCancelBtn = document.getElementById('modalCancelBtn');
 const checkoutBtn = document.getElementById('checkoutBtn');
 const modalDeliveryCity = document.getElementById('modalDeliveryCity');
+const extraSauceCheckboxes = ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].map(id => document.getElementById(id));
 
 function populateBasketSummary() {
   modalBasket.innerHTML = '';
@@ -104,24 +116,19 @@ function populateBasketSummary() {
     modalBasket.appendChild(li);
   });
 
-  if (document.getElementById('extra_garlic_og')?.checked) {
-    total += 5;
-    const li = document.createElement('li');
-    li.textContent = `Extra garlic sauce (OG Bunku): +5 AED`;
-    modalBasket.appendChild(li);
-  }
-  if (document.getElementById('extra_garlic_zaatar')?.checked) {
-    total += 5;
-    const li = document.createElement('li');
-    li.textContent = `Extra garlic sauce (Zaatar Bomb): +5 AED`;
-    modalBasket.appendChild(li);
-  }
-  if (document.getElementById('extra_choc_diabetes')?.checked) {
-    total += 5;
-    const li = document.createElement('li');
-    li.textContent = `Extra chocolate sauce (Diabetes): +5 AED`;
-    modalBasket.appendChild(li);
-  }
+  extraSauceCheckboxes.forEach(box => {
+    if (box?.checked) {
+      total += 5;
+      const li = document.createElement('li');
+      const labelMap = {
+        'extra_garlic_og': 'Extra garlic sauce (OG Bunku)',
+        'extra_garlic_zaatar': 'Extra garlic sauce (Zaatar Bomb)',
+        'extra_choc_diabetes': 'Extra chocolate sauce (Diabetes)'
+      };
+      li.textContent = `${labelMap[box.id]}: +5 AED`;
+      modalBasket.appendChild(li);
+    }
+  });
 
   const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
   if (deliveryRadio && deliveryRadio.value === 'delivery') {
