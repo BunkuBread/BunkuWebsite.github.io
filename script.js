@@ -103,8 +103,16 @@ function populateCartPanel() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  console.log("DOM fully loaded, attaching event listeners.");
+  const cartPanel = document.getElementById('cartPanel');
+  const cartSummary = document.getElementById('cartSummary');
+  const closeCartBtn = document.getElementById('closeCartBtn');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const modalDeliveryForm = document.getElementById('modalDeliveryForm');
+  const modalPickupForm = document.getElementById('modalPickupForm');
+  const modalOrderTypeRadios = document.querySelectorAll('input[name="modal_order_type"]');
+  const orderDetailsModal = new bootstrap.Modal(document.getElementById('orderDetailsModal')); // Your modal element ID
 
+  // Attach quantity update listeners (same as before)
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('input', (e) => {
       const name = e.target.dataset.name;
@@ -116,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
       updateCartItem(name, qty, price);
     });
   });
-
   document.querySelectorAll('.qty-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const name = btn.dataset.name;
@@ -132,21 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
       updateCartItem(name, qty, price);
     });
   });
-
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const cb = document.getElementById(id);
     if(cb) cb.addEventListener('change', updateCartSummary);
   });
 
-  const cartPanel = document.getElementById('cartPanel');
-  const cartSummary = document.getElementById('cartSummary');
-  const closeCartBtn = document.getElementById('closeCartBtn');
-  const checkoutBtn = document.getElementById('checkoutBtn');
-  const modalDeliveryForm = document.getElementById('modalDeliveryForm');
-  const modalPickupForm = document.getElementById('modalPickupForm');
-  const modalOrderTypeRadios = document.querySelectorAll('input[name="modal_order_type"]');
-
-  // Toggle cart panel visibility
+  // Cart summary toggle
   cartSummary.addEventListener('click', () => {
     const visible = cartPanel.getAttribute('aria-hidden') === 'false';
     if (visible) {
@@ -166,6 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cartSummary.focus();
   });
 
+  // Checkout button opens modal form for details
   checkoutBtn.addEventListener('click', (event) => {
     event.preventDefault();
     if (Object.values(cart).reduce((a, b) => a + b.qty, 0) < 1) {
@@ -174,117 +173,98 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const selectedType = Array.from(modalOrderTypeRadios).find(r => r.checked)?.value || '';
-
-    // When checkout is clicked, open modal for user details (implement your modal open here)
-    if (selectedType === '') {
-      alert('Please select order type (delivery or pickup) before proceeding.');
+    if (!selectedType) {
+      alert("Please select order type (delivery or pickup) before proceeding.");
       return;
     }
 
-    // Validate modal form fields on submit, not before modal open
-    let formIsValid = true;
-    let form, missingFields = [];
-
-    if (selectedType === 'delivery' && modalDeliveryForm) {
-      const requiredFields = ['modalDeliveryName', 'modalDeliveryPhone', 'modalDeliveryDate', 'modalDeliveryCity', 'modalDeliveryArea', 'modalDeliveryTime'];
-
-      requiredFields.forEach(id => {
-        const input = modalDeliveryForm.querySelector('#' + id);
-        if (!input || input.value.trim() === '') {
-          formIsValid = false;
-          missingFields.push(id);
-        }
-      });
-      form = modalDeliveryForm;
-    } else if (selectedType === 'pickup' && modalPickupForm) {
-      const requiredFields = ['modalPickupName', 'modalPickupPhone', 'modalPickupDate', 'modalPickupLicense', 'modalPickupTime'];
-
-      requiredFields.forEach(id => {
-        const input = modalPickupForm.querySelector('#' + id);
-        if (!input || input.value.trim() === '') {
-          formIsValid = false;
-          missingFields.push(id);
-        }
-      });
-      form = modalPickupForm;
-    }
-
-    if (!formIsValid) {
-      alert('Please fill out all required details: ' + missingFields.join(', '));
-      return;
-    }
-
-    // Build the message string for WhatsApp and webhook
-    let msg = `Hello! I placed a ${selectedType} order:\n\n`;
-
-    if (selectedType === 'delivery') {
-      msg += `Name: ${modalDeliveryForm.querySelector('#modalDeliveryName').value.trim()}\n`;
-      msg += `Phone: ${modalDeliveryForm.querySelector('#modalDeliveryPhone').value.trim()}\n`;
-      msg += `Date: ${modalDeliveryForm.querySelector('#modalDeliveryDate').value}\n`;
-      msg += `City: ${modalDeliveryForm.querySelector('#modalDeliveryCity').value}\n`;
-      msg += `Area: ${modalDeliveryForm.querySelector('#modalDeliveryArea').value.trim()}\n`;
-      msg += `Time: ${modalDeliveryForm.querySelector('#modalDeliveryTime').value}\n\n`;
-    } else {
-      msg += `Name: ${modalPickupForm.querySelector('#modalPickupName').value.trim()}\n`;
-      msg += `Phone: ${modalPickupForm.querySelector('#modalPickupPhone').value.trim()}\n`;
-      msg += `Date: ${modalPickupForm.querySelector('#modalPickupDate').value}\n`;
-      msg += `License Plate: ${modalPickupForm.querySelector('#modalPickupLicense').value.trim()}\n`;
-      msg += `Time: ${modalPickupForm.querySelector('#modalPickupTime').value}\n\n`;
-    }
-
-    msg += `Orders:\n`;
-    let total = 0;
-    Object.entries(cart).forEach(([key, val]) => {
-      total += val.qty * val.price;
-      msg += `${key}: ${val.qty} box(es)\n`;
-    });
-
-    if (document.getElementById('extra_garlic_og')?.checked) {
-      msg += "Extra garlic sauce (OG Bunku): Yes (+5 AED)\n";
-      total += 5;
-    }
-    if (document.getElementById('extra_garlic_zaatar')?.checked) {
-      msg += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
-      total += 5;
-    }
-    if (document.getElementById('extra_choc_diabetes')?.checked) {
-      msg += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
-      total += 5;
-    }
-
-    if (selectedType === 'delivery') {
-      const city = modalDeliveryForm.querySelector('#modalDeliveryCity').value;
-      const deliveryFee = getDeliveryFee(city);
-      if (deliveryFee) {
-        msg += `Delivery Fee: +${deliveryFee} AED\n`;
-        total += deliveryFee;
-      } else {
-        msg += "Delivery charge determined on checkout\n";
-      }
-    }
-
-    msg += `\nTotal: ${total} AED`;
-
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(msg)}`;
-
-    fetch("https://cloud.activepieces.com/api/v1/webhooks/LI2vLphGyGdkLIbL0wH2U/sync", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        order_type: selectedType,
-        details: msg,
-        cart: cart,
-      }),
-    }).then(() => {
-      window.open(whatsappUrl, "_blank");
-      cartPanel.setAttribute("aria-hidden", "true");
-      cartPanel.classList.remove("show");
-      alert("Order sent! Redirecting to WhatsApp.");
-    }).catch((e) => {
-      console.error("Webhook error:", e);
-      alert("Failed to send order. Please try again.");
-    });
+    // Open modal to enter details, user fills then clicks modal submit
+    orderDetailsModal.show();
   });
+
+  // Handle modal submission (assumes form with id 'orderDetailsForm' inside modal)
+  const orderDetailsForm = document.getElementById('orderDetailsForm');
+  if (orderDetailsForm) {
+    orderDetailsForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Use native form validation
+      if (!orderDetailsForm.reportValidity()) {
+        return; // don't proceed if invalid
+      }
+
+      const selectedType = Array.from(document.querySelectorAll('input[name="modal_order_type"]')).find(r => r.checked)?.value || '';
+
+      let msg = `Hello! I placed a ${selectedType} order:\n\n`;
+
+      if (selectedType === 'delivery') {
+        msg += `Name: ${orderDetailsForm.querySelector('#modalDeliveryName').value.trim()}\n`;
+        msg += `Phone: ${orderDetailsForm.querySelector('#modalDeliveryPhone').value.trim()}\n`;
+        msg += `Date: ${orderDetailsForm.querySelector('#modalDeliveryDate').value}\n`;
+        msg += `City: ${orderDetailsForm.querySelector('#modalDeliveryCity').value}\n`;
+        msg += `Area: ${orderDetailsForm.querySelector('#modalDeliveryArea').value.trim()}\n`;
+        msg += `Time: ${orderDetailsForm.querySelector('#modalDeliveryTime').value}\n\n`;
+      } else {
+        msg += `Name: ${orderDetailsForm.querySelector('#modalPickupName').value.trim()}\n`;
+        msg += `Phone: ${orderDetailsForm.querySelector('#modalPickupPhone').value.trim()}\n`;
+        msg += `Date: ${orderDetailsForm.querySelector('#modalPickupDate').value}\n`;
+        msg += `License Plate: ${orderDetailsForm.querySelector('#modalPickupLicense').value.trim()}\n`;
+        msg += `Time: ${orderDetailsForm.querySelector('#modalPickupTime').value}\n\n`;
+      }
+
+      msg += `Orders:\n`;
+      let total = 0;
+      Object.entries(cart).forEach(([key, val]) => {
+        total += val.qty * val.price;
+        msg += `${key}: ${val.qty} box(es)\n`;
+      });
+
+      if (document.getElementById('extra_garlic_og')?.checked) {
+        msg += "Extra garlic sauce (OG Bunku): Yes (+5 AED)\n";
+        total += 5;
+      }
+      if (document.getElementById('extra_garlic_zaatar')?.checked) {
+        msg += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
+        total += 5;
+      }
+      if (document.getElementById('extra_choc_diabetes')?.checked) {
+        msg += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
+        total += 5;
+      }
+
+      if (selectedType === 'delivery') {
+        const city = orderDetailsForm.querySelector('#modalDeliveryCity').value;
+        const deliveryFee = getDeliveryFee(city);
+        if (deliveryFee) {
+          msg += `Delivery Fee: +${deliveryFee} AED\n`;
+          total += deliveryFee;
+        } else {
+          msg += "Delivery charge determined on checkout\n";
+        }
+      }
+
+      msg += `\nTotal: ${total} AED`;
+
+      const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(msg)}`;
+
+      fetch("https://cloud.activepieces.com/api/v1/webhooks/LI2vLphGyGdkLIbL0wH2U/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          order_type: selectedType,
+          details: msg,
+          cart: cart,
+        }),
+      }).then(() => {
+        orderDetailsModal.hide();
+        alert("Order sent! Redirecting to WhatsApp.");
+        window.open(whatsappUrl, "_blank");
+      }).catch((e) => {
+        console.error("Webhook error:", e);
+        alert("Failed to send order. Please try again.");
+      });
+    });
+  }
 
   updateCartSummary();
 });
