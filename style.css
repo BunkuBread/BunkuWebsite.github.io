@@ -1,11 +1,9 @@
 /* General Styles */
 body {
-  background-color: #fffbe9;
+  background: #fffbe9;
   font-family: 'Quicksand', Arial, sans-serif;
   margin: 0;
   position: relative;
-  overflow-x: hidden;
-  font-size: 62.5%; /* for easier pixel calculations */
   overflow-x: hidden;
 }
 
@@ -27,28 +25,6 @@ body {
   max-width: 95vw;
   text-align: center;
 }
-
-
-.blob-background {
-  position: fixed;
-  top: -300px;
-  left: -300px;
-  width: 700px;
-  height: 700px;
-  background: radial-gradient(circle at 35% 35%, rgba(255, 179, 71, 0.25), transparent 70%);
-  border-radius: 55% 45% 60% 40% / 60% 55% 45% 40%;
-  animation: blobMove 25s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 0;
-  filter: blur(80px);
-  opacity: 0.75;
-}
-@keyframes blobMove {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(60px, 30px) scale(1.12); }
-  66% { transform: translate(-50px, 50px) scale(0.88); }
-}
-*/
 
 /* Header styles including logo and title */
 .main-header {
@@ -136,7 +112,7 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* Quantity controls with styled plus-minus buttons */
+/* Quantity controls plus/minus buttons */
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -173,31 +149,17 @@ h1 {
   appearance: textfield;
 }
 
-/* Remove spinners in number inputs for consistency across browsers */
 .qty-input[type=number] {
   -moz-appearance: textfield;
 }
+
 .qty-input::-webkit-inner-spin-button,
 .qty-input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Cart summary style */
-.cart-summary {
-  background: #fffbe9;
-  color: #a0522d;
-  border-radius: 12px;
-  font-weight: 600;
-  padding: 14px 11px;
-  margin-bottom: 12px;
-  font-size: 1em;
-  text-align: left;
-  position: relative;
-  z-index: 1;
-}
-
-/* Checkout button style */
+/* Cart checkout button */
 .checkout-btn {
   background: #ffb347;
   color: #fff;
@@ -215,7 +177,7 @@ h1 {
   box-shadow: 0 3px 20px #ffa500cc;
 }
 
-/* Modal styling for the order form overlay */
+/* Modal styling for order form */
 .modal {
   display: none;
   position: fixed;
@@ -257,11 +219,12 @@ h1 {
   cursor: pointer;
   transition: color 0.2s;
 }
+
 .modal-close:hover {
   color: #ffb347;
 }
 
-/* Styling for the order type and forms */
+/* Order type */
 .order-type-select {
   display: flex;
   gap: 20px;
@@ -269,16 +232,21 @@ h1 {
   font-weight: 700;
   color: #a0522d;
 }
+
 .order-type-select label {
   cursor: pointer;
 }
+
+/* Order form */
 .order-form {
   display: none;
   margin-bottom: 25px;
 }
+
 .order-form.active {
   display: block;
 }
+
 .order-form label {
   font-weight: 600;
   display: block;
@@ -286,6 +254,7 @@ h1 {
   margin-bottom: 6px;
   color: #53402a;
 }
+
 .order-form input,
 .order-form select {
   width: 100%;
@@ -298,7 +267,7 @@ h1 {
   box-sizing: border-box;
 }
 
-/* Basket list inside modal */
+/* Basket modal list */
 #modalBasket {
   list-style: none;
   padding-left: 0;
@@ -309,20 +278,23 @@ h1 {
   border-radius: 8px;
   background: #fff7d6;
 }
+
 #modalBasket li {
   padding: 8px 14px;
   border-bottom: 1px solid #ffd699;
   font-weight: 600;
   color: #a0522d;
 }
+
 #modalBasket li:last-child {
   border-bottom: none;
 }
 
-/* Modal buttons */
+/* Modal action buttons */
 .modal-actions {
   text-align: right;
 }
+
 .modal-actions button {
   background: #ffb347;
   border: none;
@@ -335,6 +307,39 @@ h1 {
   transition: background 0.3s;
   margin-left: 14px;
 }
+
 .modal-actions button:hover {
   background: #ffa500;
+}
+
+/* Footer with social media icons styling for equal size & alignment */
+
+.footer {
+  background: #fffbe9;
+  border-top: 1.5px solid #ffd699;
+  color: #a0522d;
+  font-size: 1.18em;
+  padding: 24px 0 38px;
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+  align-items: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.footer-icon {
+  width: 36px;
+  height: 36px;
+  vertical-align: middle;
+  filter: drop-shadow(0 2px 4px rgba(255, 179, 71, 0.16));
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  object-fit: contain;
+}
+
+.footer-icon:hover {
+  transform: scale(1.15);
 }
