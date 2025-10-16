@@ -9,8 +9,15 @@
 </head>
 <body>
 
-  <div id="cartSummary" class="cart-summary-sticky">
+  <div id="cartSummary" class="cart-summary-sticky cart-btn" tabindex="0" aria-label="Toggle Cart Summary">
     Cart: 0 items <span id="cartTotal"></span>
+  </div>
+
+  <!-- Cart details panel -->
+  <div id="cartPanel" class="cart-panel" aria-hidden="true" role="region" aria-label="Shopping Cart Details">
+    <h3>Your Cart</h3>
+    <ul id="cartList" class="cart-list"></ul>
+    <button id="closeCartBtn" aria-label="Close Cart">Close</button>
   </div>
 
   <div class="blob-background"></div>
@@ -101,69 +108,13 @@
     </div>
   </form>
 
-  <div id="orderModal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
-    <div class="modal-content">
-      <button id="modalCloseBtn" class="modal-close" aria-label="Close Order Form">&times;</button>
-      <h2>Complete Your Order</h2>
+  <div class="blob-background"></div>
 
-      <div class="order-type-select">
-        <label><input type="radio" name="modal_order_type" value="delivery" checked /> Delivery</label>
-        <label><input type="radio" name="modal_order_type" value="pickup" /> Pickup</label>
-      </div>
-
-      <form id="modalDeliveryForm" class="order-form active">
-        <label for="modalDeliveryName">Name:</label>
-        <input id="modalDeliveryName" type="text" required />
-        <label for="modalDeliveryPhone">Phone Number:</label>
-        <input id="modalDeliveryPhone" type="tel" required />
-        <label for="modalDeliveryDate">Date:</label>
-        <input id="modalDeliveryDate" type="date" required />
-        <label for="modalDeliveryCity">City:</label>
-        <select id="modalDeliveryCity" required>
-          <option value="">Select City</option>
-          <option value="Abu Dhabi">Abu Dhabi</option>
-          <option value="Dubai">Dubai</option>
-          <option value="Sharjah">Sharjah</option>
-          <option value="Ajman">Ajman</option>
-          <option value="Umm Al Quwain">Umm Al Quwain</option>
-          <option value="Ras Al Khaimah">Ras Al Khaimah</option>
-          <option value="Fujairah">Fujairah</option>
-          <option value="Al Ain">Al Ain</option>
-        </select>
-        <label for="modalDeliveryArea">Area:</label>
-        <input id="modalDeliveryArea" type="text" required />
-        <label for="modalDeliveryTime">Time:</label>
-        <input id="modalDeliveryTime" type="time" required />
-      </form>
-
-      <form id="modalPickupForm" class="order-form">
-        <label for="modalPickupName">Name:</label>
-        <input id="modalPickupName" type="text" />
-        <label for="modalPickupPhone">Phone Number:</label>
-        <input id="modalPickupPhone" type="tel" />
-        <label for="modalPickupDate">Date:</label>
-        <input id="modalPickupDate" type="date" />
-        <label for="modalPickupLicense">License Plate:</label>
-        <input id="modalPickupLicense" type="text" />
-        <label for="modalPickupTime">Time:</label>
-        <input id="modalPickupTime" type="time" />
-      </form>
-
-      <h3>Your Basket</h3>
-      <ul id="modalBasket"></ul>
-
-      <div class="modal-actions">
-        <button id="modalSubmitBtn" type="button">Finalize Order</button>
-        <button id="modalCancelBtn" type="button">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <footer class="footer">
+  <div class="footer">
     <a href="https://www.instagram.com/bunku.uae/" target="_blank"><img src="images/instagram.png" alt="Instagram" class="footer-icon" /></a>
     <a href="https://api.whatsapp.com/send?phone=971544588113" target="_blank"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
     <a href="https://www.tiktok.com/@bunku.uae" target="_blank"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
-  </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
