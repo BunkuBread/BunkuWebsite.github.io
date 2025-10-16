@@ -8,13 +8,11 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <div id="cartSummary" class="cart-summary-sticky" tabindex="0" aria-label="Toggle Cart Summary">
+  <div id="cartSummary" class="cart-summary-sticky" tabindex="0" aria-label="Toggle Cart Summary" role="button">
     Cart: 0 items <span id="cartTotal"></span>
   </div>
 
-  <!-- Cart details panel -->
-  <div id="cartPanel" class="cart-panel" aria-hidden="true" role="region" aria-label="Shopping Cart Details">
+  <div id="cartPanel" class="cart-panel" aria-hidden="true" role="region" aria-label="Shopping Cart">
     <h3>Your Cart</h3>
     <ul id="cartList" class="cart-list"></ul>
     <button id="closeCartBtn" aria-label="Close Cart">Close</button>
@@ -29,7 +27,6 @@
   </div>
 
   <form id="orderForm" class="products-list" autocomplete="off">
-
     <div class="product-card">
       <img src="images/BUNKUOG.JPG" alt="OG Bunku" />
       <div class="card-details">
@@ -37,13 +34,15 @@
         <div class="card-desc">Five imported cheeses with a Korean-Japanese twist.</div>
         <div class="card-price">50 AED</div>
         <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="OG Bunku">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" />
-          <button type="button" class="qty-btn plus" data-name="OG Bunku">+</button>
+          <button type="button" class="qty-btn minus" data-name="OG Bunku" aria-label="Reduce OG Bunku quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" aria-label="OG Bunku quantity" />
+          <button type="button" class="qty-btn plus" data-name="OG Bunku" aria-label="Increase OG Bunku quantity">+</button>
         </div>
-        <label><input type="checkbox" id="extra_garlic_og" /> Extra garlic sauce? (+5 AED)</label>
+        <label><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
+
+    <!-- Repeat product cards for Zaatar Bomb, Diabetes, Strawberry Haven, Berry Blast with similar structure -->
 
     <div class="product-card">
       <img src="images/ZAATAR.JPEG" alt="Zaatar Bomb" />
@@ -52,11 +51,11 @@
         <div class="card-desc">A burst of eight Zataar blends with our Korean-Japanese cheeses mix</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Zaatar Bomb">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_zaatar_bomb" data-name="Zaatar Bomb" class="qty-input" />
-          <button type="button" class="qty-btn plus" data-name="Zaatar Bomb">+</button>
+          <button type="button" class="qty-btn minus" data-name="Zaatar Bomb" aria-label="Reduce Zaatar Bomb quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_zaatar_bomb" data-name="Zaatar Bomb" class="qty-input" aria-label="Zaatar Bomb quantity" />
+          <button type="button" class="qty-btn plus" data-name="Zaatar Bomb" aria-label="Increase Zaatar Bomb quantity">+</button>
         </div>
-        <label><input type="checkbox" id="extra_garlic_zaatar" /> Extra garlic sauce? (+5 AED)</label>
+        <label><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
 
@@ -67,11 +66,11 @@
         <div class="card-desc">Nutella, chocolate fusion & marshmallow topping.</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Diabetes">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_diabetes" data-name="Diabetes" class="qty-input" />
-          <button type="button" class="qty-btn plus" data-name="Diabetes">+</button>
+          <button type="button" class="qty-btn minus" data-name="Diabetes" aria-label="Reduce Diabetes quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_diabetes" data-name="Diabetes" class="qty-input" aria-label="Diabetes quantity" />
+          <button type="button" class="qty-btn plus" data-name="Diabetes" aria-label="Increase Diabetes quantity">+</button>
         </div>
-        <label><input type="checkbox" id="extra_choc_diabetes" /> Extra chocolate sauce? (+5 AED)</label>
+        <label><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
       </div>
     </div>
 
@@ -82,9 +81,9 @@
         <div class="card-desc">Home-made jam with our Korean- Japanese cheeses mix</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Strawberry Haven">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_strawberry_haven" data-name="Strawberry Haven" class="qty-input" />
-          <button type="button" class="qty-btn plus" data-name="Strawberry Haven">+</button>
+          <button type="button" class="qty-btn minus" data-name="Strawberry Haven" aria-label="Reduce Strawberry Haven quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_strawberry_haven" data-name="Strawberry Haven" class="qty-input" aria-label="Strawberry Haven quantity" />
+          <button type="button" class="qty-btn plus" data-name="Strawberry Haven" aria-label="Increase Strawberry Haven quantity">+</button>
         </div>
       </div>
     </div>
@@ -96,9 +95,9 @@
         <div class="card-desc">Home-made Blackberry Jam with our Korean-Japanese cheeses mix</div>
         <div class="card-price">55 AED</div>
         <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Berry Blast">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_berry_blast" data-name="Berry Blast" class="qty-input" />
-          <button type="button" class="qty-btn plus" data-name="Berry Blast">+</button>
+          <button type="button" class="qty-btn minus" data-name="Berry Blast" aria-label="Reduce Berry Blast quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_berry_blast" data-name="Berry Blast" class="qty-input" aria-label="Berry Blast quantity" />
+          <button type="button" class="qty-btn plus" data-name="Berry Blast" aria-label="Increase Berry Blast quantity">+</button>
         </div>
       </div>
     </div>
@@ -108,12 +107,10 @@
     </div>
   </form>
 
-  <div class="blob-background"></div>
-
   <div class="footer">
-    <a href="https://www.instagram.com/bunku.uae/" target="_blank"><img src="images/instagram.png" alt="Instagram" class="footer-icon" /></a>
-    <a href="https://api.whatsapp.com/send?phone=971544588113" target="_blank"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
-    <a href="https://www.tiktok.com/@bunku.uae" target="_blank"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
+    <a href="https://www.instagram.com/bunku.uae/" target="_blank" aria-label="Instagram"><img src="images/instagram.png" alt="Instagram" class="footer-icon" /></a>
+    <a href="https://api.whatsapp.com/send?phone=971544588113" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
+    <a href="https://www.tiktok.com/@bunku.uae" target="_blank" aria-label="TikTok"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
   </div>
 
   <script src="script.js"></script>
