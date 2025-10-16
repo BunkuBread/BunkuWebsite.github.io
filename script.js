@@ -42,19 +42,41 @@ function updateCartSummary() {
     (deliveryText ? `<div class="delivery-note">${deliveryText}</div>` : "");
 }
 
-document.querySelectorAll('.add-cart').forEach((btn) => {
-  btn.onclick = function () {
-    const name = btn.getAttribute('data-name');
-    const price = Number(btn.getAttribute('data-price'));
-    const select = btn.parentElement.querySelector('.card-select');
-    const qty = Number(select.value);
-    if (qty < 1) {
-      alert('Select at least one box.');
-      return;
-    }
+function updateCartItem(name, qty, price) {
+  if (qty <= 0) {
+    delete cart[name];
+  } else {
     cart[name] = { qty, price };
-    updateCartSummary();
-  };
+  }
+  updateCartSummary();
+}
+
+document.querySelectorAll('.qty-input').forEach(input => {
+  input.addEventListener('input', (e) => {
+    const name = e.target.dataset.name;
+    let qty = Math.max(0, Math.min(10, parseInt(e.target.value) || 0));
+    e.target.value = qty;
+    const btnParent = e.target.closest('.product-card');
+    const price = Number(btnParent.querySelector('.add-cart')?.getAttribute('data-price')) || 0;
+    updateCartItem(name, qty, price);
+  });
+});
+
+document.querySelectorAll('.qty-btn').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const name = btn.dataset.name;
+    const input = document.getElementById(`qty_${name.toLowerCase().replace(/ /g, '_')}`);
+    if (!input) return;
+    let qty = parseInt(input.value) || 0;
+    if (btn.classList.contains('plus')) {
+      if (qty < 10) qty++;
+    } else {
+      if (qty > 0) qty--;
+    }
+    input.value = qty;
+    const price = Number(btn.parentElement.querySelector('.add-cart')?.getAttribute('data-price')) || 0;
+    updateCartItem(name, qty, price);
+  });
 });
 
 const orderModal = document.getElementById('orderModal');
