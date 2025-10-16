@@ -15,8 +15,8 @@ function updateCartSummary() {
   if (document.getElementById('extra_garlic_zaatar')?.checked) total += 5;
   if (document.getElementById('extra_choc_diabetes')?.checked) total += 5;
 
-  let deliveryFee = 0;
   const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
+  let deliveryFee = 0;
   if (deliveryRadio && deliveryRadio.value === 'delivery') {
     const citySelect = document.getElementById('modalDeliveryCity');
     const selectedCity = citySelect ? citySelect.value : "";
@@ -58,7 +58,8 @@ document.querySelectorAll('.qty-input').forEach(input => {
     let qty = Math.max(0, Math.min(10, parseInt(e.target.value) || 0));
     e.target.value = qty;
     const btnParent = e.target.closest('.product-card');
-    const price = Number(btnParent.querySelector('.card-price').textContent.replace(/\D/g, '')) || 0;
+    const priceText = btnParent.querySelector('.card-price').textContent;
+    const price = Number(priceText.replace(/\D/g, '')) || 0;
     updateCartItem(name, qty, price);
   });
 });
@@ -76,7 +77,8 @@ document.querySelectorAll('.qty-btn').forEach(btn => {
     }
     input.value = qty;
     const btnParent = input.closest('.product-card');
-    const price = Number(btnParent.querySelector('.card-price').textContent.replace(/\D/g, '')) || 0;
+    const priceText = btnParent.querySelector('.card-price').textContent;
+    const price = Number(priceText.replace(/\D/g, '')) || 0;
     updateCartItem(name, qty, price);
   });
 });
@@ -226,4 +228,70 @@ modalSubmitBtn.addEventListener('click', () => {
     msg += `Name: ${name}\nPhone: ${phone}\nDate: ${date}\nCity: ${city}\nArea: ${area}\nTime: ${time}\n\n`;
   } else {
     const name = modalPickupForm.querySelector('#modalPickupName').value.trim();
-    const phone
+    const phone = modalPickupForm.querySelector('#modalPickupPhone').value.trim();
+    const date = modalPickupForm.querySelector('#modalPickupDate').value;
+    const licensePlate = modalPickupForm.querySelector('#modalPickupLicense').value.trim();
+    const time = modalPickupForm.querySelector('#modalPickupTime').value;
+
+    if(!name || !phone || !date || !licensePlate || !time){
+      alert('Please fill all pickup details.');
+      return;
+    }
+
+    msg += `Name: ${name}\nPhone: ${phone}\nDate: ${date}\nLicense Plate: ${licensePlate}\nTime: ${time}\n\n`;
+  }
+
+  msg += `Orders:\n`;
+  let total = 0;
+  Object.entries(cart).forEach(([key, val]) => {
+    total += val.qty * val.price;
+    msg += `${key}: ${val.qty} box(es)\n`;
+  });
+
+  if(document.getElementById('extra_garlic_og')?.checked){
+    msg += "Extra garlic sauce (OG Bunku): Yes (+5 AED)\n";
+    total += 5;
+  }
+  if(document.getElementById('extra_garlic_zaatar')?.checked){
+    msg += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
+    total += 5;
+  }
+  if(document.getElementById('extra_choc_diabetes')?.checked){
+    msg += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
+    total += 5;
+  }
+  if(selectedType === 'delivery'){
+    const city = modalDeliveryForm.querySelector('#modalDeliveryCity').value;
+    const deliveryFee = getDeliveryFee(city);
+    if (deliveryFee) {
+      msg += `Delivery Fee: +${deliveryFee} AED\n`;
+      total += deliveryFee;
+    } else {
+      msg += "Delivery charge determined on checkout\n";
+    }
+  }
+
+  msg += `\nTotal: ${total} AED`;
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(msg)}`;
+
+  fetch("https://cloud.activepieces.com/api/v1/webhooks/LI2vLphGyGdkLIbL0wH2U/sync", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      order_type: selectedType,
+      details: msg,
+      cart: cart
+    }),
+  })
+  .then(() => {
+    openWhatsAppDirect(whatsappUrl);
+    console.log("Order sent to Activepieces");
+    closeModal();
+  })
+  .catch(e => {
+    console.error("Activepieces webhook error:", e);
+    alert("Failed to send order. Please try again.");
+  });
+});
+
+updateCartSummary();
