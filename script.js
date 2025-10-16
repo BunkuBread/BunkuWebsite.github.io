@@ -105,7 +105,6 @@ function populateCartPanel() {
 document.addEventListener('DOMContentLoaded', () => {
   console.log("DOM fully loaded, attaching event listeners.");
 
-  // Quantity input listeners
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('input', (e) => {
       const name = e.target.dataset.name;
@@ -118,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Plus/minus button listeners
   document.querySelectorAll('.qty-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const name = btn.dataset.name;
@@ -135,7 +133,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Checkboxes for extra sauces
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const cb = document.getElementById(id);
     if(cb) cb.addEventListener('change', updateCartSummary);
@@ -170,9 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   checkoutBtn.addEventListener('click', (event) => {
-    console.log("Checkout button clicked");
     event.preventDefault();
-
     if (Object.values(cart).reduce((a, b) => a + b.qty, 0) < 1) {
       alert('Add at least one product to cart.');
       return;
@@ -180,31 +175,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const selectedType = Array.from(modalOrderTypeRadios).find(r => r.checked)?.value || '';
 
-    if (selectedType === 'delivery') {
-      const name = modalDeliveryForm?.querySelector('#modalDeliveryName')?.value.trim() || '';
-      const phone = modalDeliveryForm?.querySelector('#modalDeliveryPhone')?.value.trim() || '';
-      const date = modalDeliveryForm?.querySelector('#modalDeliveryDate')?.value || '';
-      const city = modalDeliveryForm?.querySelector('#modalDeliveryCity')?.value || '';
-      const area = modalDeliveryForm?.querySelector('#modalDeliveryArea')?.value.trim() || '';
-      const time = modalDeliveryForm?.querySelector('#modalDeliveryTime')?.value || '';
-
-      if (!name || !phone || !date || !city || !area || !time) {
-        alert('Please fill all delivery details.');
-        return;
-      }
-    } else {
-      const name = modalPickupForm?.querySelector('#modalPickupName')?.value.trim() || '';
-      const phone = modalPickupForm?.querySelector('#modalPickupPhone')?.value.trim() || '';
-      const date = modalPickupForm?.querySelector('#modalPickupDate')?.value || '';
-      const license = modalPickupForm?.querySelector('#modalPickupLicense')?.value.trim() || '';
-      const time = modalPickupForm?.querySelector('#modalPickupTime')?.value || '';
-
-      if (!name || !phone || !date || !license || !time) {
-        alert('Please fill all pickup details.');
-        return;
-      }
+    // When checkout is clicked, open modal for user details (implement your modal open here)
+    if (selectedType === '') {
+      alert('Please select order type (delivery or pickup) before proceeding.');
+      return;
     }
 
+    // Validate modal form fields on submit, not before modal open
+    let formIsValid = true;
+    let form, missingFields = [];
+
+    if (selectedType === 'delivery' && modalDeliveryForm) {
+      const requiredFields = ['modalDeliveryName', 'modalDeliveryPhone', 'modalDeliveryDate', 'modalDeliveryCity', 'modalDeliveryArea', 'modalDeliveryTime'];
+
+      requiredFields.forEach(id => {
+        const input = modalDeliveryForm.querySelector('#' + id);
+        if (!input || input.value.trim() === '') {
+          formIsValid = false;
+          missingFields.push(id);
+        }
+      });
+      form = modalDeliveryForm;
+    } else if (selectedType === 'pickup' && modalPickupForm) {
+      const requiredFields = ['modalPickupName', 'modalPickupPhone', 'modalPickupDate', 'modalPickupLicense', 'modalPickupTime'];
+
+      requiredFields.forEach(id => {
+        const input = modalPickupForm.querySelector('#' + id);
+        if (!input || input.value.trim() === '') {
+          formIsValid = false;
+          missingFields.push(id);
+        }
+      });
+      form = modalPickupForm;
+    }
+
+    if (!formIsValid) {
+      alert('Please fill out all required details: ' + missingFields.join(', '));
+      return;
+    }
+
+    // Build the message string for WhatsApp and webhook
     let msg = `Hello! I placed a ${selectedType} order:\n\n`;
 
     if (selectedType === 'delivery') {
@@ -276,6 +286,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Initialize cart summary update on page load
   updateCartSummary();
 });
