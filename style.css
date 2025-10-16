@@ -7,12 +7,11 @@ body {
   overflow-x: hidden;
 }
 
-/* Sticky cart summary at the top fixed, styled to match theme */
+/* Sticky cart summary positioned top-right */
 .cart-summary-sticky {
   position: fixed;
   top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
+  right: 20px; /* moved to top-right corner */
   background: #ffb347;
   color: #fff;
   padding: 12px 26px;
@@ -22,11 +21,16 @@ body {
   border-radius: 24px;
   box-shadow: 0 5px 20px rgba(255, 179, 71, 0.6);
   z-index: 9999;
-  max-width: 95vw;
+  max-width: 320px; /* narrower for corner fit */
   text-align: center;
+  cursor: pointer;
 }
 
-/* Header styles including logo and title */
+.cart-summary-sticky:hover {
+  box-shadow: 0 5px 25px rgba(255, 179, 71, 0.9);
+}
+
+/* Header with logo and title */
 .main-header {
   text-align: center;
   margin-top: 32px;
@@ -58,7 +62,7 @@ h1 {
   margin-bottom: 36px;
 }
 
-/* Product list styling */
+/* Products list */
 .products-list {
   max-width: 900px;
   margin: 0 auto;
@@ -87,7 +91,6 @@ h1 {
   background: #f7e7c4;
 }
 
-/* Card details text styling */
 .card-details {
   flex: 1;
 }
@@ -112,7 +115,7 @@ h1 {
   margin-bottom: 10px;
 }
 
-/* Quantity controls plus/minus buttons */
+/* Quantity controls */
 .quantity-controls {
   display: flex;
   align-items: center;
@@ -177,7 +180,7 @@ h1 {
   box-shadow: 0 3px 20px #ffa500cc;
 }
 
-/* Modal styling for order form */
+/* Modal styles */
 .modal {
   display: none;
   position: fixed;
@@ -224,7 +227,7 @@ h1 {
   color: #ffb347;
 }
 
-/* Order type */
+/* Order type selection */
 .order-type-select {
   display: flex;
   gap: 20px;
@@ -237,7 +240,7 @@ h1 {
   cursor: pointer;
 }
 
-/* Order form */
+/* Order forms */
 .order-form {
   display: none;
   margin-bottom: 25px;
@@ -312,8 +315,7 @@ h1 {
   background: #ffa500;
 }
 
-/* Footer with social media icons styling for equal size & alignment */
-
+/* Footer with social media icons */
 .footer {
   background: #fffbe9;
   border-top: 1.5px solid #ffd699;
