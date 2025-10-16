@@ -90,97 +90,10 @@ document.querySelectorAll('.qty-btn').forEach(btn => {
   if (checkbox) checkbox.addEventListener('change', updateCartSummary);
 });
 
-const orderModal = document.getElementById('orderModal');
-const modalCloseBtn = document.getElementById('modalCloseBtn');
-const modalDeliveryForm = document.getElementById('modalDeliveryForm');
-const modalPickupForm = document.getElementById('modalPickupForm');
-const modalOrderTypeRadios = orderModal.querySelectorAll('input[name="modal_order_type"]');
-const modalBasket = document.getElementById('modalBasket');
-const modalSubmitBtn = document.getElementById('modalSubmitBtn');
-const modalCancelBtn = document.getElementById('modalCancelBtn');
-const checkoutBtn = document.getElementById('checkoutBtn');
-const modalDeliveryCity = document.getElementById('modalDeliveryCity');
 const cartPanel = document.getElementById('cartPanel');
 const cartSummary = document.getElementById('cartSummary');
 const cartList = document.getElementById('cartList');
 const closeCartBtn = document.getElementById('closeCartBtn');
-
-function populateBasketSummary() {
-  modalBasket.innerHTML = '';
-  let total = 0;
-  Object.entries(cart).forEach(([key, val]) => {
-    total += val.qty * val.price;
-    const li = document.createElement('li');
-    li.textContent = `${key}: ${val.qty} box(es)`;
-    modalBasket.appendChild(li);
-  });
-
-  ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
-    const chk = document.getElementById(id);
-    if (chk?.checked) {
-      total += 5;
-      const li = document.createElement('li');
-      const labels = {
-        'extra_garlic_og': "Extra garlic sauce (OG Bunku)",
-        'extra_garlic_zaatar': "Extra garlic sauce (Zaatar Bomb)",
-        'extra_choc_diabetes': "Extra chocolate sauce (Diabetes)"
-      };
-      li.textContent = `${labels[id]}: +5 AED`;
-      modalBasket.appendChild(li);
-    }
-  });
-
-  const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
-  if (deliveryRadio && deliveryRadio.value === 'delivery') {
-    const city = modalDeliveryCity.value;
-    const deliveryFee = getDeliveryFee(city);
-    if (deliveryFee) {
-      total += deliveryFee;
-      const li = document.createElement('li');
-      li.textContent = `Delivery fee: +${deliveryFee} AED`;
-      modalBasket.appendChild(li);
-    } else if (city) {
-      const li = document.createElement('li');
-      li.textContent = `Delivery charge determined on checkout`;
-      modalBasket.appendChild(li);
-    }
-  }
-
-  const totalLi = document.createElement('li');
-  totalLi.textContent = `Total: ${total} AED`;
-  totalLi.style.fontWeight = 'bold';
-  modalBasket.appendChild(totalLi);
-}
-
-function updateModalForm() {
-  const selectedType = Array.from(modalOrderTypeRadios).find(r => r.checked).value;
-  if (selectedType === 'delivery') {
-    modalDeliveryForm.classList.add('active');
-    modalPickupForm.classList.remove('active');
-    modalDeliveryForm.querySelectorAll('input, select').forEach(i => i.required = true);
-    modalPickupForm.querySelectorAll('input').forEach(i => i.required = false);
-  } else {
-    modalDeliveryForm.classList.remove('active');
-    modalPickupForm.classList.add('active');
-    modalDeliveryForm.querySelectorAll('input, select').forEach(i => i.required = false);
-    modalPickupForm.querySelectorAll('input').forEach(i => i.required = true);
-  }
-  updateCartSummary();
-}
-
-modalOrderTypeRadios.forEach(radio => {
-  radio.addEventListener('change', () => {
-    updateModalForm();
-    populateBasketSummary();
-  });
-});
-
-if (modalDeliveryCity) {
-  modalDeliveryCity.addEventListener('change', () => {
-    updateCartSummary();
-    populateBasketSummary();
-  });
-});
 
 function populateCartPanel() {
   cartList.innerHTML = '';
@@ -197,7 +110,6 @@ function populateCartPanel() {
     cartList.appendChild(li);
     total += qty * price;
   });
-  // Add sauces and delivery fees info as well
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const chk = document.getElementById(id);
     if (chk?.checked) {
@@ -214,7 +126,7 @@ function populateCartPanel() {
   });
   const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
   if (deliveryRadio && deliveryRadio.value === 'delivery') {
-    const city = modalDeliveryCity.value;
+    const city = document.getElementById('modalDeliveryCity').value;
     const deliveryFee = getDeliveryFee(city);
     if (deliveryFee) {
       const li = document.createElement('li');
@@ -233,7 +145,15 @@ function populateCartPanel() {
   cartList.appendChild(totalLi);
 }
 
-// Show/hide cart panel on cart summary click
 cartSummary.addEventListener('click', () => {
-  const shown = cartPanel.getAttribute('aria-hidden') === 'false';
-  cartPanel.setAttribute('aria-hidden', shown ? 'true
+  const visible = cartPanel.getAttribute('aria-hidden') === 'false';
+  cartPanel.setAttribute('aria-hidden', visible ? 'true' : 'false');
+  cartPanel.classList.toggle('show');
+});
+
+closeCartBtn.addEventListener('click', () => {
+  cartPanel.setAttribute('aria-hidden', 'true');
+  cartPanel.classList.remove('show');
+});
+
+updateCartSummary();
