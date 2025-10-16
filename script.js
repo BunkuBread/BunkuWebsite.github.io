@@ -1,5 +1,12 @@
 const cart = {};
 
+function getDeliveryFee(city) {
+  if (["Fujairah", "Ras Al Khaimah", "Abu Dhabi", "Al Ain"].includes(city)) {
+    return 35;
+  }
+  return null;
+}
+
 function updateCartSummary() {
   let count = Object.values(cart).reduce((a, b) => a + b.qty, 0);
   let total = Object.values(cart).reduce((a, b) => a + b.qty * b.price, 0);
@@ -8,10 +15,31 @@ function updateCartSummary() {
   if (document.getElementById('extra_garlic_zaatar')?.checked) total += 5;
   if (document.getElementById('extra_choc_diabetes')?.checked) total += 5;
 
+  let deliveryFee = 0;
   const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
-  if (deliveryRadio && deliveryRadio.value === 'delivery') total += 35;
+  if (deliveryRadio && deliveryRadio.value === 'delivery') {
+    const citySelect = document.getElementById('modalDeliveryCity');
+    const selectedCity = citySelect ? citySelect.value : "";
+    deliveryFee = getDeliveryFee(selectedCity);
+    if (deliveryFee) {
+      total += deliveryFee;
+    }
+  }
 
-  document.getElementById('cartSummary').innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total} AED</span>`;
+  let deliveryText = "";
+  if (deliveryRadio && deliveryRadio.value === 'delivery') {
+    const citySelect = document.getElementById('modalDeliveryCity');
+    const selectedCity = citySelect ? citySelect.value : "";
+    if (getDeliveryFee(selectedCity)) {
+      deliveryText = `+${deliveryFee} AED delivery`;
+    } else if (selectedCity && selectedCity !== "") {
+      deliveryText = "Delivery charge determined on checkout";
+    }
+  }
+
+  document.getElementById('cartSummary').innerHTML =
+    `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total} AED</span>` +
+    (deliveryText ? `<div class="delivery-note">${deliveryText}</div>` : "");
 }
 
 document.querySelectorAll('.add-cart').forEach((btn) => {
@@ -38,6 +66,7 @@ const modalBasket = document.getElementById('modalBasket');
 const modalSubmitBtn = document.getElementById('modalSubmitBtn');
 const modalCancelBtn = document.getElementById('modalCancelBtn');
 const checkoutBtn = document.getElementById('checkoutBtn');
+const modalDeliveryCity = document.getElementById('modalDeliveryCity');
 
 function populateBasketSummary() {
   modalBasket.innerHTML = '';
@@ -70,10 +99,19 @@ function populateBasketSummary() {
 
   const deliveryRadio = document.querySelector('input[name="modal_order_type"]:checked');
   if (deliveryRadio && deliveryRadio.value === 'delivery') {
-    total += 35;
-    const li = document.createElement('li');
-    li.textContent = `Delivery fee: +35 AED`;
-    modalBasket.appendChild(li);
+    const citySelect = document.getElementById('modalDeliveryCity');
+    const selectedCity = citySelect ? citySelect.value : "";
+    const deliveryFee = getDeliveryFee(selectedCity);
+    if (deliveryFee) {
+      total += deliveryFee;
+      const li = document.createElement('li');
+      li.textContent = `Delivery fee: +${deliveryFee} AED`;
+      modalBasket.appendChild(li);
+    } else if (selectedCity && selectedCity !== "") {
+      const li = document.createElement('li');
+      li.textContent = `Delivery charge determined on checkout`;
+      modalBasket.appendChild(li);
+    }
   }
 
   const totalLi = document.createElement('li');
@@ -87,12 +125,12 @@ function updateModalForm() {
   if(selectedType === 'delivery'){
     modalDeliveryForm.classList.add('active');
     modalPickupForm.classList.remove('active');
-    modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = true);
+    modalDeliveryForm.querySelectorAll('input, select').forEach(i => i.required = true);
     modalPickupForm.querySelectorAll('input').forEach(i => i.required = false);
   } else {
     modalDeliveryForm.classList.remove('active');
     modalPickupForm.classList.add('active');
-    modalDeliveryForm.querySelectorAll('input').forEach(i => i.required = false);
+    modalDeliveryForm.querySelectorAll('input, select').forEach(i => i.required = false);
     modalPickupForm.querySelectorAll('input').forEach(i => i.required = true);
   }
   updateCartSummary();
@@ -102,6 +140,13 @@ modalOrderTypeRadios.forEach(radio => radio.addEventListener('change', () => {
   updateModalForm();
   populateBasketSummary();
 }));
+
+if (modalDeliveryCity) {
+  modalDeliveryCity.addEventListener('change', () => {
+    updateCartSummary();
+    populateBasketSummary();
+  });
+}
 
 function closeModal() {
   orderModal.setAttribute('aria-hidden', 'true');
@@ -145,7 +190,7 @@ modalSubmitBtn.addEventListener('click', () => {
     const name = modalDeliveryForm.querySelector('#modalDeliveryName').value.trim();
     const phone = modalDeliveryForm.querySelector('#modalDeliveryPhone').value.trim();
     const date = modalDeliveryForm.querySelector('#modalDeliveryDate').value;
-    const city = modalDeliveryForm.querySelector('#modalDeliveryCity').value.trim();
+    const city = modalDeliveryForm.querySelector('#modalDeliveryCity').value;
     const area = modalDeliveryForm.querySelector('#modalDeliveryArea').value.trim();
     const time = modalDeliveryForm.querySelector('#modalDeliveryTime').value;
 
@@ -179,16 +224,25 @@ modalSubmitBtn.addEventListener('click', () => {
 
   if(document.getElementById('extra_garlic_og')?.checked){
     msg += "Extra garlic sauce (OG Bunku): Yes (+5 AED)\n";
+    total += 5;
   }
   if(document.getElementById('extra_garlic_zaatar')?.checked){
     msg += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
+    total += 5;
   }
   if(document.getElementById('extra_choc_diabetes')?.checked){
     msg += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
+    total += 5;
   }
   if(selectedType === 'delivery'){
-    msg += "Delivery Fee: +35 AED\n";
-    total += 35;
+    const city = modalDeliveryForm.querySelector('#modalDeliveryCity').value;
+    const deliveryFee = getDeliveryFee(city);
+    if (deliveryFee) {
+      msg += `Delivery Fee: +${deliveryFee} AED\n`;
+      total += deliveryFee;
+    } else {
+      msg += "Delivery charge determined on checkout\n";
+    }
   }
 
   msg += `\nTotal: ${total} AED`;
