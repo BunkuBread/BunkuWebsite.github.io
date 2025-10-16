@@ -342,3 +342,50 @@ h1 {
 .modal-actions button:hover {
   background: #ffa500;
 }
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.qty-btn {
+  background: #ffb347;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s ease;
+  line-height: 1;
+}
+
+.qty-btn:hover {
+  background: #ffa500;
+}
+
+.qty-input {
+  width: 50px;
+  text-align: center;
+  font-size: 1rem;
+  padding: 6px 4px;
+  border: 1px solid #ffd699;
+  border-radius: 8px;
+  background: #fffbe9;
+  color: #4d3b2f;
+  appearance: textfield;
+}
+
+/* Removes spinner arrows in inputs on Firefox */
+.qty-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/* Removes spinner arrows in inputs on Chrome, Safari, Edge, Opera */
+.qty-input::-webkit-inner-spin-button, 
+.qty-input::-webkit-outer-spin-button { 
+  -webkit-appearance: none;
+  margin: 0; 
+}
