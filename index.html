@@ -26,83 +26,71 @@
     <div class="subhead">Freshly baked. Delivered with love.</div>
   </div>
 
-  <form id="orderForm" class="products-list" autocomplete="off">
+  <form id="orderForm" class="products-list" autocomplete="off" novalidate>
+    <fieldset>
+      <legend>Order Type</legend>
+      <label><input type="radio" name="orderType" value="delivery" required /> Delivery</label>
+      <label><input type="radio" name="orderType" value="pickup" /> Pick up</label>
+    </fieldset>
 
-    <div class="product-card">
-      <img src="images/BUNKUOG.JPG" alt="OG Bunku" />
-      <div class="card-details">
-        <div class="card-title">OG Bunku</div>
-        <div class="card-desc">Five imported cheeses with a Korean-Japanese twist.</div>
-        <div class="card-price">50 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="OG Bunku" aria-label="Reduce OG Bunku quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" aria-label="OG Bunku quantity" />
-          <button type="button" class="qty-btn plus" data-name="OG Bunku" aria-label="Increase OG Bunku quantity">+</button>
-        </div>
-        <label><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
-      </div>
+    <div id="deliveryFields" class="hidden">
+      <label for="deliveryName">Name:</label>
+      <input type="text" id="deliveryName" name="deliveryName" aria-label="Name" required />
+
+      <label for="deliveryPhone">Phone Number:</label>
+      <input type="tel" id="deliveryPhone" name="deliveryPhone" pattern="^[0-9]{7,15}$" aria-label="Phone Number" required />
+
+      <label for="deliveryCity">City:</label>
+      <select id="deliveryCity" name="deliveryCity" required aria-label="City selection">
+        <option value="">--Select City--</option>
+        <option value="Abu Dhabi">Abu Dhabi</option>
+        <option value="Ajman">Ajman</option>
+        <option value="Dubai">Dubai</option>
+        <option value="Fujairah">Fujairah</option>
+        <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+        <option value="Sharjah">Sharjah</option>
+        <option value="Al Ain">Al Ain</option>
+      </select>
+
+      <label for="deliveryDate">Date:</label>
+      <input type="date" id="deliveryDate" name="deliveryDate" required aria-label="Delivery date" />
+
+      <label for="deliveryTime">Time of delivery:</label>
+      <input type="time" id="deliveryTime" name="deliveryTime"
+             min="10:00" max="22:00" required aria-label="Delivery time" />
+
+      <label for="deliveryArea">Area:</label>
+      <input type="text" id="deliveryArea" name="deliveryArea" aria-label="Delivery area" required />
     </div>
 
-    <div class="product-card">
-      <img src="images/ZAATAR.JPEG" alt="Zaatar Bomb" />
-      <div class="card-details">
-        <div class="card-title">Zaatar Bomb</div>
-        <div class="card-desc">A burst of eight Zataar blends with our Korean-Japanese cheeses mix</div>
-        <div class="card-price">55 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Zaatar Bomb" aria-label="Reduce Zaatar Bomb quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_zaatar_bomb" data-name="Zaatar Bomb" class="qty-input" aria-label="Zaatar Bomb quantity" />
-          <button type="button" class="qty-btn plus" data-name="Zaatar Bomb" aria-label="Increase Zaatar Bomb quantity">+</button>
-        </div>
-        <label><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
-      </div>
+    <div id="pickupFields" class="hidden">
+      <label for="pickupName">Name:</label>
+      <input type="text" id="pickupName" name="pickupName" aria-label="Name" required />
+
+      <label for="pickupPhone">Phone Number:</label>
+      <input type="tel" id="pickupPhone" name="pickupPhone" pattern="^[0-9]{7,15}$" aria-label="Phone Number" required />
+
+      <label for="pickupPlate">Plate Number:</label>
+      <input type="text" id="pickupPlate" name="pickupPlate" pattern="^[a-zA-Z0-9]{1,10}$" aria-label="Plate Number" required />
+
+      <label for="pickupDate">Date:</label>
+      <input type="date" id="pickupDate" name="pickupDate" required aria-label="Pickup date" />
+
+      <label for="pickupTime">Time:</label>
+      <input type="time" id="pickupTime" name="pickupTime"
+             min="10:00" max="22:00" required aria-label="Pickup time" />
     </div>
 
-    <div class="product-card">
-      <img src="images/DIABETES.JPG" alt="Diabetes" />
-      <div class="card-details">
-        <div class="card-title">Diabetes</div>
-        <div class="card-desc">Nutella, chocolate fusion & marshmallow topping.</div>
-        <div class="card-price">55 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Diabetes" aria-label="Reduce Diabetes quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_diabetes" data-name="Diabetes" class="qty-input" aria-label="Diabetes quantity" />
-          <button type="button" class="qty-btn plus" data-name="Diabetes" aria-label="Increase Diabetes quantity">+</button>
-        </div>
-        <label><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
-      </div>
-    </div>
+    <fieldset id="deliveryChargeFieldset" class="hidden">
+      <legend>Delivery Charge</legend>
+      <p id="deliveryChargeInfo">N/A</p>
+    </fieldset>
 
-    <div class="product-card">
-      <img src="images/STRAWBERRYHAVEN.JPG" alt="Strawberry Haven" />
-      <div class="card-details">
-        <div class="card-title">Strawberry Haven</div>
-        <div class="card-desc">Home-made jam with our Korean- Japanese cheeses mix</div>
-        <div class="card-price">55 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Strawberry Haven" aria-label="Reduce Strawberry Haven quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_strawberry_haven" data-name="Strawberry Haven" class="qty-input" aria-label="Strawberry Haven quantity" />
-          <button type="button" class="qty-btn plus" data-name="Strawberry Haven" aria-label="Increase Strawberry Haven quantity">+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <img src="images/BERRYBLAST.JPEG" alt="Berry Blast" />
-      <div class="card-details">
-        <div class="card-title">Berry Blast</div>
-        <div class="card-desc">Home-made Blackberry Jam with our Korean-Japanese cheeses mix</div>
-        <div class="card-price">55 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Berry Blast" aria-label="Reduce Berry Blast quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_berry_blast" data-name="Berry Blast" class="qty-input" aria-label="Berry Blast quantity" />
-          <button type="button" class="qty-btn plus" data-name="Berry Blast" aria-label="Increase Berry Blast quantity">+</button>
-        </div>
-      </div>
-    </div>
+    <h3>Cart Overview</h3>
+    <ul id="checkoutCartList" class="cart-list"></ul>
 
     <div class="cart-checkout">
-      <button id="checkoutBtn" type="button" class="checkout-btn">Checkout</button>
+      <button id="checkoutBtn" type="submit" class="checkout-btn">Checkout</button>
     </div>
   </form>
 
