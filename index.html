@@ -27,69 +27,102 @@
   </div>
 
   <form id="orderForm" class="products-list" autocomplete="off" novalidate>
-    <fieldset>
-      <legend>Order Type</legend>
-      <label><input type="radio" name="orderType" value="delivery" required /> Delivery</label>
-      <label><input type="radio" name="orderType" value="pickup" /> Pick up</label>
-    </fieldset>
 
-    <div id="deliveryFields" class="hidden">
-      <label for="deliveryName">Name:</label>
-      <input type="text" id="deliveryName" name="deliveryName" aria-label="Name" required />
-
-      <label for="deliveryPhone">Phone Number:</label>
-      <input type="tel" id="deliveryPhone" name="deliveryPhone" pattern="^[0-9]{7,15}$" aria-label="Phone Number" required />
-
-      <label for="deliveryCity">City:</label>
-      <select id="deliveryCity" name="deliveryCity" required aria-label="City selection">
-        <option value="">--Select City--</option>
-        <option value="Abu Dhabi">Abu Dhabi</option>
-        <option value="Ajman">Ajman</option>
-        <option value="Dubai">Dubai</option>
-        <option value="Fujairah">Fujairah</option>
-        <option value="Ras Al Khaimah">Ras Al Khaimah</option>
-        <option value="Sharjah">Sharjah</option>
-        <option value="Al Ain">Al Ain</option>
-      </select>
-
-      <label for="deliveryDate">Date:</label>
-      <input type="date" id="deliveryDate" name="deliveryDate" required aria-label="Delivery date" />
-
-      <label for="deliveryTime">Time of delivery:</label>
-      <input type="time" id="deliveryTime" name="deliveryTime"
-             min="10:00" max="22:00" required aria-label="Delivery time" />
-
-      <label for="deliveryArea">Area:</label>
-      <input type="text" id="deliveryArea" name="deliveryArea" aria-label="Delivery area" required />
+    <div class="product-card">
+      <img src="images/BUNKUOG.JPG" alt="OG Bunku" />
+      <div class="card-details">
+        <div class="card-title">OG Bunku</div>
+        <div class="card-desc">Five imported cheeses with a Korean-Japanese twist.</div>
+        <div class="card-price">50 AED</div>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="OG Bunku" aria-label="Reduce OG Bunku quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" aria-label="OG Bunku quantity" />
+          <button type="button" class="qty-btn plus" data-name="OG Bunku" aria-label="Increase OG Bunku quantity">+</button>
+        </div>
+        <label><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
+      </div>
     </div>
 
-    <div id="pickupFields" class="hidden">
-      <label for="pickupName">Name:</label>
-      <input type="text" id="pickupName" name="pickupName" aria-label="Name" required />
-
-      <label for="pickupPhone">Phone Number:</label>
-      <input type="tel" id="pickupPhone" name="pickupPhone" pattern="^[0-9]{7,15}$" aria-label="Phone Number" required />
-
-      <label for="pickupPlate">Plate Number:</label>
-      <input type="text" id="pickupPlate" name="pickupPlate" pattern="^[a-zA-Z0-9]{1,10}$" aria-label="Plate Number" required />
-
-      <label for="pickupDate">Date:</label>
-      <input type="date" id="pickupDate" name="pickupDate" required aria-label="Pickup date" />
-
-      <label for="pickupTime">Time:</label>
-      <input type="time" id="pickupTime" name="pickupTime"
-             min="10:00" max="22:00" required aria-label="Pickup time" />
-    </div>
-
-    <fieldset id="deliveryChargeFieldset" class="hidden">
-      <legend>Delivery Charge</legend>
-      <p id="deliveryChargeInfo">N/A</p>
-    </fieldset>
-
-    <h3>Cart Overview</h3>
-    <ul id="checkoutCartList" class="cart-list"></ul>
+    <!-- Other product cards same as before -->
 
     <div class="cart-checkout">
+
+      <fieldset id="orderTypeFieldset">
+        <legend>Order Type:</legend>
+        <label>
+          <input type="radio" name="order_type" value="delivery" id="orderTypeDelivery" required />
+          Delivery
+        </label>
+        <label>
+          <input type="radio" name="order_type" value="pickup" id="orderTypePickup" />
+          Pick up
+        </label>
+      </fieldset>
+
+      <div id="deliveryFields" class="checkout-fields hidden">
+        <h4>Delivery Details</h4>
+        <label for="deliveryName">Name:</label>
+        <input type="text" id="deliveryName" name="deliveryName" required />
+        <span class="error" id="deliveryNameError"></span>
+
+        <label for="deliveryPhone">Phone Number:</label>
+        <input type="tel" id="deliveryPhone" name="deliveryPhone" pattern="[0-9]+" required />
+        <span class="error" id="deliveryPhoneError"></span>
+
+        <label for="deliveryCity">City:</label>
+        <select id="deliveryCity" name="deliveryCity" required>
+          <option value="">Select City</option>
+          <option value="Abu Dhabi">Abu Dhabi</option>
+          <option value="Dubai">Dubai</option>
+          <option value="Sharjah">Sharjah</option>
+          <option value="Ajman">Ajman</option>
+          <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+          <option value="Fujairah">Fujairah</option>
+          <option value="Al Ain">Al Ain</option>
+        </select>
+        <span class="error" id="deliveryCityError"></span>
+
+        <label for="deliveryDate">Date:</label>
+        <input type="date" id="deliveryDate" name="deliveryDate" required />
+        <span class="error" id="deliveryDateError"></span>
+
+        <label for="deliveryTime">Time of delivery:</label>
+        <input type="time" id="deliveryTime" name="deliveryTime" min="10:00" max="22:00" required />
+        <span class="error" id="deliveryTimeError"></span>
+
+        <label for="deliveryArea">Area:</label>
+        <input type="text" id="deliveryArea" name="deliveryArea" required />
+        <span class="error" id="deliveryAreaError"></span>
+
+        <p id="deliveryChargeInfo" class="delivery-charge-info"></p>
+      </div>
+
+      <div id="pickupFields" class="checkout-fields hidden">
+        <h4>Pick Up Details</h4>
+        <label for="pickupName">Name:</label>
+        <input type="text" id="pickupName" name="pickupName" required />
+        <span class="error" id="pickupNameError"></span>
+
+        <label for="pickupPhone">Phone Number:</label>
+        <input type="tel" id="pickupPhone" name="pickupPhone" pattern="[0-9]+" required />
+        <span class="error" id="pickupPhoneError"></span>
+
+        <label for="pickupPlate">Plate Number:</label>
+        <input type="text" id="pickupPlate" name="pickupPlate" pattern="[a-zA-Z0-9]+" required />
+        <span class="error" id="pickupPlateError"></span>
+
+        <label for="pickupDate">Date:</label>
+        <input type="date" id="pickupDate" name="pickupDate" required />
+        <span class="error" id="pickupDateError"></span>
+
+        <label for="pickupTime">Time:</label>
+        <input type="time" id="pickupTime" name="pickupTime" min="10:00" max="22:00" required />
+        <span class="error" id="pickupTimeError"></span>
+      </div>
+
+      <h3>Order Overview</h3>
+      <ul id="overviewCartList" class="cart-list overview-cart-list"></ul>
+
       <button id="checkoutBtn" type="submit" class="checkout-btn">Checkout</button>
     </div>
   </form>
