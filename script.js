@@ -108,6 +108,9 @@ function hideOrderModal() {
 
 // Initialize event listeners and UI updates on DOM load
 document.addEventListener('DOMContentLoaded', () => {
+  // Explicitly hide modal on page load to prevent 'in your face' issue
+  hideOrderModal();
+
   // Attach quantity input listeners
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('input', (e) => {
@@ -153,6 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartPanel = document.getElementById('cartPanel');
   const closeCartBtn = document.getElementById('closeCartBtn');
   const checkoutBtn = document.getElementById('checkoutBtn');
+  const modal = document.getElementById('orderDetailsModal');
 
   // Toggle cart panel visibility
   cartSummary.addEventListener('click', () => {
