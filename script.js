@@ -152,6 +152,12 @@ function populateOverviewCart() {
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     if(document.getElementById(id)?.checked) total += 5;
   });
+  const orderType = document.querySelector('input[name="order_type"]:checked');
+  if (orderType && orderType.value === 'delivery') {
+    const city = document.getElementById('deliveryCity')?.value || "";
+    const deliveryFee = getDeliveryFee(city);
+    total += deliveryFee;
+  }
   const totalLi = document.createElement("li");
   totalLi.textContent = `Total: ${total} AED`;
   totalLi.style.fontWeight = "bold";
