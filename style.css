@@ -248,10 +248,48 @@ h1 {
 }
 .checkout-fields {
   border: 1px solid #ffd699;
-  padding: 15px;
+  padding: 20px 25px;
   margin-top: 20px;
-  border-radius: 12px;
+  border-radius: 13px;
   background: #fffef7;
+  font-family: 'Quicksand', Arial, sans-serif;
+  color: #4d3b2f;
+}
+.checkout-fields h4 {
+  margin-top: 0;
+  color: #a0522d;
+  font-size: 1.35em;
+  font-weight: 700;
+}
+.checkout-fields label {
+  display: block;
+  margin-top: 12px;
+  font-weight: 600;
+}
+.checkout-fields input[type="text"],
+.checkout-fields input[type="tel"],
+.checkout-fields input[type="date"],
+.checkout-fields input[type="time"],
+.checkout-fields select {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 4px;
+  border: 1.5px solid #ffd699;
+  border-radius: 13px;
+  font-family: 'Quicksand', Arial, sans-serif;
+  font-size: 1em;
+  color: #4d3b2f;
+  background-color: #fffbe9;
+  box-sizing: border-box;
+}
+.checkout-fields input[type="text"]:focus,
+.checkout-fields input[type="tel"]:focus,
+.checkout-fields input[type="date"]:focus,
+.checkout-fields input[type="time"]:focus,
+.checkout-fields select:focus {
+  outline: none;
+  border-color: #ffa500;
+  box-shadow: 0 0 8px #ffa500aa;
 }
 .hidden {
   display: none;
@@ -265,7 +303,9 @@ h1 {
 .delivery-charge-info {
   font-style: italic;
   color: #a0522d;
-  margin-top: 8px;
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 1em;
 }
 .overview-cart-list li {
   font-weight: 600;
