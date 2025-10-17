@@ -220,6 +220,8 @@ h1 {
   font-weight: 700;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin-top: 10px;
+  width: 100%;
 }
 
 .checkout-btn:hover {
@@ -278,49 +280,38 @@ h1 {
   transform: scale(1.15);
 }
 
-/* Add these updates to style.css */
+.checkout-fields {
+  border: 1px solid #ffd699;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 12px;
+  background: #fffef7;
+}
+
 .hidden {
   display: none;
 }
 
-#orderForm label {
-  font-weight: 600;
+.error {
+  color: #d9534f;
+  font-size: 0.9em;
+  margin-bottom: 8px;
   display: block;
-  margin-top: 12px;
-  margin-bottom: 4px;
-  color: #4d3b2f;
 }
 
-#orderForm input, #orderForm select {
-  width: 100%;
-  padding: 8px;
-  font-size: 1rem;
-  border-radius: 6px;
-  border: 1px solid #ffd699;
-  background: #fffbe9;
-  color: #4d3b2f;
-  box-sizing: border-box;
-}
-
-#orderForm fieldset {
-  border: 2px solid #ffb347;
-  padding: 15px 20px;
-  margin-top: 20px;
-  border-radius: 10px;
-  background: #fff9e6;
-}
-
-#orderForm legend {
-  font-weight: 700;
+.delivery-charge-info {
+  font-style: italic;
   color: #a0522d;
-  font-size: 1.1em;
+  margin-top: 8px;
 }
 
-#deliveryChargeFieldset p {
+.overview-cart-list li {
+  font-weight: 600;
+  padding: 6px 0;
+  border-bottom: 1px solid #ffd699;
+}
+
+.overview-cart-list li:last-child {
   font-weight: 700;
-  font-size: 1em;
-  color: #a0522d;
-  margin: 0;
-  padding: 0;
+  border-bottom: none;
 }
-
