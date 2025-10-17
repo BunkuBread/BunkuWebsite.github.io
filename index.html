@@ -27,6 +27,7 @@
   </div>
 
   <form id="orderForm" class="products-list" autocomplete="off">
+    <!-- Product cards as before -->
     <div class="product-card">
       <img src="images/BUNKUOG.JPG" alt="OG Bunku" />
       <div class="card-details">
@@ -41,7 +42,7 @@
         <label><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
-
+    <!-- ...repeat for zaatar, diabetes, strawberry haven, berry blast -->
     <div class="product-card">
       <img src="images/ZAATAR.JPEG" alt="Zaatar Bomb" />
       <div class="card-details">
@@ -56,7 +57,6 @@
         <label><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
-
     <div class="product-card">
       <img src="images/DIABETES.JPG" alt="Diabetes" />
       <div class="card-details">
@@ -71,7 +71,6 @@
         <label><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
       </div>
     </div>
-
     <div class="product-card">
       <img src="images/STRAWBERRYHAVEN.JPG" alt="Strawberry Haven" />
       <div class="card-details">
@@ -85,7 +84,6 @@
         </div>
       </div>
     </div>
-
     <div class="product-card">
       <img src="images/BERRYBLAST.JPEG" alt="Berry Blast" />
       <div class="card-details">
@@ -99,7 +97,6 @@
         </div>
       </div>
     </div>
-
     <div class="cart-checkout">
       <button id="checkoutBtn" type="button" class="checkout-btn">Checkout</button>
     </div>
@@ -111,34 +108,36 @@
     <a href="https://www.tiktok.com/@bunku.uae" target="_blank" aria-label="TikTok"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
   </div>
 
-  <!-- Modal for order details -->
-  <div id="orderDetailsModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:99999;background:rgba(0,0,0,0.25);align-items:center;justify-content:center;">
-    <form id="orderDetailsForm" style="background:#fffbe9;padding:24px 18px;border-radius:14px;max-width:400px;margin:auto;box-shadow:0 2px 22px rgba(255,179,71,0.32);">
-      <h3>Order Details</h3>
-      <div>
-        <label style="font-weight:600;">Order type:</label><br>
+  <!-- THEMED CHECKOUT MODAL -->
+  <div id="orderDetailsModal" style="display:none;">
+    <form id="orderDetailsForm" class="modal-themed">
+      <h3 class="modal-title">Complete Your Order</h3>
+      <div class="modal-radios">
         <label><input type="radio" name="modal_order_type" value="delivery" required> Delivery</label>
         <label><input type="radio" name="modal_order_type" value="pickup" required> Pickup</label>
       </div>
       <div class="delivery-fields" style="display:none;">
-        <label>Name: <input type="text" id="modalDeliveryName" required></label><br>
-        <label>Phone: <input type="text" id="modalDeliveryPhone" required></label><br>
-        <label>Date: <input type="date" id="modalDeliveryDate" required></label><br>
-        <label>City: <input type="text" id="modalDeliveryCity" required></label><br>
-        <label>Area: <input type="text" id="modalDeliveryArea" required></label><br>
-        <label>Time: <input type="time" id="modalDeliveryTime" required></label><br>
+        <label>Name:<input type="text" id="modalDeliveryName" required></label>
+        <label>Phone:<input type="text" id="modalDeliveryPhone" required></label>
+        <label>Date:<input type="date" id="modalDeliveryDate" required></label>
+        <label>City:<input type="text" id="modalDeliveryCity" required></label>
+        <label>Area:<input type="text" id="modalDeliveryArea" required></label>
+        <label>Time:<input type="time" id="modalDeliveryTime" required></label>
       </div>
       <div class="pickup-fields" style="display:none;">
-        <label>Name: <input type="text" id="modalPickupName" required></label><br>
-        <label>Phone: <input type="text" id="modalPickupPhone" required></label><br>
-        <label>Date: <input type="date" id="modalPickupDate" required></label><br>
-        <label>License Plate: <input type="text" id="modalPickupLicense" required></label><br>
-        <label>Time: <input type="time" id="modalPickupTime" required></label><br>
+        <label>Name:<input type="text" id="modalPickupName" required></label>
+        <label>Phone:<input type="text" id="modalPickupPhone" required></label>
+        <label>Date:<input type="date" id="modalPickupDate" required></label>
+        <label>License Plate:<input type="text" id="modalPickupLicense" required></label>
+        <label>Time:<input type="time" id="modalPickupTime" required></label>
       </div>
-      <button type="submit" style="margin-top:14px;padding:10px 18px;border-radius:11px;font-weight:700;background:#ffb347;color:#fff;border:none;cursor:pointer;">Submit Order</button>
-      <button type="button" id="closeModalBtn" style="margin-top:14px;padding:10px 18px;border-radius:11px;font-weight:700;background:#a0522d;color:#fff;border:none;cursor:pointer;">Cancel</button>
+      <div class="modal-actions">
+        <button type="submit" class="checkout-btn modal-btn">Submit Order</button>
+        <button type="button" id="closeModalBtn" class="modal-cancel-btn">Cancel</button>
+      </div>
     </form>
   </div>
+  <!-- END MODAL -->
 
   <script src="script.js"></script>
 </body>
