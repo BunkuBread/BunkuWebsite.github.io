@@ -97,20 +97,8 @@ function populateCartPanel() {
   cartList.appendChild(totalLi);
 }
 
-// Show/hide modal form for order details
-function showOrderModal() {
-  document.getElementById('orderDetailsModal').style.display = 'flex';
-}
-
-function hideOrderModal() {
-  document.getElementById('orderDetailsModal').style.display = 'none';
-}
-
 // Initialize event listeners and UI updates on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-  // Explicitly hide modal on page load to prevent 'in your face' issue
-  hideOrderModal();
-
   // Attach quantity input listeners
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('input', (e) => {
@@ -121,7 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceText = card.querySelector('.card-price').textContent;
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
-      populateCartPanel();
     });
   });
 
@@ -139,11 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceText = card.querySelector('.card-price').textContent;
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
-      populateCartPanel();
     });
   });
 
-  // Extras checkboxes update cart summary and panel
+  // Extras checkboxes update cart summary
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const cb = document.getElementById(id);
     if (cb) cb.addEventListener('change', () => {
@@ -156,7 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartPanel = document.getElementById('cartPanel');
   const closeCartBtn = document.getElementById('closeCartBtn');
   const checkoutBtn = document.getElementById('checkoutBtn');
-  const modal = document.getElementById('orderDetailsModal');
 
   // Toggle cart panel visibility
   cartSummary.addEventListener('click', () => {
@@ -178,105 +163,16 @@ document.addEventListener('DOMContentLoaded', () => {
     cartSummary.focus();
   });
 
-  // Checkout: open modal for details after validation of cart
+  // Checkout button alert for minimum orders
   checkoutBtn.addEventListener('click', (event) => {
     event.preventDefault();
-
     if (Object.values(cart).reduce((a, b) => a + b.qty, 0) < 1) {
       alert("Your cart is empty. Please add at least one item.");
       return;
     }
-    showOrderModal();
+    alert("Checkout behavior not implemented. Please contact store to place order.");
   });
 
-  // Logic for showing/hiding delivery/pickup fields in modal
-  document.getElementsByName('modal_order_type').forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (radio.checked && radio.value === 'delivery') {
-        document.querySelector('.delivery-fields').style.display = '';
-        document.querySelector('.pickup-fields').style.display = 'none';
-      } else if (radio.checked && radio.value === 'pickup') {
-        document.querySelector('.delivery-fields').style.display = 'none';
-        document.querySelector('.pickup-fields').style.display = '';
-      }
-      populateCartPanel(); // To show delivery fee if delivery is chosen
-    });
-  });
-
-  // Modal close button
-  document.getElementById('closeModalBtn').addEventListener('click', hideOrderModal);
-
-  // Modal form submit: validate and open WhatsApp with order details
-  document.getElementById('orderDetailsForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const form = e.target;
-
-    // Simple form validation
-    if (!form.checkValidity()) {
-      form.reportValidity();
-      return;
-    }
-
-    const selectedOrderType = Array.from(document.getElementsByName('modal_order_type')).find(r => r.checked)?.value || '';
-
-    let message = `Hello! I placed a ${selectedOrderType} order:\n\n`;
-
-    if (selectedOrderType === 'delivery') {
-      message += `Name: ${form.querySelector('#modalDeliveryName').value.trim()}\n`;
-      message += `Phone: ${form.querySelector('#modalDeliveryPhone').value.trim()}\n`;
-      message += `Date: ${form.querySelector('#modalDeliveryDate').value}\n`;
-      message += `City: ${form.querySelector('#modalDeliveryCity').value}\n`;
-      message += `Area: ${form.querySelector('#modalDeliveryArea').value.trim()}\n`;
-      message += `Time: ${form.querySelector('#modalDeliveryTime').value}\n\n`;
-    } else {
-      message += `Name: ${form.querySelector('#modalPickupName').value.trim()}\n`;
-      message += `Phone: ${form.querySelector('#modalPickupPhone').value.trim()}\n`;
-      message += `Date: ${form.querySelector('#modalPickupDate').value}\n`;
-      message += `License Plate: ${form.querySelector('#modalPickupLicense').value.trim()}\n`;
-      message += `Time: ${form.querySelector('#modalPickupTime').value}\n\n`;
-    }
-
-    message += "Orders:\n";
-    let total = 0;
-    for (const [name, item] of Object.entries(cart)) {
-      message += `${name}: ${item.qty} box(es)\n`;
-      total += item.qty * item.price;
-    }
-
-    if (document.getElementById('extra_garlic_og').checked) {
-      message += "Extra garlic sauce (OG Bunku): Yes (+5 AED)\n";
-      total += 5;
-    }
-    if (document.getElementById('extra_garlic_zaatar').checked) {
-      message += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
-      total += 5;
-    }
-    if (document.getElementById('extra_choc_diabetes').checked) {
-      message += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
-      total += 5;
-    }
-
-    if (selectedOrderType === 'delivery') {
-      const city = form.querySelector('#modalDeliveryCity').value;
-      const deliveryFee = getDeliveryFee(city);
-      if (deliveryFee) {
-        message += `Delivery Fee: +${deliveryFee} AED\n`;
-        total += deliveryFee;
-      } else {
-        message += "Delivery charge determined on checkout\n";
-      }
-    }
-
-    message += `\nTotal: ${total} AED`;
-
-    hideOrderModal();
-    alert("Order ready! Redirecting to WhatsApp.");
-    const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank");
-  });
-
-  // Initialize summary and cart panel on load
+  // Initialize summary on load
   updateCartSummary();
-  populateCartPanel();
 });
