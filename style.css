@@ -277,3 +277,50 @@ h1 {
 .footer-icon:hover {
   transform: scale(1.15);
 }
+
+/* Add these updates to style.css */
+.hidden {
+  display: none;
+}
+
+#orderForm label {
+  font-weight: 600;
+  display: block;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  color: #4d3b2f;
+}
+
+#orderForm input, #orderForm select {
+  width: 100%;
+  padding: 8px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ffd699;
+  background: #fffbe9;
+  color: #4d3b2f;
+  box-sizing: border-box;
+}
+
+#orderForm fieldset {
+  border: 2px solid #ffb347;
+  padding: 15px 20px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background: #fff9e6;
+}
+
+#orderForm legend {
+  font-weight: 700;
+  color: #a0522d;
+  font-size: 1.1em;
+}
+
+#deliveryChargeFieldset p {
+  font-weight: 700;
+  font-size: 1em;
+  color: #a0522d;
+  margin: 0;
+  padding: 0;
+}
+
