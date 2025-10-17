@@ -30,13 +30,26 @@ function updateCartSummary() {
   summaryEl.innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total} AED</span>`;
 }
 
-// Update or remove items in cart object and refresh UI summary
+// Update or remove items in cart object and refresh UI summary and sync inputs inside and outside cart
 function updateCartItem(name, qty, price) {
   if (qty <= 0) {
     delete cart[name];
+    qty = 0;
   } else {
     cart[name] = { qty, price };
   }
+
+  // Sync inputs on both product cards and cart panel
+  const productInput = document.querySelector(`#qty_${name.toLowerCase().replace(/ /g, '_')}`);
+  if (productInput) productInput.value = qty;
+
+  const cartPanelInputs = document.querySelectorAll(`#cartList input.qty-input`);
+  cartPanelInputs.forEach(input => {
+    if (input.getAttribute('aria-label') === `${name} quantity`) {
+      input.value = qty;
+    }
+  });
+
   updateCartSummary();
 }
 
@@ -95,21 +108,18 @@ function populateCartPanel() {
     minusBtn.addEventListener("click", () => {
       let newQty = Math.max(0, item.qty - 1);
       updateCartItem(name, newQty, item.price);
-      qtyInput.value = newQty;
       populateCartPanel();
     });
 
     plusBtn.addEventListener("click", () => {
       let newQty = Math.min(10, item.qty + 1);
       updateCartItem(name, newQty, item.price);
-      qtyInput.value = newQty;
       populateCartPanel();
     });
 
     qtyInput.addEventListener("input", (e) => {
       let val = Math.max(0, Math.min(10, parseInt(e.target.value) || 0));
       updateCartItem(name, val, item.price);
-      e.target.value = val;
       populateCartPanel();
     });
   }
@@ -153,7 +163,7 @@ function populateCartPanel() {
 
 // Initialize event listeners and UI updates on DOM load
 document.addEventListener('DOMContentLoaded', () => {
-  // Attach quantity input listeners
+  // Attach quantity input listeners in product cards
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('input', (e) => {
       const name = e.target.dataset.name;
@@ -163,10 +173,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceText = card.querySelector('.card-price').textContent;
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
+      populateCartPanel();
     });
   });
 
-  // Attach plus/minus buttons listeners for quantity updates
+  // Attach plus/minus buttons listeners in product cards
   document.querySelectorAll('.qty-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const name = btn.dataset.name;
@@ -180,6 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceText = card.querySelector('.card-price').textContent;
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
+      populateCartPanel();
     });
   });
 
