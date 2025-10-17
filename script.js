@@ -97,6 +97,15 @@ function populateCartPanel() {
   cartList.appendChild(totalLi);
 }
 
+// Show/hide modal form for order details
+function showOrderModal() {
+  document.getElementById('orderDetailsModal').style.display = 'flex';
+}
+
+function hideOrderModal() {
+  document.getElementById('orderDetailsModal').style.display = 'none';
+}
+
 // Initialize event listeners and UI updates on DOM load
 document.addEventListener('DOMContentLoaded', () => {
   // Attach quantity input listeners
@@ -109,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceText = card.querySelector('.card-price').textContent;
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
+      populateCartPanel();
     });
   });
 
@@ -126,10 +136,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const priceText = card.querySelector('.card-price').textContent;
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
+      populateCartPanel();
     });
   });
 
-  // Extras checkboxes update cart summary
+  // Extras checkboxes update cart summary and panel
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const cb = document.getElementById(id);
     if (cb) cb.addEventListener('change', () => {
@@ -142,10 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartPanel = document.getElementById('cartPanel');
   const closeCartBtn = document.getElementById('closeCartBtn');
   const checkoutBtn = document.getElementById('checkoutBtn');
-  const modalOrderTypeRadios = document.querySelectorAll('input[name="modal_order_type"]');
-  const orderDetailsModalEl = document.getElementById('orderDetailsModal');
-  const orderDetailsModal = new bootstrap.Modal(orderDetailsModalEl);
-  const orderDetailsForm = document.getElementById('orderDetailsForm');
 
   // Toggle cart panel visibility
   cartSummary.addEventListener('click', () => {
@@ -167,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cartSummary.focus();
   });
 
-  // Checkout: open modal for details after validation of cart and order type
+  // Checkout: open modal for details after validation of cart
   checkoutBtn.addEventListener('click', (event) => {
     event.preventDefault();
 
@@ -175,52 +182,55 @@ document.addEventListener('DOMContentLoaded', () => {
       alert("Your cart is empty. Please add at least one item.");
       return;
     }
-
-    const selectedOrderType = Array.from(modalOrderTypeRadios).find(radio => radio.checked)?.value;
-    if (!selectedOrderType) {
-      alert("Please select delivery or pickup to proceed.");
-      return;
-    }
-
-    // Show modal form for user details
-    orderDetailsModal.show();
-
-    // Show/hide delivery or pickup fields inside modal based on selection
-    if (selectedOrderType === 'delivery') {
-      orderDetailsModalEl.querySelector('.delivery-fields').style.display = '';
-      orderDetailsModalEl.querySelector('.pickup-fields').style.display = 'none';
-    } else {
-      orderDetailsModalEl.querySelector('.delivery-fields').style.display = 'none';
-      orderDetailsModalEl.querySelector('.pickup-fields').style.display = '';
-    }
+    showOrderModal();
   });
 
-  // On modal form submit: validate, send webhook, open WhatsApp
-  orderDetailsForm.addEventListener('submit', (e) => {
+  // Logic for showing/hiding delivery/pickup fields in modal
+  document.getElementsByName('modal_order_type').forEach(radio => {
+    radio.addEventListener('change', () => {
+      if (radio.checked && radio.value === 'delivery') {
+        document.querySelector('.delivery-fields').style.display = '';
+        document.querySelector('.pickup-fields').style.display = 'none';
+      } else if (radio.checked && radio.value === 'pickup') {
+        document.querySelector('.delivery-fields').style.display = 'none';
+        document.querySelector('.pickup-fields').style.display = '';
+      }
+      populateCartPanel(); // To show delivery fee if delivery is chosen
+    });
+  });
+
+  // Modal close button
+  document.getElementById('closeModalBtn').addEventListener('click', hideOrderModal);
+
+  // Modal form submit: validate and open WhatsApp with order details
+  document.getElementById('orderDetailsForm').addEventListener('submit', (e) => {
     e.preventDefault();
 
-    if (!orderDetailsForm.checkValidity()) {
-      orderDetailsForm.reportValidity();
+    const form = e.target;
+
+    // Simple form validation
+    if (!form.checkValidity()) {
+      form.reportValidity();
       return;
     }
 
-    const selectedOrderType = Array.from(modalOrderTypeRadios).find(r => r.checked)?.value || '';
+    const selectedOrderType = Array.from(document.getElementsByName('modal_order_type')).find(r => r.checked)?.value || '';
 
     let message = `Hello! I placed a ${selectedOrderType} order:\n\n`;
 
     if (selectedOrderType === 'delivery') {
-      message += `Name: ${orderDetailsForm.querySelector('#modalDeliveryName').value.trim()}\n`;
-      message += `Phone: ${orderDetailsForm.querySelector('#modalDeliveryPhone').value.trim()}\n`;
-      message += `Date: ${orderDetailsForm.querySelector('#modalDeliveryDate').value}\n`;
-      message += `City: ${orderDetailsForm.querySelector('#modalDeliveryCity').value}\n`;
-      message += `Area: ${orderDetailsForm.querySelector('#modalDeliveryArea').value.trim()}\n`;
-      message += `Time: ${orderDetailsForm.querySelector('#modalDeliveryTime').value}\n\n`;
+      message += `Name: ${form.querySelector('#modalDeliveryName').value.trim()}\n`;
+      message += `Phone: ${form.querySelector('#modalDeliveryPhone').value.trim()}\n`;
+      message += `Date: ${form.querySelector('#modalDeliveryDate').value}\n`;
+      message += `City: ${form.querySelector('#modalDeliveryCity').value}\n`;
+      message += `Area: ${form.querySelector('#modalDeliveryArea').value.trim()}\n`;
+      message += `Time: ${form.querySelector('#modalDeliveryTime').value}\n\n`;
     } else {
-      message += `Name: ${orderDetailsForm.querySelector('#modalPickupName').value.trim()}\n`;
-      message += `Phone: ${orderDetailsForm.querySelector('#modalPickupPhone').value.trim()}\n`;
-      message += `Date: ${orderDetailsForm.querySelector('#modalPickupDate').value}\n`;
-      message += `License Plate: ${orderDetailsForm.querySelector('#modalPickupLicense').value.trim()}\n`;
-      message += `Time: ${orderDetailsForm.querySelector('#modalPickupTime').value}\n\n`;
+      message += `Name: ${form.querySelector('#modalPickupName').value.trim()}\n`;
+      message += `Phone: ${form.querySelector('#modalPickupPhone').value.trim()}\n`;
+      message += `Date: ${form.querySelector('#modalPickupDate').value}\n`;
+      message += `License Plate: ${form.querySelector('#modalPickupLicense').value.trim()}\n`;
+      message += `Time: ${form.querySelector('#modalPickupTime').value}\n\n`;
     }
 
     message += "Orders:\n";
@@ -244,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (selectedOrderType === 'delivery') {
-      const city = orderDetailsForm.querySelector('#modalDeliveryCity').value;
+      const city = form.querySelector('#modalDeliveryCity').value;
       const deliveryFee = getDeliveryFee(city);
       if (deliveryFee) {
         message += `Delivery Fee: +${deliveryFee} AED\n`;
@@ -256,23 +266,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     message += `\nTotal: ${total} AED`;
 
+    hideOrderModal();
+    alert("Order ready! Redirecting to WhatsApp.");
     const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(message)}`;
-
-    fetch("https://cloud.activepieces.com/api/v1/webhooks/LI2vLphGyGdkLIbL0wH2U/sync", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ order_type: selectedOrderType, details: message, cart }),
-    }).then(() => {
-      orderDetailsModal.hide();
-      alert("Order sent! Redirecting to WhatsApp.");
-      window.open(whatsappUrl, "_blank");
-    }).catch((error) => {
-      console.error("Webhook error:", error);
-      alert("Failed to send order. Please try again.");
-    });
+    window.open(whatsappUrl, "_blank");
   });
 
-  // Initialize summary on load
+  // Initialize summary and cart panel on load
   updateCartSummary();
-
+  populateCartPanel();
 });
