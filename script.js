@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Extras checkboxes update cart summary
+  // Extras checkboxes update cart summary and panel
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const cb = document.getElementById(id);
     if (cb) cb.addEventListener('change', () => {
@@ -163,16 +163,45 @@ document.addEventListener('DOMContentLoaded', () => {
     cartSummary.focus();
   });
 
-  // Checkout button alert for minimum orders
+  // Checkout: open WhatsApp URL with order message
   checkoutBtn.addEventListener('click', (event) => {
     event.preventDefault();
+
     if (Object.values(cart).reduce((a, b) => a + b.qty, 0) < 1) {
       alert("Your cart is empty. Please add at least one item.");
       return;
     }
-    alert("Checkout behavior not implemented. Please contact store to place order.");
+
+    let message = `Hello! I placed an order:\n\n`;
+
+    message += "Orders:\n";
+    let total = 0;
+    for (const [name, item] of Object.entries(cart)) {
+      message += `${name}: ${item.qty} box(es)\n`;
+      total += item.qty * item.price;
+    }
+
+    if (document.getElementById('extra_garlic_og')?.checked) {
+      message += "Extra garlic sauce (OG Bunku): Yes (+5 AED)\n";
+      total += 5;
+    }
+    if (document.getElementById('extra_garlic_zaatar')?.checked) {
+      message += "Extra garlic sauce (Zaatar Bomb): Yes (+5 AED)\n";
+      total += 5;
+    }
+    if (document.getElementById('extra_choc_diabetes')?.checked) {
+      message += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
+      total += 5;
+    }
+
+    message += `\nTotal: ${total} AED`;
+
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(message)}`;
+    alert("Order sent! Redirecting to WhatsApp.");
+    window.open(whatsappUrl, "_blank");
   });
 
-  // Initialize summary on load
+  // Initialize summary and panel on load
   updateCartSummary();
+  populateCartPanel();
 });
