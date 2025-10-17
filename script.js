@@ -40,7 +40,7 @@ function updateCartItem(name, qty, price) {
   updateCartSummary();
 }
 
-// Populate cart detail panel with current items and extras
+// Populate cart detail panel with current items and extras with quantity adjustment controls
 function populateCartPanel() {
   const cartPanel = document.getElementById('cartPanel');
   const cartList = cartPanel.querySelector('#cartList');
@@ -55,9 +55,63 @@ function populateCartPanel() {
   let total = 0;
   for (const [name, item] of entries) {
     const li = document.createElement("li");
-    li.textContent = `${name}: ${item.qty} box(es) - ${item.qty * item.price} AED`;
+    li.className = "cart-item";
+
+    // Create quantity controls for items in cart panel
+    const itemNameSpan = document.createElement("span");
+    itemNameSpan.textContent = name + ": ";
+    li.appendChild(itemNameSpan);
+
+    const minusBtn = document.createElement("button");
+    minusBtn.textContent = "-";
+    minusBtn.className = "qty-btn minus";
+    minusBtn.setAttribute("aria-label", `Reduce ${name} quantity`);
+    li.appendChild(minusBtn);
+
+    const qtyInput = document.createElement("input");
+    qtyInput.type = "number";
+    qtyInput.min = 0;
+    qtyInput.max = 10;
+    qtyInput.value = item.qty;
+    qtyInput.className = "qty-input";
+    qtyInput.setAttribute("aria-label", `${name} quantity`);
+    li.appendChild(qtyInput);
+
+    const plusBtn = document.createElement("button");
+    plusBtn.textContent = "+";
+    plusBtn.className = "qty-btn plus";
+    plusBtn.setAttribute("aria-label", `Increase ${name} quantity`);
+    li.appendChild(plusBtn);
+
+    const priceSpan = document.createElement("span");
+    priceSpan.textContent = ` - ${item.qty * item.price} AED`;
+    priceSpan.className = "cart-item-price";
+    li.appendChild(priceSpan);
+
     cartList.appendChild(li);
     total += item.qty * item.price;
+
+    // Event listeners for panel quantity controls
+    minusBtn.addEventListener("click", () => {
+      let newQty = Math.max(0, item.qty - 1);
+      updateCartItem(name, newQty, item.price);
+      qtyInput.value = newQty;
+      populateCartPanel();
+    });
+
+    plusBtn.addEventListener("click", () => {
+      let newQty = Math.min(10, item.qty + 1);
+      updateCartItem(name, newQty, item.price);
+      qtyInput.value = newQty;
+      populateCartPanel();
+    });
+
+    qtyInput.addEventListener("input", (e) => {
+      let val = Math.max(0, Math.min(10, parseInt(e.target.value) || 0));
+      updateCartItem(name, val, item.price);
+      e.target.value = val;
+      populateCartPanel();
+    });
   }
 
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
