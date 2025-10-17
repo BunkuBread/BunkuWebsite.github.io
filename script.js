@@ -1,15 +1,12 @@
-// Cart object to track items and quantities
+// Cart object to track items by name with quantity and price
 const cart = {};
 
-// Delivery fee based on city
 function getDeliveryFee(city) {
-  if (["Fujairah", "Ras Al Khaimah", "Abu Dhabi", "Al Ain"].includes(city)) {
-    return 35;
-  }
+  const chargeCities = ["Fujairah", "Ras Al Khaimah", "Abu Dhabi", "Al Ain"];
+  if (chargeCities.includes(city)) return 35;
   return 0;
 }
 
-// Update sticky cart summary visible on all pages
 function updateCartSummary() {
   const count = Object.values(cart).reduce((sum, item) => sum + item.qty, 0);
   let total = Object.values(cart).reduce((sum, item) => sum + (item.qty * item.price), 0);
@@ -18,9 +15,9 @@ function updateCartSummary() {
   if (document.getElementById('extra_garlic_zaatar')?.checked) total += 5;
   if (document.getElementById('extra_choc_diabetes')?.checked) total += 5;
 
-  const deliveryRadio = document.querySelector('input[name="orderType"]:checked');
+  const orderType = document.querySelector('input[name="order_type"]:checked');
   let deliveryFee = 0;
-  if (deliveryRadio && deliveryRadio.value === 'delivery') {
+  if (orderType && orderType.value === 'delivery') {
     const city = document.getElementById('deliveryCity')?.value || "";
     deliveryFee = getDeliveryFee(city);
     total += deliveryFee;
@@ -30,7 +27,6 @@ function updateCartSummary() {
   summaryEl.innerHTML = `Cart: ${count} item${count !== 1 ? 's' : ''} <span id="cartTotal">${total} AED</span>`;
 }
 
-// Update or remove items in cart object and sync inputs and update summary
 function updateCartItem(name, qty, price) {
   if (qty <= 0) {
     delete cart[name];
@@ -38,7 +34,7 @@ function updateCartItem(name, qty, price) {
   } else {
     cart[name] = { qty, price };
   }
-
+  // Sync inputs on product cards and cart panel if rendered
   const productInput = document.querySelector(`#qty_${name.toLowerCase().replace(/ /g, '_')}`);
   if (productInput) productInput.value = qty;
 
@@ -52,7 +48,6 @@ function updateCartItem(name, qty, price) {
   updateCartSummary();
 }
 
-// Populate cart detail panel with current items and extras with quantity adjustment controls
 function populateCartPanel() {
   const cartPanel = document.getElementById('cartPanel');
   const cartList = cartPanel.querySelector('#cartList');
@@ -106,21 +101,25 @@ function populateCartPanel() {
       let newQty = Math.max(0, item.qty - 1);
       updateCartItem(name, newQty, item.price);
       populateCartPanel();
+      populateOverviewCart();
     });
 
     plusBtn.addEventListener("click", () => {
       let newQty = Math.min(10, item.qty + 1);
       updateCartItem(name, newQty, item.price);
       populateCartPanel();
+      populateOverviewCart();
     });
 
     qtyInput.addEventListener("input", (e) => {
       let val = Math.max(0, Math.min(10, parseInt(e.target.value) || 0));
       updateCartItem(name, val, item.price);
       populateCartPanel();
+      populateOverviewCart();
     });
   }
 
+  // Append extra charges
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const chk = document.getElementById(id);
     if (chk?.checked) {
@@ -136,8 +135,8 @@ function populateCartPanel() {
     }
   });
 
-  const deliveryRadio = document.querySelector('input[name="orderType"]:checked');
-  if (deliveryRadio && deliveryRadio.value === 'delivery') {
+  const orderType = document.querySelector('input[name="order_type"]:checked');
+  if (orderType && orderType.value === 'delivery') {
     const city = document.getElementById('deliveryCity')?.value || "";
     const deliveryFee = getDeliveryFee(city);
     if (deliveryFee) {
@@ -158,167 +157,162 @@ function populateCartPanel() {
   cartList.appendChild(totalLi);
 }
 
-// Checkout/Order form logic and validation
-document.addEventListener('DOMContentLoaded', () => {
-  const orderTypeRadios = document.querySelectorAll('input[name="orderType"]');
+// Populate order overview summary under checkout form
+function populateOverviewCart() {
+  const overviewList = document.getElementById("overviewCartList");
+  overviewList.innerHTML = "";
+  const entries = Object.entries(cart);
+  if (entries.length === 0) {
+    overviewList.innerHTML = "<li>Your cart is empty.</li>";
+    return;
+  }
+  entries.forEach(([name, item]) => {
+    const li = document.createElement("li");
+    li.textContent = `${name}: ${item.qty} box${item.qty !== 1?"es":""} - ${item.qty * item.price} AED`;
+    overviewList.appendChild(li);
+  });
+  let total = Object.values(cart).reduce((sum, item) => sum + (item.qty * item.price), 0);
+  ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
+    if(document.getElementById(id)?.checked) total += 5;
+  });
+  const totalLi = document.createElement("li");
+  totalLi.textContent = `Total: ${total} AED`;
+  totalLi.style.fontWeight = "bold";
+  overviewList.appendChild(totalLi);
+}
+
+function isSameDayAllowed(city) {
+  return ["Ajman", "Dubai", "Sharjah"].includes(city);
+}
+
+function showHideOrderFields() {
   const deliveryFields = document.getElementById('deliveryFields');
   const pickupFields = document.getElementById('pickupFields');
-  const deliveryChargeFieldset = document.getElementById('deliveryChargeFieldset');
-  const deliveryChargeInfo = document.getElementById('deliveryChargeInfo');
-  const deliveryCitySelect = document.getElementById('deliveryCity');
+  const orderType = document.querySelector('input[name="order_type"]:checked');
 
-  function updateDeliveryCharge() {
-    const city = deliveryCitySelect.value;
-    if (["Fujairah", "Ras Al Khaimah", "Abu Dhabi", "Al Ain"].includes(city)) {
-      deliveryChargeInfo.textContent = "35 AED";
-    } else if (city) {
-      deliveryChargeInfo.textContent = "Delivery charge estimated on message";
-    } else {
-      deliveryChargeInfo.textContent = "N/A";
+  if (!orderType) {
+    deliveryFields.classList.add('hidden');
+    pickupFields.classList.add('hidden');
+    return;
+  }
+
+  if (orderType.value === "delivery") {
+    deliveryFields.classList.remove('hidden');
+    pickupFields.classList.add('hidden');
+  } else if (orderType.value === "pickup") {
+    pickupFields.classList.remove('hidden');
+    deliveryFields.classList.add('hidden');
+  }
+  updateDeliveryChargeInfo();
+}
+
+function updateDeliveryChargeInfo() {
+  const city = document.getElementById('deliveryCity')?.value || "";
+  const fee = getDeliveryFee(city);
+  const info = document.getElementById('deliveryChargeInfo');
+  if (fee) {
+    info.textContent = `Delivery charge: +${fee} AED`;
+  } else if (city) {
+    info.textContent = "Delivery charge estimated on message";
+  } else {
+    info.textContent = "";
+  }
+}
+
+function validateForm() {
+  let valid = true;
+  document.querySelectorAll(".error").forEach(span => span.textContent = "");
+  const orderType = document.querySelector('input[name="order_type"]:checked');
+  if (!orderType) {
+    alert("Please select order type: Delivery or Pick up.");
+    return false;
+  }
+  if (orderType.value === "delivery") {
+    const name = document.getElementById("deliveryName").value.trim();
+    const phone = document.getElementById("deliveryPhone").value.trim();
+    const city = document.getElementById("deliveryCity").value;
+    const date = document.getElementById("deliveryDate").value;
+    const time = document.getElementById("deliveryTime").value;
+    const area = document.getElementById("deliveryArea").value.trim();
+
+    if (!name) {
+      document.getElementById("deliveryNameError").textContent = "Name required";
+      valid = false;
     }
-  }
-
-  orderTypeRadios.forEach(radio => {
-    radio.addEventListener('change', () => {
-      if (radio.value === "delivery" && radio.checked) {
-        deliveryFields.classList.remove('hidden');
-        pickupFields.classList.add('hidden');
-        deliveryChargeFieldset.classList.remove('hidden');
-        updateDeliveryCharge();
-      } else if (radio.value === "pickup" && radio.checked) {
-        pickupFields.classList.remove('hidden');
-        deliveryFields.classList.add('hidden');
-        deliveryChargeFieldset.classList.add('hidden');
-      }
-    });
-  });
-
-  if (deliveryCitySelect) {
-    deliveryCitySelect.addEventListener('change', updateDeliveryCharge);
-  }
-
-  function dateValidation(inputElement, cityElement) {
-    const city = cityElement.value.trim();
-    const selectedDate = new Date(inputElement.value);
-    const today = new Date();
-    today.setHours(0,0,0,0);
-
-    if (!inputElement.value) return; 
-
-    if (selectedDate < today) {
-      inputElement.setCustomValidity('Date cannot be in the past');
-    } else if (selectedDate.getTime() === today.getTime()) {
-      if (!["Ajman", "Dubai", "Sharjah"].includes(city)) {
-        inputElement.setCustomValidity('Same day delivery/pickup allowed only in Ajman, Dubai or Sharjah');
-      } else {
-        inputElement.setCustomValidity('');
-      }
-    } else {
-      inputElement.setCustomValidity('');
+    if (!phone || !/^\d+$/.test(phone)) {
+      document.getElementById("deliveryPhoneError").textContent = "Valid phone required";
+      valid = false;
     }
-  }
-
-  const deliveryDateInput = document.getElementById('deliveryDate');
-  const pickupDateInput = document.getElementById('pickupDate');
-
-  if (deliveryDateInput && deliveryCitySelect) {
-    deliveryDateInput.addEventListener('input', () => dateValidation(deliveryDateInput, deliveryCitySelect));
-    deliveryCitySelect.addEventListener('change', () => dateValidation(deliveryDateInput, deliveryCitySelect));
-  }
-
-  if (pickupDateInput) {
-    pickupDateInput.addEventListener('input', () => {
-      const city = ""; // no city selector for pickup
-      const selectedDate = new Date(pickupDateInput.value);
+    if (!city) {
+      document.getElementById("deliveryCityError").textContent = "Select city";
+      valid = false;
+    }
+    if (!date) {
+      document.getElementById("deliveryDateError").textContent = "Select date";
+      valid = false;
+    } else {
+      const selectedDate = new Date(date);
       const today = new Date();
       today.setHours(0,0,0,0);
-      if (!pickupDateInput.value) return;
       if (selectedDate < today) {
-        pickupDateInput.setCustomValidity('Date cannot be in the past');
-      } else if (selectedDate.getTime() === today.getTime()) {
-        if (!["Ajman", "Dubai", "Sharjah"].includes(city)) {
-          pickupDateInput.setCustomValidity('Same day pickup allowed only in Ajman, Dubai or Sharjah');
-        } else {
-          pickupDateInput.setCustomValidity('');
-        }
-      } else {
-        pickupDateInput.setCustomValidity('');
+        document.getElementById("deliveryDateError").textContent = "Date cannot be in past";
+        valid = false;
+      } else if (selectedDate.getTime() === today.getTime() && !isSameDayAllowed(city)) {
+        document.getElementById("deliveryDateError").textContent = "Same day delivery allowed only in Ajman, Dubai, Sharjah";
+        valid = false;
       }
-    });
-  }
-
-  function renderCheckoutCartOverview() {
-    const overview = document.getElementById('checkoutCartList');
-    overview.innerHTML = "";
-    const entries = Object.entries(cart);
-    if (entries.length === 0) {
-      overview.innerHTML = "<li>Your cart is empty.</li>";
-      return;
     }
-    entries.forEach(([name, item]) => {
-      const li = document.createElement('li');
-      li.textContent = `${name}: ${item.qty} box(es) - ${item.qty * item.price} AED`;
-      overview.appendChild(li);
-    });
-  }
-
-  renderCheckoutCartOverview();
-
-  const orderForm = document.getElementById('orderForm');
-  orderForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    if (Object.values(cart).reduce((a, b) => a + b.qty, 0) < 1) {
-      alert("Your cart is empty. Please add at least one item.");
-      return;
+    if (!time) {
+      document.getElementById("deliveryTimeError").textContent = "Select time";
+      valid = false;
     }
-
-    if (!orderForm.checkValidity()) {
-      orderForm.reportValidity();
-      return;
+    if (!area) {
+      document.getElementById("deliveryAreaError").textContent = "Area required";
+      valid = false;
     }
+  } else if (orderType.value === "pickup") {
+    const name = document.getElementById("pickupName").value.trim();
+    const phone = document.getElementById("pickupPhone").value.trim();
+    const plate = document.getElementById("pickupPlate").value.trim();
+    const date = document.getElementById("pickupDate").value;
+    const time = document.getElementById("pickupTime").value;
 
-    let message = "Hello! I placed an order:\n\n";
-    message += "Order Type: ";
-    const orderType = [...orderTypeRadios].find(r => r.checked)?.value;
-    if (!orderType) {
-      alert("Please select delivery or pick up.");
-      return;
+    if (!name) {
+      document.getElementById("pickupNameError").textContent = "Name required";
+      valid = false;
     }
-    message += orderType.charAt(0).toUpperCase() + orderType.slice(1) + "\n\n";
-
-    if (orderType === "delivery") {
-      message += `Name: ${orderForm.deliveryName.value}\n`;
-      message += `Phone: ${orderForm.deliveryPhone.value}\n`;
-      message += `City: ${orderForm.deliveryCity.value}\n`;
-      message += `Date: ${orderForm.deliveryDate.value}\n`;
-      message += `Time: ${orderForm.deliveryTime.value}\n`;
-      message += `Area: ${orderForm.deliveryArea.value}\n`;
-      if (["Fujairah", "Ras Al Khaimah", "Abu Dhabi", "Al Ain"].includes(orderForm.deliveryCity.value)) {
-        message += "Delivery charge: 35 AED\n";
-      } else {
-        message += "Delivery charge: Estimated on message\n";
-      }
+    if (!phone || !/^\d+$/.test(phone)) {
+      document.getElementById("pickupPhoneError").textContent = "Valid phone required";
+      valid = false;
+    }
+    if (!plate || !/^[a-zA-Z0-9]+$/.test(plate)) {
+      document.getElementById("pickupPlateError").textContent = "Valid plate number required";
+      valid = false;
+    }
+    if (!date) {
+      document.getElementById("pickupDateError").textContent = "Select date";
+      valid = false;
     } else {
-      message += `Name: ${orderForm.pickupName.value}\n`;
-      message += `Phone: ${orderForm.pickupPhone.value}\n`;
-      message += `Plate Number: ${orderForm.pickupPlate.value}\n`;
-      message += `Date: ${orderForm.pickupDate.value}\n`;
-      message += `Time: ${orderForm.pickupTime.value}\n`;
+      const selectedDate = new Date(date);
+      const today = new Date();
+      today.setHours(0,0,0,0);
+      if (selectedDate < today) {
+        document.getElementById("pickupDateError").textContent = "Date cannot be in past";
+        valid = false;
+      } else if (selectedDate.getTime() === today.getTime() && !isSameDayAllowed("Dubai") /* Assuming pickup same day rule matches delivery */) {
+        document.getElementById("pickupDateError").textContent = "Same day pickup allowed only in Ajman, Dubai, Sharjah";
+        valid = false;
+      }
     }
+    if (!time) {
+      document.getElementById("pickupTimeError").textContent = "Select time";
+      valid = false;
+    }
+  }
+  return valid;
+}
 
-    message += "\nOrders:\n";
-    let total = 0;
-    Object.entries(cart).forEach(([name, item]) => {
-      message += `${name}: ${item.qty} box(es)\n`;
-      total += item.qty * item.price;
-    });
-    message += `\nTotal: ${total} AED`;
-
-    alert(message);
-  });
-
-  // Attach quantity and button listeners on product cards for syncing cart quantity (existing logic)
+document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.qty-input').forEach(input => {
     input.addEventListener('input', (e) => {
       const name = e.target.dataset.name;
@@ -329,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
       populateCartPanel();
-      renderCheckoutCartOverview();
+      populateOverviewCart();
     });
   });
 
@@ -347,24 +341,37 @@ document.addEventListener('DOMContentLoaded', () => {
       const price = Number(priceText.replace(/\D/g, '')) || 0;
       updateCartItem(name, qty, price);
       populateCartPanel();
-      renderCheckoutCartOverview();
+      populateOverviewCart();
     });
   });
 
-  // Extras checkbox handlers to update cart summary, panel, and checkout overview
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const cb = document.getElementById(id);
     if (cb) cb.addEventListener('change', () => {
       updateCartSummary();
       populateCartPanel();
-      renderCheckoutCartOverview();
+      populateOverviewCart();
     });
   });
 
-  // Cart summary toggle and close handlers (existing logic)
   const cartSummary = document.getElementById('cartSummary');
   const cartPanel = document.getElementById('cartPanel');
   const closeCartBtn = document.getElementById('closeCartBtn');
+  const checkoutBtn = document.getElementById('checkoutBtn');
+  const orderTypeRadios = document.querySelectorAll('input[name="order_type"]');
+  const deliveryCitySelect = document.getElementById('deliveryCity');
+
+  orderTypeRadios.forEach(radio => {
+    radio.addEventListener('change', () => {
+      showHideOrderFields();
+      populateOverviewCart();
+    });
+  });
+
+  deliveryCitySelect.addEventListener('change', () => {
+    updateDeliveryChargeInfo();
+    updateCartSummary();
+  });
 
   cartSummary.addEventListener('click', () => {
     const isVisible = cartPanel.classList.contains('show');
@@ -382,11 +389,3 @@ document.addEventListener('DOMContentLoaded', () => {
   closeCartBtn.addEventListener('click', () => {
     cartPanel.classList.remove('show');
     cartPanel.setAttribute('aria-hidden', 'true');
-    cartSummary.focus();
-  });
-
-  // Initialize summary and panel on load
-  updateCartSummary();
-  populateCartPanel();
-  renderCheckoutCartOverview();
-});
