@@ -11,25 +11,20 @@
   <div id="cartSummary" class="cart-summary-sticky" tabindex="0" aria-label="Toggle Cart Summary" role="button">
     Cart: 0 items <span id="cartTotal"></span>
   </div>
-
   <div id="cartPanel" class="cart-panel" aria-hidden="true" role="region" aria-label="Shopping Cart">
     <h3>Your Cart</h3>
     <ul id="cartList" class="cart-list"></ul>
     <button id="closeCartBtn" aria-label="Close Cart">Close</button>
   </div>
-
   <div class="blob-background"></div>
-
   <div class="main-header">
     <img src="images/Bunkulogo.jpg" alt="Logo" class="logo-img" />
     <h1>Bunku Bread</h1>
     <div class="subhead">Freshly baked. Delivered with love.</div>
   </div>
-
   <form id="orderForm" class="products-list" autocomplete="off" novalidate>
-
     <div class="product-card">
-      <img src="images/BUNKUOG.jpg" alt="OG Bunku" />
+      <img src="images/BUNKUOG.jpg" alt="OG Bunku" class="product-img" />
       <div class="card-details">
         <div class="card-title">OG Bunku</div>
         <div class="card-desc">Five imported cheeses with a Korean-Japanese twist.</div>
@@ -42,9 +37,8 @@
         <label><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
-
     <div class="product-card">
-      <img src="images/ZAATAR.jpg" alt="Zaatar Bomb" />
+      <img src="images/ZAATAR.jpg" alt="Zaatar Bomb" class="product-img" />
       <div class="card-details">
         <div class="card-title">Zaatar Bomb</div>
         <div class="card-desc">A burst of eight Zataar blends with our Korean-Japanese cheeses mix</div>
@@ -57,9 +51,8 @@
         <label><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
-
     <div class="product-card">
-      <img src="images/DIABETES.jpg" alt="Diabetes" />
+      <img src="images/DIABETES.jpg" alt="Diabetes" class="product-img" />
       <div class="card-details">
         <div class="card-title">Diabetes</div>
         <div class="card-desc">Nutella, chocolate fusion & marshmallow topping.</div>
@@ -72,9 +65,8 @@
         <label><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
       </div>
     </div>
-
     <div class="product-card">
-      <img src="images/STRAWBERRYHAVEN.jpg" alt="Strawberry Haven" />
+      <img src="images/STRAWBERRYHAVEN.jpg" alt="Strawberry Haven" class="product-img" />
       <div class="card-details">
         <div class="card-title">Strawberry Haven</div>
         <div class="card-desc">Home-made jam with our Korean- Japanese cheeses mix</div>
@@ -86,9 +78,8 @@
         </div>
       </div>
     </div>
-
     <div class="product-card">
-      <img src="images/BERRYBLAST.jpg" alt="Berry Blast" />
+      <img src="images/BERRYBLAST.jpg" alt="Berry Blast" class="product-img" />
       <div class="card-details">
         <div class="card-title">Berry Blast</div>
         <div class="card-desc">Home-made Blackberry Jam with our Korean-Japanese cheeses mix</div>
@@ -100,9 +91,7 @@
         </div>
       </div>
     </div>
-
     <div class="cart-checkout">
-
       <fieldset id="orderTypeFieldset">
         <legend>Order Type:</legend>
         <label>
@@ -114,17 +103,14 @@
           Pick up
         </label>
       </fieldset>
-
       <div id="deliveryFields" class="checkout-fields hidden">
         <h4>Delivery Details</h4>
         <label for="deliveryName">Name:</label>
         <input type="text" id="deliveryName" name="deliveryName" required />
         <span class="error" id="deliveryNameError"></span>
-
         <label for="deliveryPhone">Phone Number:</label>
         <input type="tel" id="deliveryPhone" name="deliveryPhone" pattern="[0-9]+" required />
         <span class="error" id="deliveryPhoneError"></span>
-
         <label for="deliveryCity">City:</label>
         <select id="deliveryCity" name="deliveryCity" required>
           <option value="">Select City</option>
@@ -137,58 +123,49 @@
           <option value="Al Ain">Al Ain</option>
         </select>
         <span class="error" id="deliveryCityError"></span>
-
         <label for="deliveryDate">Date:</label>
         <input type="date" id="deliveryDate" name="deliveryDate" required />
         <span class="error" id="deliveryDateError"></span>
-
         <label for="deliveryTime">Time of delivery:</label>
         <input type="time" id="deliveryTime" name="deliveryTime" min="10:00" max="22:00" required />
         <span class="error" id="deliveryTimeError"></span>
-
         <label for="deliveryArea">Area:</label>
         <input type="text" id="deliveryArea" name="deliveryArea" required />
         <span class="error" id="deliveryAreaError"></span>
-
         <p id="deliveryChargeInfo" class="delivery-charge-info"></p>
       </div>
-
       <div id="pickupFields" class="checkout-fields hidden">
         <h4>Pick Up Details</h4>
         <label for="pickupName">Name:</label>
         <input type="text" id="pickupName" name="pickupName" required />
         <span class="error" id="pickupNameError"></span>
-
         <label for="pickupPhone">Phone Number:</label>
         <input type="tel" id="pickupPhone" name="pickupPhone" pattern="[0-9]+" required />
         <span class="error" id="pickupPhoneError"></span>
-
         <label for="pickupPlate">Plate Number:</label>
         <input type="text" id="pickupPlate" name="pickupPlate" pattern="[a-zA-Z0-9]+" required />
         <span class="error" id="pickupPlateError"></span>
-
         <label for="pickupDate">Date:</label>
         <input type="date" id="pickupDate" name="pickupDate" required />
         <span class="error" id="pickupDateError"></span>
-
         <label for="pickupTime">Time:</label>
         <input type="time" id="pickupTime" name="pickupTime" min="10:00" max="22:00" required />
         <span class="error" id="pickupTimeError"></span>
       </div>
-
       <h3>Order Overview</h3>
       <ul id="overviewCartList" class="cart-list overview-cart-list"></ul>
-
       <button id="checkoutBtn" type="submit" class="checkout-btn">Checkout</button>
     </div>
   </form>
-
+  <div id="lightbox" class="lightbox hidden">
+    <img id="lightboxImg" src="" alt="Large Preview">
+    <button id="lightboxClose" aria-label="Close large image">&times;</button>
+  </div>
   <div class="footer">
     <a href="https://www.instagram.com/bunku.uae/" target="_blank" aria-label="Instagram"><img src="images/instagram.png" alt="Instagram" class="footer-icon" /></a>
     <a href="https://api.whatsapp.com/send?phone=971544588113" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
     <a href="https://www.tiktok.com/@bunku.uae" target="_blank" aria-label="TikTok"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
   </div>
-
 <script src="script.js"></script>
 </body>
 </html>
