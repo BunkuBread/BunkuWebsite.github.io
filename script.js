@@ -363,6 +363,29 @@ document.addEventListener('DOMContentLoaded', () => {
     cartPanel.setAttribute('aria-hidden', 'true');
     cartSummary.focus();
   });
+
+  // Lightbox logic for product images
+  document.querySelectorAll('.product-img').forEach(img => {
+    img.addEventListener('click', () => {
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  document.getElementById('lightboxClose').addEventListener('click', () => {
+    document.getElementById('lightbox').classList.add('hidden');
+    document.body.style.overflow = '';
+  });
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) {
+      e.currentTarget.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+  });
+
   checkoutBtn.addEventListener('click', (event) => {
     event.preventDefault();
     if (Object.values(cart).reduce((a, b) => a + b.qty, 0) < 1) {
@@ -370,9 +393,34 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (!validateForm()) return;
-    let message = `Hello! I placed an order:\n\n`;
-    message += "Orders:\n";
     let total = 0;
+    let message = `Hello! I placed an order:\n\n`;
+
+    // Customer details section FIRST
+    const orderType = document.querySelector('input[name="order_type"]:checked');
+    if (orderType.value === "delivery") {
+      const deliveryName = document.getElementById("deliveryName").value.trim();
+      const deliveryPhone = document.getElementById("deliveryPhone").value.trim();
+      const deliveryCity = document.getElementById("deliveryCity").value;
+      const deliveryDate = document.getElementById("deliveryDate").value;
+      const deliveryTime = document.getElementById("deliveryTime").value;
+      const deliveryArea = document.getElementById("deliveryArea").value.trim();
+      let deliveryCharge = getDeliveryFee(deliveryCity);
+      if (deliveryCharge === 0) deliveryCharge = "Estimated on message";
+      message += "Delivery Details:\n";
+      message += `Name: ${deliveryName}\nPhone: ${deliveryPhone}\nCity: ${deliveryCity}\nDate: ${deliveryDate}\nTime: ${deliveryTime}\nArea: ${deliveryArea}\nDelivery Charge: ${deliveryCharge} AED\n\n`;
+    } else if (orderType.value === "pickup") {
+      const pickupName = document.getElementById("pickupName").value.trim();
+      const pickupPhone = document.getElementById("pickupPhone").value.trim();
+      const pickupPlate = document.getElementById("pickupPlate").value.trim();
+      const pickupDate = document.getElementById("pickupDate").value;
+      const pickupTime = document.getElementById("pickupTime").value;
+      message += "Pick Up Details:\n";
+      message += `Name: ${pickupName}\nPhone: ${pickupPhone}\nPlate Number: ${pickupPlate}\nDate: ${pickupDate}\nTime: ${pickupTime}\n\n`;
+    }
+
+    // Orders follow
+    message += "Orders:\n";
     for (const [name, item] of Object.entries(cart)) {
       message += `${name}: ${item.qty} box(es)\n`;
       total += item.qty * item.price;
@@ -389,33 +437,18 @@ document.addEventListener('DOMContentLoaded', () => {
       message += "Extra chocolate sauce (Diabetes): Yes (+5 AED)\n";
       total += 5;
     }
-    const orderType = document.querySelector('input[name="order_type"]:checked');
     if (orderType.value === "delivery") {
-      const deliveryName = document.getElementById("deliveryName").value.trim();
-      const deliveryPhone = document.getElementById("deliveryPhone").value.trim();
       const deliveryCity = document.getElementById("deliveryCity").value;
-      const deliveryDate = document.getElementById("deliveryDate").value;
-      const deliveryTime = document.getElementById("deliveryTime").value;
-      const deliveryArea = document.getElementById("deliveryArea").value.trim();
       let deliveryCharge = getDeliveryFee(deliveryCity);
-      if (deliveryCharge === 0) deliveryCharge = "Estimated on message";
-      message += "\nDelivery Details:\n";
-      message += `Name: ${deliveryName}\nPhone: ${deliveryPhone}\nCity: ${deliveryCity}\nDate: ${deliveryDate}\nTime: ${deliveryTime}\nArea: ${deliveryArea}\nDelivery Charge: ${deliveryCharge} AED\n`;
       if (typeof deliveryCharge === "number") total += deliveryCharge;
-    } else if (orderType.value === "pickup") {
-      const pickupName = document.getElementById("pickupName").value.trim();
-      const pickupPhone = document.getElementById("pickupPhone").value.trim();
-      const pickupPlate = document.getElementById("pickupPlate").value.trim();
-      const pickupDate = document.getElementById("pickupDate").value;
-      const pickupTime = document.getElementById("pickupTime").value;
-      message += "\nPick Up Details:\n";
-      message += `Name: ${pickupName}\nPhone: ${pickupPhone}\nPlate Number: ${pickupPlate}\nDate: ${pickupDate}\nTime: ${pickupTime}\n`;
     }
     message += `\nTotal: ${total} AED`;
+
     const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(message)}`;
     alert("Order sent! Redirecting to WhatsApp.");
     window.open(whatsappUrl, "_blank");
   });
+
   updateCartSummary();
   populateCartPanel();
   populateOverviewCart();
