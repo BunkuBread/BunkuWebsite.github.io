@@ -316,3 +316,45 @@ h1 {
   font-weight: 700;
   border-bottom: none;
 }
+.product-img {
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.product-img:hover {
+  box-shadow: 0 0 4px 2px #ffa50066;
+}
+.lightbox {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.88);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+.lightbox.hidden {
+  display: none;
+}
+#lightboxImg {
+  max-width: 85vw;
+  max-height: 80vh;
+  border-radius: 18px;
+  box-shadow: 0 0 24px 6px #ffd699;
+  background: #fffbe9;
+}
+#lightboxClose {
+  position: fixed;
+  top: 34px;
+  right: 44px;
+  color: #fff;
+  font-size: 2.6em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 100002;
+  text-shadow: 0 0 8px #a0522d, 0 0 18px #ffb347;
+}
+#lightboxClose:hover {
+  color: #ffb347;
+}
