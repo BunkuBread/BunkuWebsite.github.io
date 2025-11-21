@@ -1,3 +1,28 @@
+// ----------- TELEGRAM CONFIGURATION -----------
+const TELEGRAM_BOT_TOKEN = '8546727137:AAE83g5eE0TuSeRTZgbBxHHAkiLBTohCirQ';
+const TELEGRAM_CHAT_ID = '-1003350834763';
+
+// Telegram send function
+function sendTelegramOrder(message) {
+  fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      chat_id: TELEGRAM_CHAT_ID,
+      text: message
+    })
+  }).then(response => {
+    if (!response.ok) {
+      console.error("Telegram message failed", response.status);
+    }
+  }).catch(e => {
+    console.error("Telegram error", e);
+  });
+}
+
+// ----------- Rest of cart and checkout code -----------
 const cart = {};
 
 function getDeliveryFee(city) {
@@ -444,6 +469,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     message += `\nTotal: ${total} AED`;
 
+    // --- SEND TO TELEGRAM HERE ---
+    sendTelegramOrder(message);
+
+    // --- Existing WhatsApp redirect ---
     const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(message)}`;
     alert("Order sent! Redirecting to WhatsApp.");
     window.open(whatsappUrl, "_blank");
