@@ -23,6 +23,7 @@
     <div class="subhead">Freshly baked. Delivered with love.</div>
   </div>
   <form id="orderForm" class="products-list" autocomplete="off" novalidate>
+    <!-- OG Bunku -->
     <div class="product-card">
       <img src="images/BUNKUOG.jpg" alt="OG Bunku" class="product-img" />
       <div class="card-details">
@@ -37,6 +38,7 @@
         <label><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
+    <!-- Zaatar Bomb -->
     <div class="product-card">
       <img src="images/ZAATAR.jpg" alt="Zaatar Bomb" class="product-img" />
       <div class="card-details">
@@ -51,6 +53,7 @@
         <label><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
       </div>
     </div>
+    <!-- Diabetes -->
     <div class="product-card">
       <img src="images/DIABETES.jpg" alt="Diabetes" class="product-img" />
       <div class="card-details">
@@ -65,6 +68,7 @@
         <label><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
       </div>
     </div>
+    <!-- Strawberry Haven -->
     <div class="product-card">
       <img src="images/STRAWBERRYHAVEN.jpg" alt="Strawberry Haven" class="product-img" />
       <div class="card-details">
@@ -78,6 +82,7 @@
         </div>
       </div>
     </div>
+    <!-- Berry Blast -->
     <div class="product-card">
       <img src="images/BERRYBLAST.jpg" alt="Berry Blast" class="product-img" />
       <div class="card-details">
@@ -91,7 +96,7 @@
         </div>
       </div>
     </div>
-    <!-- Labneh Bliss Card Start -->
+    <!-- Labneh Bliss -->
     <div class="product-card">
       <img src="images/LABNEHBLISS.png" alt="Labneh Bliss" class="product-img" />
       <div class="card-details">
@@ -105,7 +110,36 @@
         </div>
       </div>
     </div>
-    <!-- Labneh Bliss Card Ending -->
+    <!-- NEW: Honey Trap -->
+    <div class="product-card">
+      <img src="images/Comingsoon.png" alt="Honey Trap" class="product-img" />
+      <div class="card-details">
+        <div class="card-title">Honey Trap</div>
+        <div class="card-desc">Tasting the flavours..</div>
+        <div class="card-price">65 AED</div>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="Honey Trap" aria-label="Reduce Honey Trap quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_honey_trap" data-name="Honey Trap" class="qty-input" aria-label="Honey Trap quantity" />
+          <button type="button" class="qty-btn plus" data-name="Honey Trap" aria-label="Increase Honey Trap quantity">+</button>
+        </div>
+      </div>
+    </div>
+    <!-- NEW: Date Me -->
+    <div class="product-card">
+      <img src="images/Comingsoon.png" alt="Date Me" class="product-img" />
+      <div class="card-details">
+        <div class="card-title">Date Me</div>
+        <div class="card-desc">Testing the flavours..</div>
+        <div class="card-price">65 AED</div>
+        <div class="card-controls quantity-controls">
+          <button type="button" class="qty-btn minus" data-name="Date Me" aria-label="Reduce Date Me quantity">-</button>
+          <input type="number" min="0" max="10" value="0" id="qty_date_me" data-name="Date Me" class="qty-input" aria-label="Date Me quantity" />
+          <button type="button" class="qty-btn plus" data-name="Date Me" aria-label="Increase Date Me quantity">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout section (unchanged) -->
     <div class="cart-checkout">
       <fieldset id="orderTypeFieldset">
         <legend>Order Type:</legend>
@@ -128,15 +162,15 @@
         <span class="error" id="deliveryPhoneError"></span>
         <label for="deliveryCity">City:</label>
         <select id="deliveryCity" name="deliveryCity" required>
-        <option value="">Select City</option>
-        <option value="Abu Dhabi">Abu Dhabi</option>
-        <option value="Dubai">Dubai</option>
-        <option value="Sharjah">Sharjah</option>
-        <option value="Ajman">Ajman</option>
-        <option value="Umm Al Quwain">Umm Al Quwain</option>
-        <option value="Ras Al Khaimah">Ras Al Khaimah</option>
-        <option value="Fujairah">Fujairah</option>
-        <option value="Al Ain">Al Ain</option>
+          <option value="">Select City</option>
+          <option value="Abu Dhabi">Abu Dhabi</option>
+          <option value="Dubai">Dubai</option>
+          <option value="Sharjah">Sharjah</option>
+          <option value="Ajman">Ajman</option>
+          <option value="Umm Al Quwain">Umm Al Quwain</option>
+          <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+          <option value="Fujairah">Fujairah</option>
+          <option value="Al Ain">Al Ain</option>
         </select>
         <span class="error" id="deliveryCityError"></span>
         <label for="deliveryDate">Date:</label>
@@ -182,6 +216,6 @@
     <a href="https://api.whatsapp.com/send?phone=971544588113" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
     <a href="https://www.tiktok.com/@bunku.uae" target="_blank" aria-label="TikTok"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
   </div>
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
