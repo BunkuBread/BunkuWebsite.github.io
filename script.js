@@ -26,8 +26,14 @@ function sendTelegramOrder(message) {
 const cart = {};
 
 function getDeliveryFee(city) {
-  const chargeCities = ["Fujairah", "Ras Al Khaimah", "Abu Dhabi", "Al Ain"];
-  if (chargeCities.includes(city)) return 35;
+  const chargeCities = [
+    "Fujairah",
+    "Ras Al Khaimah",
+    "Abu Dhabi",
+    "Al Ain",
+    "Umm Al Quwain"
+  ];
+  if (chargeCities.includes(city)) return 45;
   return 0;
 }
 
