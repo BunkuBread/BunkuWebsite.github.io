@@ -2,6 +2,9 @@
 const TELEGRAM_BOT_TOKEN = '8546727137:AAE83g5eE0TuSeRTZgbBxHHAkiLBTohCirQ';
 const TELEGRAM_CHAT_ID = '-1003350834763';
 
+// Cities that do NOT require a delivery time
+const RESTRICTED_CITIES_TIME = ["Abu Dhabi", "Ras Al Khaimah", "Fujairah"];
+
 // Telegram send function
 function sendTelegramOrder(message) {
   fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
@@ -199,6 +202,26 @@ function isSameDayAllowed(city) {
   return ["Ajman", "Dubai", "Sharjah"].includes(city);
 }
 
+// Show/hide delivery time field based on selected city
+function toggleDeliveryTimeField() {
+  const city = document.getElementById('deliveryCity').value;
+  const timeInput = document.getElementById('deliveryTime');
+  const timeLabel = document.querySelector('label[for="deliveryTime"]');
+  const timeError = document.getElementById('deliveryTimeError');
+  
+  if (RESTRICTED_CITIES_TIME.includes(city)) {
+    timeLabel.classList.add('hidden');
+    timeInput.classList.add('hidden');
+    timeError.classList.add('hidden');
+    timeInput.required = false;
+  } else {
+    timeLabel.classList.remove('hidden');
+    timeInput.classList.remove('hidden');
+    timeError.classList.remove('hidden');
+    timeInput.required = true;
+  }
+}
+
 function showHideOrderFields() {
   const deliveryFields = document.getElementById('deliveryFields');
   const pickupFields = document.getElementById('pickupFields');
@@ -211,6 +234,7 @@ function showHideOrderFields() {
   if (orderType.value === "delivery") {
     deliveryFields.classList.remove('hidden');
     pickupFields.classList.add('hidden');
+    toggleDeliveryTimeField(); // Ensure time field visibility matches city
   } else if (orderType.value === "pickup") {
     pickupFields.classList.remove('hidden');
     deliveryFields.classList.add('hidden');
@@ -273,9 +297,12 @@ function validateForm() {
         valid = false;
       }
     }
-    if (!time) {
-      document.getElementById("deliveryTimeError").textContent = "Select time";
-      valid = false;
+    // Time validation – skip for restricted cities
+    if (!RESTRICTED_CITIES_TIME.includes(city)) {
+      if (!time) {
+        document.getElementById("deliveryTimeError").textContent = "Select time";
+        valid = false;
+      }
     }
     if (!area) {
       document.getElementById("deliveryAreaError").textContent = "Area required";
@@ -376,6 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
   deliveryCitySelect.addEventListener('change', () => {
     updateDeliveryChargeInfo();
     updateCartSummary();
+    toggleDeliveryTimeField(); // Hide/show time field based on city
   });
   cartSummary.addEventListener('click', () => {
     const isVisible = cartPanel.classList.contains('show');
