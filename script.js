@@ -2,8 +2,8 @@
 const TELEGRAM_BOT_TOKEN = '8546727137:AAE83g5eE0TuSeRTZgbBxHHAkiLBTohCirQ';
 const TELEGRAM_CHAT_ID = '-1003350834763';
 
-// Cities that do NOT require a delivery time
-const RESTRICTED_CITIES_TIME = ["Abu Dhabi", "Ras Al Khaimah", "Fujairah"];
+// Cities that are allowed to select a delivery time
+const ALLOWED_TIME_CITIES = ["Dubai", "Sharjah", "Ajman", "Umm Al Quwain"];
 
 // Telegram send function
 function sendTelegramOrder(message) {
@@ -202,23 +202,26 @@ function isSameDayAllowed(city) {
   return ["Ajman", "Dubai", "Sharjah"].includes(city);
 }
 
-// Show/hide delivery time field based on selected city
+// Show/hide and disable delivery time field based on city
 function toggleDeliveryTimeField() {
   const city = document.getElementById('deliveryCity').value;
   const timeInput = document.getElementById('deliveryTime');
-  const timeLabel = document.querySelector('label[for="deliveryTime"]');
+  const timeMessage = document.getElementById('deliveryTimeMessage');
   const timeError = document.getElementById('deliveryTimeError');
   
-  if (RESTRICTED_CITIES_TIME.includes(city)) {
-    timeLabel.classList.add('hidden');
-    timeInput.classList.add('hidden');
-    timeError.classList.add('hidden');
-    timeInput.required = false;
-  } else {
-    timeLabel.classList.remove('hidden');
-    timeInput.classList.remove('hidden');
-    timeError.classList.remove('hidden');
+  if (ALLOWED_TIME_CITIES.includes(city)) {
+    // Enable time input
+    timeInput.disabled = false;
     timeInput.required = true;
+    timeMessage.classList.add('hidden');
+    timeError.classList.remove('hidden');
+  } else {
+    // Disable time input and show message
+    timeInput.disabled = true;
+    timeInput.required = false;
+    timeInput.value = ''; // clear any value
+    timeMessage.classList.remove('hidden');
+    timeError.classList.add('hidden');
   }
 }
 
@@ -297,8 +300,8 @@ function validateForm() {
         valid = false;
       }
     }
-    // Time validation – skip for restricted cities
-    if (!RESTRICTED_CITIES_TIME.includes(city)) {
+    // Time validation – only required for allowed cities
+    if (ALLOWED_TIME_CITIES.includes(city)) {
       if (!time) {
         document.getElementById("deliveryTimeError").textContent = "Select time";
         valid = false;
@@ -462,12 +465,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const deliveryPhone = document.getElementById("deliveryPhone").value.trim();
       const deliveryCity = document.getElementById("deliveryCity").value;
       const deliveryDate = document.getElementById("deliveryDate").value;
-      const deliveryTime = document.getElementById("deliveryTime").value;
+      const deliveryTimeInput = document.getElementById("deliveryTime");
+      let deliveryTimeText;
+      if (ALLOWED_TIME_CITIES.includes(deliveryCity)) {
+        deliveryTimeText = deliveryTimeInput.value;
+      } else {
+        deliveryTimeText = "Due to your region, time of delivery is unavailable";
+      }
       const deliveryArea = document.getElementById("deliveryArea").value.trim();
       let deliveryCharge = getDeliveryFee(deliveryCity);
       if (deliveryCharge === 0) deliveryCharge = "Estimated on message";
       message += "Delivery Details:\n";
-      message += `Name: ${deliveryName}\nPhone: ${deliveryPhone}\nCity: ${deliveryCity}\nDate: ${deliveryDate}\nTime: ${deliveryTime}\nArea: ${deliveryArea}\nDelivery Charge: ${deliveryCharge} AED\n\n`;
+      message += `Name: ${deliveryName}\nPhone: ${deliveryPhone}\nCity: ${deliveryCity}\nDate: ${deliveryDate}\nTime: ${deliveryTimeText}\nArea: ${deliveryArea}\nDelivery Charge: ${deliveryCharge} AED\n\n`;
     } else if (orderType.value === "pickup") {
       const pickupName = document.getElementById("pickupName").value.trim();
       const pickupPhone = document.getElementById("pickupPhone").value.trim();
