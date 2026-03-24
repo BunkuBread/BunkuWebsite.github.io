@@ -291,6 +291,19 @@ h1 {
   border-color: #ffa500;
   box-shadow: 0 0 8px #ffa500aa;
 }
+input:disabled {
+  background-color: #e9ecef;
+  color: #6c757d;
+  cursor: not-allowed;
+  border-color: #ced4da;
+}
+.time-message {
+  display: block;
+  font-size: 0.85em;
+  color: #6c757d;
+  margin-top: 4px;
+  font-style: italic;
+}
 .hidden {
   display: none;
 }
