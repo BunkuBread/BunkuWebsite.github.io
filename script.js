@@ -1,7 +1,6 @@
 // ----------- TELEGRAM CONFIGURATIONS -----------
-const TELEGRAM_BOT_TOKEN = '8546727137:AAE83g5eE0TuSeRTZgbBxHHAkiLBTohCirQ';
+const TELEGRAM_BOT_TOKEN = '8871844782:AAESEct5I23R4yyDVWOXivxJ7o808pJeneU';
 const TELEGRAM_CHAT_ID = '-1003350834763';
-
 // Cities that are allowed to select a delivery time
 const ALLOWED_TIME_CITIES = ["Dubai", "Sharjah", "Ajman", "Umm Al Quwain"];
 
