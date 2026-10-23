@@ -4,232 +4,385 @@
   <meta charset="UTF-8" />
   <title>Bunku Bread Order</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+  <meta name="description" content="Order freshly baked Bunku bread. Delivery across the UAE or pick up." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=Fraunces:opsz,wght@9..144,500;9..144,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <a class="skip-link" href="#menu">Skip to menu</a>
+
+  <!-- Cart pill (script.js rewrites its contents) -->
   <div id="cartSummary" class="cart-summary-sticky" tabindex="0" aria-label="Toggle Cart Summary" role="button">
     Cart: 0 items <span id="cartTotal"></span>
   </div>
+
+  <!-- Cart panel (script.js toggles the "show" class) -->
   <div id="cartPanel" class="cart-panel" aria-hidden="true" role="region" aria-label="Shopping Cart">
-    <h3>Your Cart</h3>
+    <h3>Your cart</h3>
     <ul id="cartList" class="cart-list"></ul>
-    <button id="closeCartBtn" aria-label="Close Cart">Close</button>
+    <button id="closeCartBtn" type="button" aria-label="Close Cart">Close</button>
   </div>
-  <div class="blob-background"></div>
-  <div class="main-header">
-    <img src="images/Bunkulogo.jpg" alt="Logo" class="logo-img" />
-    <h1>Bunku Bread</h1>
-    <div class="subhead">Freshly baked. Delivered with love.</div>
-  </div>
-  <form id="orderForm" class="products-list" autocomplete="off" novalidate>
-    <!-- OG Bunku -->
-    <div class="product-card">
-      <img src="images/BUNKUOG.jpg" alt="OG Bunku" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">OG Bunku</div>
-        <div class="card-desc">Five imported cheeses with a Korean-Japanese twist.</div>
-        <div class="card-price">55 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="OG Bunku" aria-label="Reduce OG Bunku quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" aria-label="OG Bunku quantity" />
-          <button type="button" class="qty-btn plus" data-name="OG Bunku" aria-label="Increase OG Bunku quantity">+</button>
+
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="Bunku home">
+        <img src="images/Bunkulogo.jpg" alt="Bunku logo" class="logo-img" />
+        <span class="brand-name">Bunku</span>
+      </a>
+      <nav class="category-nav" aria-label="Menu sections">
+        <a href="#savory">Savory</a>
+        <a href="#sweet">Sweet</a>
+        <a href="#box">Box</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Freshly baked.<br />Delivered with love.</h1>
+        <p class="hero-copy">Choose your Bunku, pick delivery or pickup, and send your order on WhatsApp.</p>
+        <ul class="hero-facts">
+          <li>Delivery across the UAE</li>
+          <li>Same-day in Dubai, Sharjah and Ajman</li>
+          <li>Pickup available</li>
+        </ul>
+      </div>
+    </section>
+
+    <form id="orderForm" class="layout" autocomplete="off" novalidate>
+
+      <!-- ============ MENU ============ -->
+      <div id="menu" class="menu">
+
+        <section id="savory" class="menu-group" aria-labelledby="savoryTitle">
+          <div class="group-head">
+            <h2 id="savoryTitle">Savory</h2>
+            <p>Cheese, zaatar and labneh</p>
+          </div>
+          <div class="menu-grid">
+
+            <!-- OG Bunku -->
+            <article class="product-card">
+              <img src="images/BUNKUOG.jpg" alt="OG Bunku" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">OG Bunku</h3>
+                  <div class="card-price">55 AED</div>
+                </div>
+                <p class="card-desc">Five imported cheeses with a Korean-Japanese twist.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="OG Bunku" aria-label="Reduce OG Bunku quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" aria-label="OG Bunku quantity" />
+                  <button type="button" class="qty-btn plus" data-name="OG Bunku" aria-label="Increase OG Bunku quantity">+</button>
+                </div>
+                <label class="addon"><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
+              </div>
+            </article>
+
+            <!-- Zaatar Bomb -->
+            <article class="product-card">
+              <img src="images/ZAATAR.jpg" alt="Zaatar Bomb" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Zaatar Bomb</h3>
+                  <div class="card-price">60 AED</div>
+                </div>
+                <p class="card-desc">A burst of eight Zaatar blends with our Korean-Japanese cheeses mix.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Zaatar Bomb" aria-label="Reduce Zaatar Bomb quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_zaatar_bomb" data-name="Zaatar Bomb" class="qty-input" aria-label="Zaatar Bomb quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Zaatar Bomb" aria-label="Increase Zaatar Bomb quantity">+</button>
+                </div>
+                <label class="addon"><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
+              </div>
+            </article>
+
+            <!-- Date Me -->
+            <article class="product-card">
+              <img src="images/DateMe.png" alt="Date Me" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Date Me</h3>
+                  <div class="card-price">65 AED</div>
+                </div>
+                <p class="card-desc">Five imported cheeses with a Korean-Japanese &amp; Arabic twist, blended with sweet dates.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Date Me" aria-label="Reduce Date Me quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_date_me" data-name="Date Me" class="qty-input" aria-label="Date Me quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Date Me" aria-label="Increase Date Me quantity">+</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Labneh Bliss -->
+            <article class="product-card">
+              <img src="images/LABNEHBLISS.png" alt="Labneh Bliss" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Labneh Bliss</h3>
+                  <div class="card-price">60 AED</div>
+                </div>
+                <p class="card-desc">Home made labneh with our mix of nuts and flavorful spices.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Labneh Bliss" aria-label="Reduce Labneh Bliss quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_labneh_bliss" data-name="Labneh Bliss" class="qty-input" aria-label="Labneh Bliss quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Labneh Bliss" aria-label="Increase Labneh Bliss quantity">+</button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section id="sweet" class="menu-group" aria-labelledby="sweetTitle">
+          <div class="group-head">
+            <h2 id="sweetTitle">Sweet</h2>
+            <p>Chocolate, jam and honey</p>
+          </div>
+          <div class="menu-grid">
+
+            <!-- Diabetes -->
+            <article class="product-card">
+              <img src="images/DIABETES.jpg" alt="Diabetes" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Diabetes</h3>
+                  <div class="card-price">65 AED</div>
+                </div>
+                <p class="card-desc">Nutella, chocolate fusion &amp; marshmallow topping.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Diabetes" aria-label="Reduce Diabetes quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_diabetes" data-name="Diabetes" class="qty-input" aria-label="Diabetes quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Diabetes" aria-label="Increase Diabetes quantity">+</button>
+                </div>
+                <label class="addon"><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
+              </div>
+            </article>
+
+            <!-- Honey Trap -->
+            <article class="product-card">
+              <img src="images/HoneyTrap.png" alt="Honey Trap" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Honey Trap</h3>
+                  <div class="card-price">65 AED</div>
+                </div>
+                <p class="card-desc">Homemade cream cheese with cinnamon, finished with a rich honey drizzle.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Honey Trap" aria-label="Reduce Honey Trap quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_honey_trap" data-name="Honey Trap" class="qty-input" aria-label="Honey Trap quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Honey Trap" aria-label="Increase Honey Trap quantity">+</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Strawberry Haven -->
+            <article class="product-card">
+              <img src="images/STRAWBERRYHAVEN.jpg" alt="Strawberry Haven" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Strawberry Haven</h3>
+                  <div class="card-price">60 AED</div>
+                </div>
+                <p class="card-desc">Home-made jam with our Korean-Japanese cheeses mix.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Strawberry Haven" aria-label="Reduce Strawberry Haven quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_strawberry_haven" data-name="Strawberry Haven" class="qty-input" aria-label="Strawberry Haven quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Strawberry Haven" aria-label="Increase Strawberry Haven quantity">+</button>
+                </div>
+              </div>
+            </article>
+
+            <!-- Berry Blast -->
+            <article class="product-card">
+              <img src="images/BERRYBLAST.jpg" alt="Berry Blast" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Berry Blast</h3>
+                  <div class="card-price">60 AED</div>
+                </div>
+                <p class="card-desc">Home-made blackberry jam with our Korean-Japanese cheeses mix.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Berry Blast" aria-label="Reduce Berry Blast quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_berry_blast" data-name="Berry Blast" class="qty-input" aria-label="Berry Blast quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Berry Blast" aria-label="Increase Berry Blast quantity">+</button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        <section id="box" class="menu-group" aria-labelledby="boxTitle">
+          <div class="group-head">
+            <h2 id="boxTitle">Box</h2>
+            <p>Every Bunku flavour in one place</p>
+          </div>
+          <div class="menu-grid">
+
+            <!-- Signature Box -->
+            <article class="product-card">
+              <img src="images/SignatureBox.png" alt="Signature Box" class="product-img" />
+              <div class="card-details">
+                <div class="card-head">
+                  <h3 class="card-title">Signature Box</h3>
+                  <div class="card-price">145 AED</div>
+                </div>
+                <p class="card-desc">Enjoy every Bunku flavour in our Signature Box.</p>
+                <div class="card-controls quantity-controls">
+                  <button type="button" class="qty-btn minus" data-name="Signature Box" aria-label="Reduce Signature Box quantity">&minus;</button>
+                  <input type="number" min="0" max="10" value="0" id="qty_signature_box" data-name="Signature Box" class="qty-input" aria-label="Signature Box quantity" />
+                  <button type="button" class="qty-btn plus" data-name="Signature Box" aria-label="Increase Signature Box quantity">+</button>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </section>
+      </div>
+
+      <!-- ============ CHECKOUT ============ -->
+      <aside id="checkout" class="cart-checkout" aria-labelledby="checkoutTitle">
+        <h2 id="checkoutTitle" class="panel-title">Your order</h2>
+
+        <fieldset id="orderTypeFieldset" class="order-type">
+          <legend>How would you like it?</legend>
+          <div class="segmented">
+            <label>
+              <input type="radio" name="order_type" value="delivery" id="orderTypeDelivery" required />
+              <span>Delivery</span>
+            </label>
+            <label>
+              <input type="radio" name="order_type" value="pickup" id="orderTypePickup" />
+              <span>Pick up</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div id="deliveryFields" class="checkout-fields hidden">
+          <h3>Delivery details</h3>
+
+          <div class="field">
+            <label for="deliveryName">Name</label>
+            <input type="text" id="deliveryName" name="deliveryName" required />
+            <span class="error" id="deliveryNameError"></span>
+          </div>
+
+          <div class="field">
+            <label for="deliveryPhone">Phone number</label>
+            <input type="tel" id="deliveryPhone" name="deliveryPhone" pattern="[0-9]+" inputmode="numeric" required />
+            <span class="error" id="deliveryPhoneError"></span>
+          </div>
+
+          <div class="field">
+            <label for="deliveryCity">City</label>
+            <select id="deliveryCity" name="deliveryCity" required>
+              <option value="">Select city</option>
+              <option value="Abu Dhabi">Abu Dhabi</option>
+              <option value="Dubai">Dubai</option>
+              <option value="Sharjah">Sharjah</option>
+              <option value="Ajman">Ajman</option>
+              <option value="Umm Al Quwain">Umm Al Quwain</option>
+              <option value="Ras Al Khaimah">Ras Al Khaimah</option>
+              <option value="Fujairah">Fujairah</option>
+              <option value="Al Ain">Al Ain</option>
+            </select>
+            <span class="error" id="deliveryCityError"></span>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="deliveryDate">Date</label>
+              <input type="date" id="deliveryDate" name="deliveryDate" required />
+              <span class="error" id="deliveryDateError"></span>
+            </div>
+            <div class="field">
+              <label for="deliveryTime">Time</label>
+              <input type="time" id="deliveryTime" name="deliveryTime" min="10:00" max="22:00" required />
+              <span class="error" id="deliveryTimeError"></span>
+            </div>
+          </div>
+          <span id="deliveryTimeMessage" class="time-message hidden">Due to your region, time of delivery is unavailable</span>
+
+          <div class="field">
+            <label for="deliveryArea">Area</label>
+            <input type="text" id="deliveryArea" name="deliveryArea" required />
+            <span class="error" id="deliveryAreaError"></span>
+          </div>
+
+          <p id="deliveryChargeInfo" class="delivery-charge-info"></p>
         </div>
-        <label><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
-      </div>
-    </div>
-    <!-- Zaatar Bomb -->
-    <div class="product-card">
-      <img src="images/ZAATAR.jpg" alt="Zaatar Bomb" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Zaatar Bomb</div>
-        <div class="card-desc">A burst of eight Zataar blends with our Korean-Japanese cheeses mix</div>
-        <div class="card-price">60 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Zaatar Bomb" aria-label="Reduce Zaatar Bomb quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_zaatar_bomb" data-name="Zaatar Bomb" class="qty-input" aria-label="Zaatar Bomb quantity" />
-          <button type="button" class="qty-btn plus" data-name="Zaatar Bomb" aria-label="Increase Zaatar Bomb quantity">+</button>
+
+        <div id="pickupFields" class="checkout-fields hidden">
+          <h3>Pick up details</h3>
+
+          <div class="field">
+            <label for="pickupName">Name</label>
+            <input type="text" id="pickupName" name="pickupName" required />
+            <span class="error" id="pickupNameError"></span>
+          </div>
+
+          <div class="field">
+            <label for="pickupPhone">Phone number</label>
+            <input type="tel" id="pickupPhone" name="pickupPhone" pattern="[0-9]+" inputmode="numeric" required />
+            <span class="error" id="pickupPhoneError"></span>
+          </div>
+
+          <div class="field">
+            <label for="pickupPlate">Plate number</label>
+            <input type="text" id="pickupPlate" name="pickupPlate" pattern="[a-zA-Z0-9]+" required />
+            <span class="error" id="pickupPlateError"></span>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="pickupDate">Date</label>
+              <input type="date" id="pickupDate" name="pickupDate" required />
+              <span class="error" id="pickupDateError"></span>
+            </div>
+            <div class="field">
+              <label for="pickupTime">Time</label>
+              <input type="time" id="pickupTime" name="pickupTime" min="10:00" max="22:00" required />
+              <span class="error" id="pickupTimeError"></span>
+            </div>
+          </div>
         </div>
-        <label><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
-      </div>
-    </div>
-    <!-- Diabetes -->
-    <div class="product-card">
-      <img src="images/DIABETES.jpg" alt="Diabetes" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Diabetes</div>
-        <div class="card-desc">Nutella, chocolate fusion & marshmallow topping.</div>
-        <div class="card-price">65 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Diabetes" aria-label="Reduce Diabetes quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_diabetes" data-name="Diabetes" class="qty-input" aria-label="Diabetes quantity" />
-          <button type="button" class="qty-btn plus" data-name="Diabetes" aria-label="Increase Diabetes quantity">+</button>
+
+        <div class="summary">
+          <h3>Order summary</h3>
+          <ul id="overviewCartList" class="cart-list overview-cart-list"></ul>
         </div>
-        <label><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
-      </div>
-    </div>
-    <!-- Strawberry Haven -->
-    <div class="product-card">
-      <img src="images/STRAWBERRYHAVEN.jpg" alt="Strawberry Haven" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Strawberry Haven</div>
-        <div class="card-desc">Home-made jam with our Korean- Japanese cheeses mix</div>
-        <div class="card-price">60 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Strawberry Haven" aria-label="Reduce Strawberry Haven quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_strawberry_haven" data-name="Strawberry Haven" class="qty-input" aria-label="Strawberry Haven quantity" />
-          <button type="button" class="qty-btn plus" data-name="Strawberry Haven" aria-label="Increase Strawberry Haven quantity">+</button>
-        </div>
-      </div>
-    </div>
-    <!-- Berry Blast -->
-    <div class="product-card">
-      <img src="images/BERRYBLAST.jpg" alt="Berry Blast" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Berry Blast</div>
-        <div class="card-desc">Home-made Blackberry Jam with our Korean-Japanese cheeses mix</div>
-        <div class="card-price">60 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Berry Blast" aria-label="Reduce Berry Blast quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_berry_blast" data-name="Berry Blast" class="qty-input" aria-label="Berry Blast quantity" />
-          <button type="button" class="qty-btn plus" data-name="Berry Blast" aria-label="Increase Berry Blast quantity">+</button>
-        </div>
-      </div>
-    </div>
-    <!-- Labneh Bliss -->
-    <div class="product-card">
-      <img src="images/LABNEHBLISS.png" alt="Labneh Bliss" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Labneh Bliss</div>
-        <div class="card-desc">Home made labneh with our mix of nuts and flavorful spices</div>
-        <div class="card-price">60 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Labneh Bliss" aria-label="Reduce Labneh Bliss quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_labneh_bliss" data-name="Labneh Bliss" class="qty-input" aria-label="Labneh Bliss quantity" />
-          <button type="button" class="qty-btn plus" data-name="Labneh Bliss" aria-label="Increase Labneh Bliss quantity">+</button>
-        </div>
-      </div>
-    </div>
-    <!-- NEW: Honey Trap -->
-    <div class="product-card">
-      <img src="images/HoneyTrap.png" alt="Honey Trap" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Honey Trap</div>
-        <div class="card-desc">Homemade cream cheese with cinnamon, finished with a rich honey drizzle.</div>
-        <div class="card-price">65 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Honey Trap" aria-label="Reduce Honey Trap quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_honey_trap" data-name="Honey Trap" class="qty-input" aria-label="Honey Trap quantity" />
-          <button type="button" class="qty-btn plus" data-name="Honey Trap" aria-label="Increase Honey Trap quantity">+</button>
-        </div>
-      </div>
-    </div>
-    <!-- NEW: Date Me -->
-    <div class="product-card">
-      <img src="images/DateMe.png" alt="Date Me" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Date Me</div>
-        <div class="card-desc">Five imported cheeses with a Korean-Japanese & Arabic twist, blended with sweet dates.</div>
-        <div class="card-price">65 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Date Me" aria-label="Reduce Date Me quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_date_me" data-name="Date Me" class="qty-input" aria-label="Date Me quantity" />
-          <button type="button" class="qty-btn plus" data-name="Date Me" aria-label="Increase Date Me quantity">+</button>
-        </div>
-      </div>
-    </div>
-    <!-- NEW: Mixed Box -->
-    <div class="product-card">
-      <img src="images/SignatureBox.png" alt="Signature Box" class="product-img" />
-      <div class="card-details">
-        <div class="card-title">Signature Box</div>
-        <div class="card-desc">Enjoy every Bunku flavour in our Signature Box.</div>
-        <div class="card-price">145 AED</div>
-        <div class="card-controls quantity-controls">
-          <button type="button" class="qty-btn minus" data-name="Signature Box" aria-label="Reduce Signature Box quantity">-</button>
-          <input type="number" min="0" max="10" value="0" id="qty_signature_box" data-name="Signature Box" class="qty-input" aria-label="Signature Box quantity" />
-          <button type="button" class="qty-btn plus" data-name="Signature Box" aria-label="Increase Signature Box quantity">+</button>
-        </div>
-      </div>
-    </div>
-    <!-- Checkout section (unchanged) -->
-    <div class="cart-checkout">
-      <fieldset id="orderTypeFieldset">
-        <legend>Order Type:</legend>
-        <label>
-          <input type="radio" name="order_type" value="delivery" id="orderTypeDelivery" required />
-          Delivery
-        </label>
-        <label>
-          <input type="radio" name="order_type" value="pickup" id="orderTypePickup" />
-          Pick up
-        </label>
-      </fieldset>
-      <div id="deliveryFields" class="checkout-fields hidden">
-        <h4>Delivery Details</h4>
-        <label for="deliveryName">Name:</label>
-        <input type="text" id="deliveryName" name="deliveryName" required />
-        <span class="error" id="deliveryNameError"></span>
-        <label for="deliveryPhone">Phone Number:</label>
-        <input type="tel" id="deliveryPhone" name="deliveryPhone" pattern="[0-9]+" required />
-        <span class="error" id="deliveryPhoneError"></span>
-        <label for="deliveryCity">City:</label>
-        <select id="deliveryCity" name="deliveryCity" required>
-          <option value="">Select City</option>
-          <option value="Abu Dhabi">Abu Dhabi</option>
-          <option value="Dubai">Dubai</option>
-          <option value="Sharjah">Sharjah</option>
-          <option value="Ajman">Ajman</option>
-          <option value="Umm Al Quwain">Umm Al Quwain</option>
-          <option value="Ras Al Khaimah">Ras Al Khaimah</option>
-          <option value="Fujairah">Fujairah</option>
-          <option value="Al Ain">Al Ain</option>
-        </select>
-        <span class="error" id="deliveryCityError"></span>
-        <label for="deliveryDate">Date:</label>
-        <input type="date" id="deliveryDate" name="deliveryDate" required />
-        <span class="error" id="deliveryDateError"></span>
-        <label for="deliveryTime">Time of delivery:</label>
-        <input type="time" id="deliveryTime" name="deliveryTime" min="10:00" max="22:00" required />
-        <span id="deliveryTimeMessage" class="time-message hidden">Due to your region, time of delivery is unavailable</span>
-        <span class="error" id="deliveryTimeError"></span>
-        <label for="deliveryArea">Area:</label>
-        <input type="text" id="deliveryArea" name="deliveryArea" required />
-        <span class="error" id="deliveryAreaError"></span>
-        <p id="deliveryChargeInfo" class="delivery-charge-info"></p>
-      </div>
-      <div id="pickupFields" class="checkout-fields hidden">
-        <h4>Pick Up Details</h4>
-        <label for="pickupName">Name:</label>
-        <input type="text" id="pickupName" name="pickupName" required />
-        <span class="error" id="pickupNameError"></span>
-        <label for="pickupPhone">Phone Number:</label>
-        <input type="tel" id="pickupPhone" name="pickupPhone" pattern="[0-9]+" required />
-        <span class="error" id="pickupPhoneError"></span>
-        <label for="pickupPlate">Plate Number:</label>
-        <input type="text" id="pickupPlate" name="pickupPlate" pattern="[a-zA-Z0-9]+" required />
-        <span class="error" id="pickupPlateError"></span>
-        <label for="pickupDate">Date:</label>
-        <input type="date" id="pickupDate" name="pickupDate" required />
-        <span class="error" id="pickupDateError"></span>
-        <label for="pickupTime">Time:</label>
-        <input type="time" id="pickupTime" name="pickupTime" min="10:00" max="22:00" required />
-        <span class="error" id="pickupTimeError"></span>
-      </div>
-      <h3>Order Overview</h3>
-      <ul id="overviewCartList" class="cart-list overview-cart-list"></ul>
-      <button id="checkoutBtn" type="submit" class="checkout-btn">Checkout</button>
-    </div>
-  </form>
+
+        <button id="checkoutBtn" type="submit" class="checkout-btn">Place order on WhatsApp</button>
+        <p class="checkout-note">Your order opens in WhatsApp so we can confirm the details and any delivery charge with you.</p>
+      </aside>
+
+    </form>
+  </main>
+
+  <!-- Image preview -->
   <div id="lightbox" class="lightbox hidden">
     <img id="lightboxImg" src="" alt="Large Preview">
-    <button id="lightboxClose" aria-label="Close large image">&times;</button>
+    <button id="lightboxClose" type="button" aria-label="Close large image">&times;</button>
   </div>
-  <div class="footer">
-    <a href="https://www.instagram.com/bunku.uae/" target="_blank" aria-label="Instagram"><img src="images/instagram.png" alt="Instagram" class="footer-icon" /></a>
-    <a href="https://api.whatsapp.com/send?phone=971544588113" target="_blank" aria-label="WhatsApp"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
-    <a href="https://www.tiktok.com/@bunku.uae" target="_blank" aria-label="TikTok"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
-  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <span class="brand-name">Bunku</span>
+        <p>Homemade bakery, delivering across the UAE.</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://www.instagram.com/bunku.uae/" target="_blank" rel="noopener" aria-label="Instagram"><img src="images/instagram.png" alt="Instagram" class="footer-icon" /></a>
+        <a href="https://api.whatsapp.com/send?phone=971544588113" target="_blank" rel="noopener" aria-label="WhatsApp"><img src="images/whatsapp.png" alt="WhatsApp" class="footer-icon" /></a>
+        <a href="https://www.tiktok.com/@bunku.uae" target="_blank" rel="noopener" aria-label="TikTok"><img src="images/tiktok.png" alt="TikTok" class="footer-icon" /></a>
+      </div>
+    </div>
+  </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
