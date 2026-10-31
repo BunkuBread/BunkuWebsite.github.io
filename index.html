@@ -13,12 +13,10 @@
 <body>
   <a class="skip-link" href="#menu">Skip to menu</a>
 
-  <!-- Cart pill (script.js rewrites its contents) -->
   <div id="cartSummary" class="cart-summary-sticky" tabindex="0" aria-label="Toggle Cart Summary" role="button">
     Cart: 0 items <span id="cartTotal"></span>
   </div>
 
-  <!-- Cart panel (script.js toggles the "show" class) -->
   <div id="cartPanel" class="cart-panel" aria-hidden="true" role="region" aria-label="Shopping Cart">
     <h3>Your cart</h3>
     <ul id="cartList" class="cart-list"></ul>
@@ -65,51 +63,54 @@
           <div class="menu-grid">
 
             <!-- OG Bunku -->
-            <article class="product-card">
-              <img src="images/BUNKUOG.jpg" alt="OG Bunku" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">OG Bunku</h3>
-                  <div class="card-price">55 AED</div>
-                </div>
-                <p class="card-desc">Five imported cheeses with a Korean-Japanese twist.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="55">
+              <div class="badge">15% OFF</div>
+              <h3 class="card-title">OG Bunku</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Savory</span></div>
+              <p class="card-desc">Five imported cheeses with a Korean-Japanese twist.</p>
+              <div class="img"><img src="images/BUNKUOG.jpg" alt="OG Bunku" class="product-img" /></div>
+              <label class="addon"><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
+              <div class="row">
+                <div class="price"><span class="old">AED 65</span><span class="new">AED 55</span></div>
+                <button type="button" class="add" data-name="OG Bunku">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="OG Bunku" aria-label="Reduce OG Bunku quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_og_bunku" data-name="OG Bunku" class="qty-input" aria-label="OG Bunku quantity" />
                   <button type="button" class="qty-btn plus" data-name="OG Bunku" aria-label="Increase OG Bunku quantity">+</button>
                 </div>
-                <label class="addon"><input type="checkbox" id="extra_garlic_og" aria-label="Extra garlic sauce for OG Bunku" /> Extra garlic sauce? (+5 AED)</label>
               </div>
             </article>
 
             <!-- Zaatar Bomb -->
-            <article class="product-card">
-              <img src="images/ZAATAR.jpg" alt="Zaatar Bomb" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Zaatar Bomb</h3>
-                  <div class="card-price">60 AED</div>
-                </div>
-                <p class="card-desc">A burst of eight Zaatar blends with our Korean-Japanese cheeses mix.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="60">
+              <div class="badge">14% OFF</div>
+              <h3 class="card-title">Zaatar Bomb</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Savory</span></div>
+              <p class="card-desc">A burst of eight Zaatar blends with our Korean-Japanese cheeses mix.</p>
+              <div class="img"><img src="images/ZAATAR.jpg" alt="Zaatar Bomb" class="product-img" /></div>
+              <label class="addon"><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
+              <div class="row">
+                <div class="price"><span class="old">AED 70</span><span class="new">AED 60</span></div>
+                <button type="button" class="add" data-name="Zaatar Bomb">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Zaatar Bomb" aria-label="Reduce Zaatar Bomb quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_zaatar_bomb" data-name="Zaatar Bomb" class="qty-input" aria-label="Zaatar Bomb quantity" />
                   <button type="button" class="qty-btn plus" data-name="Zaatar Bomb" aria-label="Increase Zaatar Bomb quantity">+</button>
                 </div>
-                <label class="addon"><input type="checkbox" id="extra_garlic_zaatar" aria-label="Extra garlic sauce for Zaatar Bomb" /> Extra garlic sauce? (+5 AED)</label>
               </div>
             </article>
 
             <!-- Date Me -->
-            <article class="product-card">
-              <img src="images/DateMe.png" alt="Date Me" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Date Me</h3>
-                  <div class="card-price">65 AED</div>
-                </div>
-                <p class="card-desc">Five imported cheeses with a Korean-Japanese &amp; Arabic twist, blended with sweet dates.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="65">
+              <div class="badge">19% OFF</div>
+              <h3 class="card-title">Date Me</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Savory</span></div>
+              <p class="card-desc">Five imported cheeses with a Korean-Japanese &amp; Arabic twist, blended with sweet dates.</p>
+              <div class="img"><img src="images/DateMe.png" alt="Date Me" class="product-img" /></div>
+              <div class="row">
+                <div class="price"><span class="old">AED 80</span><span class="new">AED 65</span></div>
+                <button type="button" class="add" data-name="Date Me">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Date Me" aria-label="Reduce Date Me quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_date_me" data-name="Date Me" class="qty-input" aria-label="Date Me quantity" />
                   <button type="button" class="qty-btn plus" data-name="Date Me" aria-label="Increase Date Me quantity">+</button>
@@ -118,15 +119,16 @@
             </article>
 
             <!-- Labneh Bliss -->
-            <article class="product-card">
-              <img src="images/LABNEHBLISS.png" alt="Labneh Bliss" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Labneh Bliss</h3>
-                  <div class="card-price">60 AED</div>
-                </div>
-                <p class="card-desc">Home made labneh with our mix of nuts and flavorful spices.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="60">
+              <div class="badge">20% OFF</div>
+              <h3 class="card-title">Labneh Bliss</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Savory</span></div>
+              <p class="card-desc">Home made labneh with our mix of nuts and flavorful spices.</p>
+              <div class="img"><img src="images/LABNEHBLISS.png" alt="Labneh Bliss" class="product-img" /></div>
+              <div class="row">
+                <div class="price"><span class="old">AED 75</span><span class="new">AED 60</span></div>
+                <button type="button" class="add" data-name="Labneh Bliss">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Labneh Bliss" aria-label="Reduce Labneh Bliss quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_labneh_bliss" data-name="Labneh Bliss" class="qty-input" aria-label="Labneh Bliss quantity" />
                   <button type="button" class="qty-btn plus" data-name="Labneh Bliss" aria-label="Increase Labneh Bliss quantity">+</button>
@@ -145,33 +147,35 @@
           <div class="menu-grid">
 
             <!-- Diabetes -->
-            <article class="product-card">
-              <img src="images/DIABETES.jpg" alt="Diabetes" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Diabetes</h3>
-                  <div class="card-price">65 AED</div>
-                </div>
-                <p class="card-desc">Nutella, chocolate fusion &amp; marshmallow topping.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="65">
+              <div class="badge">19% OFF</div>
+              <h3 class="card-title">Diabetes</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Sweet</span></div>
+              <p class="card-desc">Nutella, chocolate fusion &amp; marshmallow topping.</p>
+              <div class="img"><img src="images/DIABETES.jpg" alt="Diabetes" class="product-img" /></div>
+              <label class="addon"><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
+              <div class="row">
+                <div class="price"><span class="old">AED 80</span><span class="new">AED 65</span></div>
+                <button type="button" class="add" data-name="Diabetes">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Diabetes" aria-label="Reduce Diabetes quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_diabetes" data-name="Diabetes" class="qty-input" aria-label="Diabetes quantity" />
                   <button type="button" class="qty-btn plus" data-name="Diabetes" aria-label="Increase Diabetes quantity">+</button>
                 </div>
-                <label class="addon"><input type="checkbox" id="extra_choc_diabetes" aria-label="Extra chocolate sauce for Diabetes" /> Extra chocolate sauce? (+5 AED)</label>
               </div>
             </article>
 
             <!-- Honey Trap -->
-            <article class="product-card">
-              <img src="images/HoneyTrap.png" alt="Honey Trap" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Honey Trap</h3>
-                  <div class="card-price">65 AED</div>
-                </div>
-                <p class="card-desc">Homemade cream cheese with cinnamon, finished with a rich honey drizzle.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="65">
+              <div class="badge">13% OFF</div>
+              <h3 class="card-title">Honey Trap</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Sweet</span></div>
+              <p class="card-desc">Homemade cream cheese with cinnamon, finished with a rich honey drizzle.</p>
+              <div class="img"><img src="images/HoneyTrap.png" alt="Honey Trap" class="product-img" /></div>
+              <div class="row">
+                <div class="price"><span class="old">AED 75</span><span class="new">AED 65</span></div>
+                <button type="button" class="add" data-name="Honey Trap">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Honey Trap" aria-label="Reduce Honey Trap quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_honey_trap" data-name="Honey Trap" class="qty-input" aria-label="Honey Trap quantity" />
                   <button type="button" class="qty-btn plus" data-name="Honey Trap" aria-label="Increase Honey Trap quantity">+</button>
@@ -180,15 +184,16 @@
             </article>
 
             <!-- Strawberry Haven -->
-            <article class="product-card">
-              <img src="images/STRAWBERRYHAVEN.jpg" alt="Strawberry Haven" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Strawberry Haven</h3>
-                  <div class="card-price">60 AED</div>
-                </div>
-                <p class="card-desc">Home-made jam with our Korean-Japanese cheeses mix.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="60">
+              <div class="badge">14% OFF</div>
+              <h3 class="card-title">Strawberry Haven</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Sweet</span></div>
+              <p class="card-desc">Home-made jam with our Korean-Japanese cheeses mix.</p>
+              <div class="img"><img src="images/STRAWBERRYHAVEN.jpg" alt="Strawberry Haven" class="product-img" /></div>
+              <div class="row">
+                <div class="price"><span class="old">AED 70</span><span class="new">AED 60</span></div>
+                <button type="button" class="add" data-name="Strawberry Haven">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Strawberry Haven" aria-label="Reduce Strawberry Haven quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_strawberry_haven" data-name="Strawberry Haven" class="qty-input" aria-label="Strawberry Haven quantity" />
                   <button type="button" class="qty-btn plus" data-name="Strawberry Haven" aria-label="Increase Strawberry Haven quantity">+</button>
@@ -197,15 +202,16 @@
             </article>
 
             <!-- Berry Blast -->
-            <article class="product-card">
-              <img src="images/BERRYBLAST.jpg" alt="Berry Blast" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Berry Blast</h3>
-                  <div class="card-price">60 AED</div>
-                </div>
-                <p class="card-desc">Home-made blackberry jam with our Korean-Japanese cheeses mix.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="60">
+              <div class="badge">20% OFF</div>
+              <h3 class="card-title">Berry Blast</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Sweet</span></div>
+              <p class="card-desc">Home-made blackberry jam with our Korean-Japanese cheeses mix.</p>
+              <div class="img"><img src="images/BERRYBLAST.jpg" alt="Berry Blast" class="product-img" /></div>
+              <div class="row">
+                <div class="price"><span class="old">AED 75</span><span class="new">AED 60</span></div>
+                <button type="button" class="add" data-name="Berry Blast">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Berry Blast" aria-label="Reduce Berry Blast quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_berry_blast" data-name="Berry Blast" class="qty-input" aria-label="Berry Blast quantity" />
                   <button type="button" class="qty-btn plus" data-name="Berry Blast" aria-label="Increase Berry Blast quantity">+</button>
@@ -224,15 +230,16 @@
           <div class="menu-grid">
 
             <!-- Signature Box -->
-            <article class="product-card">
-              <img src="images/SignatureBox.png" alt="Signature Box" class="product-img" />
-              <div class="card-details">
-                <div class="card-head">
-                  <h3 class="card-title">Signature Box</h3>
-                  <div class="card-price">145 AED</div>
-                </div>
-                <p class="card-desc">Enjoy every Bunku flavour in our Signature Box.</p>
-                <div class="card-controls quantity-controls">
+            <article class="product-card" data-price="145">
+              <div class="badge">19% OFF</div>
+              <h3 class="card-title">Signature Box</h3>
+              <div class="meta"><span>Bunku Bakery</span><span>·</span><span>Box</span></div>
+              <p class="card-desc">Enjoy every Bunku flavour in our Signature Box.</p>
+              <div class="img"><img src="images/SignatureBox.png" alt="Signature Box" class="product-img" /></div>
+              <div class="row">
+                <div class="price"><span class="old">AED 180</span><span class="new">AED 145</span></div>
+                <button type="button" class="add" data-name="Signature Box">Add to cart</button>
+                <div class="quantity-controls">
                   <button type="button" class="qty-btn minus" data-name="Signature Box" aria-label="Reduce Signature Box quantity">&minus;</button>
                   <input type="number" min="0" max="10" value="0" id="qty_signature_box" data-name="Signature Box" class="qty-input" aria-label="Signature Box quantity" />
                   <button type="button" class="qty-btn plus" data-name="Signature Box" aria-label="Increase Signature Box quantity">+</button>
@@ -363,7 +370,6 @@
     </form>
   </main>
 
-  <!-- Image preview -->
   <div id="lightbox" class="lightbox hidden">
     <img id="lightboxImg" src="" alt="Large Preview">
     <button id="lightboxClose" type="button" aria-label="Close large image">&times;</button>
