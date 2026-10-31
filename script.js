@@ -64,7 +64,12 @@ function updateCartItem(name, qty, price) {
     cart[name] = { qty, price };
   }
   const productInput = document.querySelector(`#qty_${name.toLowerCase().replace(/ /g, '_')}`);
-  if (productInput) productInput.value = qty;
+  if (productInput) {
+    productInput.value = qty;
+    // Swap "Add to cart" button for the stepper
+    const card = productInput.closest('.product-card');
+    if (card) card.classList.toggle('in-cart', qty > 0);
+  }
   const cartPanelInputs = document.querySelectorAll(`#cartList input.qty-input`);
   cartPanelInputs.forEach(input => {
     if (input.getAttribute('aria-label') === `${name} quantity`) {
@@ -91,6 +96,7 @@ function populateCartPanel() {
     itemNameSpan.textContent = name + ": ";
     li.appendChild(itemNameSpan);
     const minusBtn = document.createElement("button");
+    minusBtn.type = "button";
     minusBtn.textContent = "-";
     minusBtn.className = "qty-btn minus";
     minusBtn.setAttribute("aria-label", `Reduce ${name} quantity`);
@@ -104,6 +110,7 @@ function populateCartPanel() {
     qtyInput.setAttribute("aria-label", `${name} quantity`);
     li.appendChild(qtyInput);
     const plusBtn = document.createElement("button");
+    plusBtn.type = "button";
     plusBtn.textContent = "+";
     plusBtn.className = "qty-btn plus";
     plusBtn.setAttribute("aria-label", `Increase ${name} quantity`);
@@ -207,18 +214,16 @@ function toggleDeliveryTimeField() {
   const timeInput = document.getElementById('deliveryTime');
   const timeMessage = document.getElementById('deliveryTimeMessage');
   const timeError = document.getElementById('deliveryTimeError');
-  
+
   if (ALLOWED_TIME_CITIES.includes(city)) {
-    // Enable time input
     timeInput.disabled = false;
     timeInput.required = true;
     timeMessage.classList.add('hidden');
     timeError.classList.remove('hidden');
   } else {
-    // Disable time input and show message
     timeInput.disabled = true;
     timeInput.required = false;
-    timeInput.value = ''; // clear any value
+    timeInput.value = '';
     timeMessage.classList.remove('hidden');
     timeError.classList.add('hidden');
   }
@@ -236,7 +241,7 @@ function showHideOrderFields() {
   if (orderType.value === "delivery") {
     deliveryFields.classList.remove('hidden');
     pickupFields.classList.add('hidden');
-    toggleDeliveryTimeField(); // Ensure time field visibility matches city
+    toggleDeliveryTimeField();
   } else if (orderType.value === "pickup") {
     pickupFields.classList.remove('hidden');
     deliveryFields.classList.add('hidden');
@@ -299,7 +304,6 @@ function validateForm() {
         valid = false;
       }
     }
-    // Time validation – only required for allowed cities
     if (ALLOWED_TIME_CITIES.includes(city)) {
       if (!time) {
         document.getElementById("deliveryTimeError").textContent = "Select time";
@@ -351,21 +355,26 @@ function validateForm() {
   return valid;
 }
 
+// Real price comes from data-price on the card (the struck-through price is decorative only)
+function getCardPrice(el) {
+  const card = el.closest('.product-card');
+  return Number(card?.dataset.price) || 0;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.qty-input').forEach(input => {
+    if (input.closest('#cartList')) return;
     input.addEventListener('input', (e) => {
       const name = e.target.dataset.name;
       const qty = Math.max(0, Math.min(10, parseInt(e.target.value) || 0));
       e.target.value = qty;
-      const card = e.target.closest('.product-card');
-      const priceText = card.querySelector('.card-price').textContent;
-      const price = Number(priceText.replace(/\D/g, '')) || 0;
-      updateCartItem(name, qty, price);
+      updateCartItem(name, qty, getCardPrice(e.target));
       populateCartPanel();
       populateOverviewCart();
     });
   });
-  document.querySelectorAll('.qty-btn').forEach(btn => {
+
+  document.querySelectorAll('.product-card .qty-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const name = btn.dataset.name;
       const input = document.getElementById(`qty_${name.toLowerCase().replace(/ /g, '_')}`);
@@ -374,14 +383,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (btn.classList.contains('plus')) qty = Math.min(qty + 1, 10);
       if (btn.classList.contains('minus')) qty = Math.max(qty - 1, 0);
       input.value = qty;
-      const card = input.closest('.product-card');
-      const priceText = card.querySelector('.card-price').textContent;
-      const price = Number(priceText.replace(/\D/g, '')) || 0;
-      updateCartItem(name, qty, price);
+      updateCartItem(name, qty, getCardPrice(input));
       populateCartPanel();
       populateOverviewCart();
     });
   });
+
+  // "Add to cart" buttons
+  document.querySelectorAll('.add').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const name = btn.dataset.name;
+      updateCartItem(name, 1, getCardPrice(btn));
+      populateCartPanel();
+      populateOverviewCart();
+    });
+  });
+
   ['extra_garlic_og', 'extra_garlic_zaatar', 'extra_choc_diabetes'].forEach(id => {
     const cb = document.getElementById(id);
     if (cb) cb.addEventListener('change', () => {
@@ -390,12 +407,14 @@ document.addEventListener('DOMContentLoaded', () => {
       populateOverviewCart();
     });
   });
+
   const cartSummary = document.getElementById('cartSummary');
   const cartPanel = document.getElementById('cartPanel');
   const closeCartBtn = document.getElementById('closeCartBtn');
   const checkoutBtn = document.getElementById('checkoutBtn');
   const orderTypeRadios = document.querySelectorAll('input[name="order_type"]');
   const deliveryCitySelect = document.getElementById('deliveryCity');
+
   orderTypeRadios.forEach(radio => {
     radio.addEventListener('change', () => {
       showHideOrderFields();
@@ -405,7 +424,7 @@ document.addEventListener('DOMContentLoaded', () => {
   deliveryCitySelect.addEventListener('change', () => {
     updateDeliveryChargeInfo();
     updateCartSummary();
-    toggleDeliveryTimeField(); // Hide/show time field based on city
+    toggleDeliveryTimeField();
   });
   cartSummary.addEventListener('click', () => {
     const isVisible = cartPanel.classList.contains('show');
@@ -457,7 +476,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let total = 0;
     let message = `Hello! I placed an order:\n\n`;
 
-    // Customer details section FIRST
     const orderType = document.querySelector('input[name="order_type"]:checked');
     if (orderType.value === "delivery") {
       const deliveryName = document.getElementById("deliveryName").value.trim();
@@ -486,7 +504,6 @@ document.addEventListener('DOMContentLoaded', () => {
       message += `Name: ${pickupName}\nPhone: ${pickupPhone}\nPlate Number: ${pickupPlate}\nDate: ${pickupDate}\nTime: ${pickupTime}\n\n`;
     }
 
-    // Orders follow
     message += "Orders:\n";
     for (const [name, item] of Object.entries(cart)) {
       message += `${name}: ${item.qty} box(es)\n`;
@@ -511,10 +528,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     message += `\nTotal: ${total} AED`;
 
-    // --- SEND TO TELEGRAM HERE ---
     sendTelegramOrder(message);
 
-    // --- Existing WhatsApp redirect ---
     const whatsappUrl = `https://api.whatsapp.com/send?phone=971544588113&text=${encodeURIComponent(message)}`;
     alert("Order sent! Redirecting to WhatsApp.");
     window.open(whatsappUrl, "_blank");
